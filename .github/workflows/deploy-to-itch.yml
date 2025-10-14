@@ -1,0 +1,101 @@
+﻿name: Build and Deploy Unity WebGL
+on:
+  push:
+    branches:
+      - main
+  
+  pull_request:
+    branches:
+      - main
+
+env:
+  ITCH_USERNAME: 'rajipkanxo01'
+  ITCH_GAME_ID_PROD: 'memory-trails'
+  ITCH_GAME_ID_STAGING: 'memory-trails-staging'
+
+jobs:
+  build:
+    name: Build Unity Project
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        targetPlatform:
+          - webgl
+          - windows
+    
+    steps:
+      # checkout code with LFS
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          lfs: 'true'
+      
+      # Cache
+      - name: Cache Library
+        uses: actions/cache@v3
+        with:
+          path: Library
+          key: Library-${{ matrix.targetPlatform }}-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            Library-
+      
+      # Build WebGL
+      - name: Build ${{ matrix.targetPlatform }} with Unity
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_EMAIL: ${{secrets.UNITY_EMAIL}}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+          UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
+        with:
+          projectPath: .
+          targetPlatform: ${{ matrix.targetPlatform }}
+          buildName: 'MemoryTrails'
+          buildPath: build/${{ matrix.targetPlatform }}
+      
+      # Upload artifact
+      - name: Upload Build Artifact (${{ matrix.targetPlatform }})
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.targetPlatform }}
+          path: build/${{ matrix.targetPlatform }}
+
+
+  deploy:
+    name: Deploy to Itch.io
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        targetPlatform:
+          - webgl
+          - windows
+    
+    steps:
+      - name: Download Build Artifact (${{ matrix.targetPlatform }})
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ matrix.targetPlatform }}
+          path: build/${{ matrix.targetPlatform }}
+  
+      - name: Set target project
+        id: itch_target
+        run: |
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            echo "ITCH_GAME_ID=${{ env.ITCH_GAME_ID_STAGING }}" >> $GITHUB_ENV
+          else
+            echo "ITCH_GAME_ID=${{ env.ITCH_GAME_ID_PROD }}" >> $GITHUB_ENV
+          fi
+  
+      - name: Deploy to Itch.io (${{ matrix.targetPlatform }})
+        uses: KikimoraGames/itch-publish@v0.0.3
+        with:
+          butlerApiKey: ${{ secrets.BUTLER_API_KEY }}
+          gameData: build/${{ matrix.targetPlatform }}
+          itchUsername: ${{ env.ITCH_USERNAME }}
+          itchGameId: ${{ env.ITCH_GAME_ID }}
+          buildChannel: ${{ matrix.targetPlatform }}
+          buildNumber: ${{ github.run_number }}
+   
+    
