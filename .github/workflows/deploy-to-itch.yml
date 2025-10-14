@@ -1,0 +1,103 @@
+﻿name: Build and Deploy Unity WebGL
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+env:
+  ITCH_USERNAME: rajipkanxo01
+  ITCH_GAME_ID_PROD: memory-trails
+  ITCH_GAME_ID_STAGING: memory-trails-staging
+
+jobs:
+  build:
+    name: Build Unity Project
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - targetPlatform: WebGL
+            channel: webgl
+          - targetPlatform: StandaloneWindows64
+            channel: windows
+
+    steps:
+      # Checkout code with LFS
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      # Cache Unity Library for faster rebuilds
+      - name: Cache Library
+        uses: actions/cache@v3
+        with:
+          path: Library
+          key: Library-${{ matrix.targetPlatform }}-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            Library-
+
+      # Build for each platform
+      - name: Build ${{ matrix.targetPlatform }} with Unity
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          projectPath: .
+          targetPlatform: ${{ matrix.targetPlatform }}
+          buildName: MemoryTrails
+          buildsPath: build/${{ matrix.channel }}
+
+      # Upload each platform as artifact
+      - name: Upload Build Artifact (${{ matrix.channel }})
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.channel }}
+          path: build/${{ matrix.channel }}
+
+  deploy:
+    name: Deploy to Itch.io
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - channel: webgl
+          - channel: windows
+
+    steps:
+      # Download build artifact
+      - name: Download Build Artifact (${{ matrix.channel }})
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ matrix.channel }}
+          path: build/${{ matrix.channel }}
+
+      # Choose correct Itch project (staging for PRs, prod for main)
+      - name: Set target project
+        id: itch_target
+        run: |
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            echo "ITCH_GAME_ID=${{ env.ITCH_GAME_ID_STAGING }}" >> $GITHUB_ENV
+          else
+            echo "ITCH_GAME_ID=${{ env.ITCH_GAME_ID_PROD }}" >> $GITHUB_ENV
+          fi
+
+      # Publish to Itch.io
+      - name: Deploy to Itch.io (${{ matrix.channel }})
+        uses: KikimoraGames/itch-publish@v0.0.3
+        with:
+          butlerApiKey: ${{ secrets.BUTLER_API_KEY }}
+          gameData: build/${{ matrix.channel }}
+          itchUsername: ${{ env.ITCH_USERNAME }}
+          itchGameId: ${{ env.ITCH_GAME_ID }}
+          buildChannel: ${{ matrix.channel }}
+          buildNumber: ${{ github.run_number }}
