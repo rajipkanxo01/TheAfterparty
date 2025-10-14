@@ -1,17 +1,17 @@
 ﻿name: Build and Deploy Unity WebGL
+
 on:
   push:
     branches:
       - main
-  
   pull_request:
     branches:
       - main
 
 env:
-  ITCH_USERNAME: 'rajipkanxo01'
-  ITCH_GAME_ID_PROD: 'memory-trails'
-  ITCH_GAME_ID_STAGING: 'memory-trails-staging'
+  ITCH_USERNAME: rajipkanxo01
+  ITCH_GAME_ID_PROD: memory-trails
+  ITCH_GAME_ID_STAGING: memory-trails-staging
 
 jobs:
   build:
@@ -20,18 +20,20 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        targetPlatform:
-          - webgl
-          - windows
-    
+        include:
+          - targetPlatform: WebGL
+            channel: webgl
+          - targetPlatform: StandaloneWindows64
+            channel: windows
+
     steps:
-      # checkout code with LFS
+      # Checkout code with LFS
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          lfs: 'true'
-      
-      # Cache
+          lfs: true
+
+      # Cache Unity Library for faster rebuilds
       - name: Cache Library
         uses: actions/cache@v3
         with:
@@ -39,27 +41,26 @@ jobs:
           key: Library-${{ matrix.targetPlatform }}-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
           restore-keys: |
             Library-
-      
-      # Build WebGL
+
+      # Build for each platform
       - name: Build ${{ matrix.targetPlatform }} with Unity
         uses: game-ci/unity-builder@v4
         env:
-          UNITY_EMAIL: ${{secrets.UNITY_EMAIL}}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
           UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
         with:
           projectPath: .
           targetPlatform: ${{ matrix.targetPlatform }}
-          buildName: 'MemoryTrails'
-          buildsPath: build/${{ matrix.targetPlatform }}
-      
-      # Upload artifact
-      - name: Upload Build Artifact (${{ matrix.targetPlatform }})
+          buildName: MemoryTrails
+          buildsPath: build/${{ matrix.channel }}
+
+      # Upload each platform as artifact
+      - name: Upload Build Artifact (${{ matrix.channel }})
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.targetPlatform }}
-          path: build/${{ matrix.targetPlatform }}
-
+          name: ${{ matrix.channel }}
+          path: build/${{ matrix.channel }}
 
   deploy:
     name: Deploy to Itch.io
@@ -68,17 +69,19 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        targetPlatform:
-          - webgl
-          - windows
-    
+        include:
+          - channel: webgl
+          - channel: windows
+
     steps:
-      - name: Download Build Artifact (${{ matrix.targetPlatform }})
+      # Download build artifact
+      - name: Download Build Artifact (${{ matrix.channel }})
         uses: actions/download-artifact@v4
         with:
-          name: ${{ matrix.targetPlatform }}
-          path: build/${{ matrix.targetPlatform }}
-  
+          name: ${{ matrix.channel }}
+          path: build/${{ matrix.channel }}
+
+      # Choose correct Itch project (staging for PRs, prod for main)
       - name: Set target project
         id: itch_target
         run: |
@@ -87,15 +90,14 @@ jobs:
           else
             echo "ITCH_GAME_ID=${{ env.ITCH_GAME_ID_PROD }}" >> $GITHUB_ENV
           fi
-  
-      - name: Deploy to Itch.io (${{ matrix.targetPlatform }})
+
+      # Publish to Itch.io
+      - name: Deploy to Itch.io (${{ matrix.channel }})
         uses: KikimoraGames/itch-publish@v0.0.3
         with:
           butlerApiKey: ${{ secrets.BUTLER_API_KEY }}
-          gameData: build/${{ matrix.targetPlatform }}
+          gameData: build/${{ matrix.channel }}
           itchUsername: ${{ env.ITCH_USERNAME }}
           itchGameId: ${{ env.ITCH_GAME_ID }}
-          buildChannel: ${{ matrix.targetPlatform }}
+          buildChannel: ${{ matrix.channel }}
           buildNumber: ${{ github.run_number }}
-   
-    
