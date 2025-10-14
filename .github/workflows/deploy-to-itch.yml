@@ -51,7 +51,7 @@ jobs:
           projectPath: .
           targetPlatform: ${{ matrix.targetPlatform }}
           buildName: 'MemoryTrails'
-          buildPath: build/${{ matrix.targetPlatform }}
+          buildsPath: build/${{ matrix.targetPlatform }}
       
       # Upload artifact
       - name: Upload Build Artifact (${{ matrix.targetPlatform }})
