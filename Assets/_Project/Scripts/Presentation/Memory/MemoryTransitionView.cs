@@ -7,12 +7,15 @@ namespace _Project.Scripts.Presentation.Memory
 {
     public class MemoryTransitionView : MonoBehaviour
     {
+        [SerializeField] private AudioClip transitionSfx;
+        
         [Header("Fade Settings")]
         [SerializeField] private Image fadeOverlay;
-        [SerializeField] private float fadeDuration = 1.5f;
-        [SerializeField] private float blackHoldDuration = 2f;
+        [SerializeField] private float fadeDuration = 0.5f;
+        [SerializeField] private float blackHoldDuration = 0.5f;
         [SerializeField] private float whiteFlashDuration = 0.8f;
         [SerializeField] private bool useScaleEffect = true;
+        
 
         public event Action OnTransitionComplete;
 
@@ -46,6 +49,9 @@ namespace _Project.Scripts.Presentation.Memory
             {
                 overlayRect.localScale = Vector3.one * 3f;
             }
+            
+            // Play transition sound
+            AudioManager.Instance.PlaySfx(transitionSfx);
 
             // 1. Fade to black + optional shrink to center
             yield return StartCoroutine(FadeToColor(Color.black, fadeDuration, useScaleEffect));
