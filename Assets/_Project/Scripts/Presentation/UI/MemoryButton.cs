@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace _Project.Scripts.UI
+namespace _Project.Scripts.Presentation.UI
 {
     public class MemoryButton : MonoBehaviour
     {
