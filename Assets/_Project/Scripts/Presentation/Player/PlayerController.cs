@@ -1,13 +1,14 @@
+using System.Collections.Generic;
 using _Project.Scripts.Application.Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Tilemaps;
 
 namespace _Project.Scripts.Presentation.Player
 {
     public class PlayerController : MonoBehaviour
     {
         [SerializeField] private float moveSpeed;
-        [SerializeField] private Vector2Int startGridPos;
 
         private PlayerMovementManager movementManager;
         private Vector2 currentPos;
@@ -15,11 +16,21 @@ namespace _Project.Scripts.Presentation.Player
         private float moveTimer;
         private bool isMoving;
 
-        private Vector2Int moveInput;
+        private Vector3Int moveInput;
+
+        [Header("Tilemaps")]
+        [Tooltip("Please set to the layer the player is initially standing on")]
+        [SerializeField] private int groundLayer;
+        [SerializeField] private List<Tilemap> tilemapLayers;
+        private int currentLayer;
 
         private void Awake()
         {
-            movementManager = new PlayerMovementManager(startGridPos);
+            currentLayer = groundLayer;
+
+            Vector3Int startGridPos3D = tilemapLayers[currentLayer].WorldToCell(transform.position);
+            Vector3Int startGridPos = new Vector3Int(startGridPos3D.x, startGridPos3D.y);
+            movementManager = new PlayerMovementManager(startGridPos, tilemapLayers, currentLayer);
 
             movementManager.OnMoveStarted += StartMoveAnimation;
 
@@ -37,12 +48,12 @@ namespace _Project.Scripts.Presentation.Player
         public void MoveInput(InputAction.CallbackContext context)
         {
             Vector2 floatInput = context.ReadValue<Vector2>();
-            moveInput = new Vector2Int(Mathf.RoundToInt(floatInput.x), Mathf.RoundToInt(floatInput.y));
+            moveInput = new Vector3Int(Mathf.RoundToInt(floatInput.y), -Mathf.RoundToInt(floatInput.x));
         }
 
-        private void StartMoveAnimation(Vector2Int from, Vector2Int to)
+        private void StartMoveAnimation(Vector3Int from, Vector3Int to)
         {
-            currentPos = GridToWorld(from);
+            currentPos = tilemapLayers[0].CellToWorld(from);
             targetPos = GridToWorld(to);
             moveTimer = 0f;
             isMoving = true;
@@ -65,12 +76,9 @@ namespace _Project.Scripts.Presentation.Player
             // TODO: have to change the sorting layer here
         }
 
-        private Vector2 GridToWorld(Vector2Int gridPos)
+        private Vector2 GridToWorld(Vector3Int gridPos)
         {
-            return new Vector2(
-                (gridPos.x + gridPos.y) * 0.5f, // NOTE: can adjust this depending on tilemap size
-                (gridPos.y - gridPos.x) * 0.25f
-            );
+            return tilemapLayers[currentLayer].CellToWorld(gridPos);
         }
     }
 }
