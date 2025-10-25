@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using _Project.Scripts.Application.Dialogue;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace _Project.Scripts.Presentation.Player
@@ -6,6 +8,17 @@ namespace _Project.Scripts.Presentation.Player
     public class PlayerInteraction : MonoBehaviour
     {
         private IInteractable _nearestInteractable;
+        
+        private DialogueController _dialogueController;
+
+        private void Start()
+        {
+            _dialogueController = FindAnyObjectByType<DialogueController>();
+            if (_dialogueController == null)
+            {
+                Debug.LogError("PlayerInteraction: DialogueController not found in scene.");
+            }
+        }
 
         public void OnInteract(InputAction.CallbackContext context)
         {
@@ -13,10 +26,12 @@ namespace _Project.Scripts.Presentation.Player
 
             Debug.Log("PlayerInteraction: OnInteract triggered");
 
-            if (_nearestInteractable != null)
+            _dialogueController.StartDialogueWithNpc("Boss");
+            
+            /*if (_nearestInteractable != null)
             {
                 _nearestInteractable.Interact(gameObject);
-            }
+            }*/
         }
 
         private void OnTriggerEnter2D(Collider2D other)

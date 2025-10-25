@@ -1,0 +1,26 @@
+﻿title: boss_intro
+position: -255,-137
+---
+
+<<say Boss "Hey. You’re the cat, right?">>
+<<say Cat "Yeah. You must be the boss around here.">>
+<<say Cat "Tell me what you remember.">>
+<<say Boss "It's a bit blur... but the carousel lights were flickering just before the incident.">>
+<<say Boss "Then there was a loud bang and everything went dark.">>
+<<say Boss "I looked around and fell into the pit while I was walking to the central area.">>
+<<say Cat "Did you see anyone else?">>
+<<say Boss "No, I was alone. But I heard some noises coming from the storage room earlier.">>
+<<say Cat "Thanks for the info. I’ll look into it.">>
+===
+
+title: boss_followup
+position: 29,157
+---
+<<say Cat "Hey, I found something interesting in the storage room.">>
+<<say Boss "Oh? What did you find?">>
+<<say Cat "There were some strange footprints leading away from the room.">>
+<<say Boss "Footprints? That’s odd. I wonder who they belong to.">>
+<<say Cat "I’m going to follow them and see where they lead.">>
+<<say Boss "Be careful out there. We don’t know what’s going on.">>
+<<say Cat "I will. Thanks for the warning.">>
+===
