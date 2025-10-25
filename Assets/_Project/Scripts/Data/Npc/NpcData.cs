@@ -10,7 +10,7 @@ namespace _Project.Scripts.Data.Npc
         public string npcId;
         public string npcName;
         public Sprite portrait;
-        public string yarnStartNode;
+        public string yarnRootNode;
         
         [Header("Memory")]
         public string memorySceneName;

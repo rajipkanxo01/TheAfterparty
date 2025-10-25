@@ -1,80 +1,69 @@
 ﻿using System;
-using _Project.Scripts.Data.Npc;
 using UnityEngine;
 using Yarn.Unity;
+using _Project.Scripts.Data.Npc;
 
 namespace _Project.Scripts.Application.Dialogue
 {
     public class DialogueController : MonoBehaviour
     {
-        [SerializeField] private DialogueRunner dialogueRunner;
+        [SerializeField] private DialogueRunner runner;
+        [SerializeField] private InMemoryVariableStorage variableStorage;
         [SerializeField] private NpcDatabase npcDatabase;
-        
-        // events presentation layer can subscribe to
+
         public event EventHandler<DialogueLineEventArgs> OnDialogueLineStarted;
         public event Action OnDialogueStarted;
         public event Action OnDialogueEnded;
 
-
         private void Awake()
         {
-            if (dialogueRunner == null)
-            {
-                Debug.LogError("DialogueController: DialogueRunner reference missing.");
-                return;
-            }
-            
-            dialogueRunner.onNodeStart?.AddListener(HandleNodeStart);
-            dialogueRunner.onNodeComplete?.AddListener(HandleNodeComplete);
-            dialogueRunner.onDialogueComplete?.AddListener(HandleDialogueComplete);
-
-            dialogueRunner.DialoguePresenters = Array.Empty<DialoguePresenterBase>();
-            dialogueRunner.AddCommandHandler("say", new Action<string[]>(HandleSayCommand));
+            runner.onNodeStart?.AddListener(OnNodeStart);
+            runner.onDialogueComplete?.AddListener(OnDialogueComplete);
+            runner.DialoguePresenters = Array.Empty<DialoguePresenterBase>();
+            runner.AddCommandHandler("say", new Action<string[]>(HandleSayCommand));
         }
 
         public void StartDialogueWithNpc(string npcId)
         {
-            NpcData npcData = npcDatabase.GetById(npcId);
-            if (npcData == null)
+            var npc = npcDatabase.GetById(npcId);
+            if (npc == null)
             {
-                Debug.LogError($"DialogueController: NPC with ID {npcId} not found in database.");
+                Debug.LogWarning($"NPC '{npcId}' not found.");
                 return;
             }
 
             OnDialogueStarted?.Invoke();
-            dialogueRunner.StartDialogue(npcData.yarnStartNode);
-        }
-        
-        private void HandleNodeStart(string nodeName)
-        {
-            Debug.Log($"Dialogue node started: {nodeName}");
+            runner.StartDialogue(npc.yarnRootNode);
         }
 
-        private void HandleNodeComplete(string nodeName)
+        private void OnNodeStart(string nodeName)
         {
-            Debug.Log($"Dialogue node completed: {nodeName}");
+            Debug.Log($"Yarn node started: {nodeName}");
         }
 
-        private void HandleDialogueComplete()
+        private void OnDialogueComplete()
         {
             OnDialogueEnded?.Invoke();
         }
-        
+
         private void HandleSayCommand(string[] parameters)
         {
-            if (parameters.Length < 2)
-            {
-                Debug.LogError("DialogueController: 'say' command requires at least 2 parameters (speaker and line).");
-                return;
-            }
+            if (parameters.Length < 2) return;
 
-            string speakerName = parameters[0];
+            string speaker = parameters[0];
             string line = parameters[1];
-            
-            var npc = npcDatabase.GetById(speakerName);
+
+            var npc = npcDatabase.GetById(speaker.ToLower());
             Sprite portrait = npc != null ? npc.portrait : null;
 
-            OnDialogueLineStarted?.Invoke(this, new DialogueLineEventArgs(speakerName, line, portrait));
+            OnDialogueLineStarted?.Invoke(this, new DialogueLineEventArgs(speaker, line, portrait));
+        }
+
+        public int GetNpcProgress(string npcId)
+        {
+            if (variableStorage.TryGetValue($"${npcId}_progress", out float value))
+                return Mathf.RoundToInt(value);
+            return 0;
         }
     }
 }
