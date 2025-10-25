@@ -1,6 +1,5 @@
-﻿using System;
+﻿using _Project.Scripts.Application;
 using _Project.Scripts.Application.Memory;
-using _Project.Scripts.Data;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -23,6 +22,7 @@ namespace _Project.Scripts.Presentation.Memory
             // application subscribe to presentation callback
             transitionView.OnTransitionComplete += memoryManager.OnVisualsDone;
             
+            ServiceLocater.RegisterService(this);
             DontDestroyOnLoad(this);
         }
 
