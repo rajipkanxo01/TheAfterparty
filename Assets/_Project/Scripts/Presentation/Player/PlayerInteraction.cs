@@ -24,11 +24,15 @@ namespace _Project.Scripts.Presentation.Player
             if (!context.performed) return;
 
             Debug.Log("PlayerInteraction: OnInteract triggered");
-
-            // _dialogueController.StartDialogueWithNpc("Boss");
-
+            
             if (_nearestInteractable != null)
             {
+                if (_dialogueController.IsDialogueRunning)
+                {
+                    _dialogueController.ContinueDialogue();
+                    return;
+                }
+                
                 _nearestInteractable.Interact(gameObject);
             }
         }

@@ -11,7 +11,7 @@ namespace _Project.Scripts.Presentation.Npc
 
         private DialogueController _dialogueController;
 
-        private void Start()
+        private void Awake()
         {
             _dialogueController = ServiceLocater.GetService<DialogueController>();
             if (_dialogueController == null)

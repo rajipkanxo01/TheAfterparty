@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ namespace _Project.Scripts.Data.Npc
 
         public NpcData GetById(string id)
         {
-            return listOfNpc.FirstOrDefault(t => t != null && t.npcId.Equals(id));
+            return listOfNpc.FirstOrDefault(t => t != null && t.npcId.Equals(id, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

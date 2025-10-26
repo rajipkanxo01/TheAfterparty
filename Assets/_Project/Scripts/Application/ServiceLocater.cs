@@ -19,6 +19,8 @@ namespace _Project.Scripts.Application
             else
             {
                 services.Add(type, service);
+                
+                Debug.Log($"[ServiceLocator] Service of type {type.Name} registered.");
             }
         }
         

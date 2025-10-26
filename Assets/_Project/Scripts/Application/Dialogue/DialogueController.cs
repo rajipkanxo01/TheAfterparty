@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using UnityEngine;
 using Yarn.Unity;
 using _Project.Scripts.Data.Npc;
@@ -14,16 +15,58 @@ namespace _Project.Scripts.Application.Dialogue
         public event EventHandler<DialogueLineEventArgs> OnDialogueLineStarted;
         public event Action OnDialogueStarted;
         public event Action OnDialogueEnded;
+        public event Action OnDialogueContinued;
+        
+
+        private TaskCompletionSource<bool> _waitForContinue;
+        public bool IsDialogueRunning { get; private set; }
 
         private void Awake()
         {
             runner.onNodeStart?.AddListener(OnNodeStart);
             runner.onDialogueComplete?.AddListener(OnDialogueComplete);
             runner.DialoguePresenters = Array.Empty<DialoguePresenterBase>();
-            runner.AddCommandHandler("say", new Action<string[]>(HandleSayCommand));
+            runner.AddCommandHandler("say", new Func<string[], Task>(HandleSayCommandAsync));
             
             ServiceLocater.RegisterService(this);
         }
+        
+        private async Task HandleSayCommandAsync(string[] parameters)
+        {
+            if (parameters == null || parameters.Length < 2)
+            {
+                Debug.LogWarning("HandleSayCommand: Invalid parameters passed.");
+                return;
+            }
+
+            if (npcDatabase == null)
+            {
+                Debug.LogError("HandleSayCommand: npcDatabase not assigned!");
+                return;
+            }
+
+            string speaker = parameters[0];
+            string line = parameters[1];
+
+            var npc = npcDatabase.GetById(speaker);
+            if (npc == null)
+            {
+                Debug.LogWarning($"HandleSayCommand: NPC '{speaker}' not found in database.");
+            }
+
+            Sprite portrait = npc != null ? npc.portrait : null;
+            string speakerId = npc != null ? npc.npcId : speaker.ToLower();
+
+            OnDialogueLineStarted?.Invoke(this, new DialogueLineEventArgs(speaker, line, portrait, speakerId));
+
+            _waitForContinue = new TaskCompletionSource<bool>();
+            Debug.Log("HandleSayCommandAsync: waiting for ContinueDialogue...");
+
+            await _waitForContinue.Task;
+
+            Debug.Log("HandleSayCommandAsync: player continued");
+        }
+
 
         public void StartDialogueWithNpc(string npcId)
         {
@@ -34,6 +77,7 @@ namespace _Project.Scripts.Application.Dialogue
                 return;
             }
 
+            IsDialogueRunning = true;
             OnDialogueStarted?.Invoke();
             runner.StartDialogue(npc.yarnRootNode);
         }
@@ -45,20 +89,18 @@ namespace _Project.Scripts.Application.Dialogue
 
         private void OnDialogueComplete()
         {
+            IsDialogueRunning = false;
             OnDialogueEnded?.Invoke();
         }
-
-        private void HandleSayCommand(string[] parameters)
+        
+        public void ContinueDialogue()
         {
-            if (parameters.Length < 2) return;
-
-            string speaker = parameters[0];
-            string line = parameters[1];
-
-            var npc = npcDatabase.GetById(speaker.ToLower());
-            Sprite portrait = npc != null ? npc.portrait : null;
-
-            OnDialogueLineStarted?.Invoke(this, new DialogueLineEventArgs(speaker, line, portrait));
+            if (_waitForContinue != null && !_waitForContinue.Task.IsCompleted)
+            {
+                _waitForContinue.SetResult(true);
+                OnDialogueContinued?.Invoke();
+                Debug.Log("ContinueDialogue: resumed Yarn");
+            }
         }
 
         public int GetNpcProgress(string npcId)
