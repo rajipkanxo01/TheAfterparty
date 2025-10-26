@@ -31,6 +31,20 @@ namespace _Project.Scripts.Application.Dialogue
             ServiceLocater.RegisterService(this);
         }
         
+        public void StartDialogueWithNpc(string npcId)
+        {
+            var npc = npcDatabase.GetById(npcId);
+            if (npc == null)
+            {
+                Debug.LogWarning($"NPC '{npcId}' not found.");
+                return;
+            }
+
+            IsDialogueRunning = true;
+            OnDialogueStarted?.Invoke();
+            runner.StartDialogue(npc.yarnRootNode);
+        }
+        
         private async Task HandleSayCommandAsync(string[] parameters)
         {
             if (parameters == null || parameters.Length < 2)
@@ -60,26 +74,11 @@ namespace _Project.Scripts.Application.Dialogue
             OnDialogueLineStarted?.Invoke(this, new DialogueLineEventArgs(speaker, line, portrait, speakerId));
 
             _waitForContinue = new TaskCompletionSource<bool>();
-            Debug.Log("HandleSayCommandAsync: waiting for ContinueDialogue...");
 
             await _waitForContinue.Task;
-
+            OnDialogueContinued?.Invoke();
+            
             Debug.Log("HandleSayCommandAsync: player continued");
-        }
-
-
-        public void StartDialogueWithNpc(string npcId)
-        {
-            var npc = npcDatabase.GetById(npcId);
-            if (npc == null)
-            {
-                Debug.LogWarning($"NPC '{npcId}' not found.");
-                return;
-            }
-
-            IsDialogueRunning = true;
-            OnDialogueStarted?.Invoke();
-            runner.StartDialogue(npc.yarnRootNode);
         }
 
         private void OnNodeStart(string nodeName)
@@ -98,7 +97,6 @@ namespace _Project.Scripts.Application.Dialogue
             if (_waitForContinue != null && !_waitForContinue.Task.IsCompleted)
             {
                 _waitForContinue.SetResult(true);
-                OnDialogueContinued?.Invoke();
                 Debug.Log("ContinueDialogue: resumed Yarn");
             }
         }

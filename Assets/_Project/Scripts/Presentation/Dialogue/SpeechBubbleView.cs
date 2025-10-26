@@ -8,20 +8,19 @@ namespace _Project.Scripts.Presentation.Dialogue
 {
     public class SpeechBubbleView : MonoBehaviour
     {
-        [Header("References")] [SerializeField]
-        private GameObject bubblePrefab;
+        [Header("References")] 
+        [SerializeField] private GameObject bubblePrefab;
 
         [SerializeField] private Camera mainCamera;
         [SerializeField] private DialogueController dialogueController;
 
-        [Header("Settings")] [SerializeField] private Vector3 offset = new Vector3(0, 2f, 0);
-        [SerializeField] private float fadeDuration = 0.5f;
+        [Header("Settings")] 
+        [SerializeField] private Vector3 offset = new Vector3(0, 2f, 0);
 
         private GameObject _currentBubble;
         private RectTransform _bubbleRectTransform;
         private Transform _currentTarget;
         private CanvasGroup _bubbleGroup;
-        private Coroutine _fadeCoroutine;
 
         private void Awake()
         {
@@ -77,21 +76,15 @@ namespace _Project.Scripts.Presentation.Dialogue
             bubbleUI.CanvasGroup.alpha = 0;
             
             _currentBubble.SetActive(true);
-
-            if (_fadeCoroutine != null)
-                StopCoroutine(_fadeCoroutine);
-
-            _fadeCoroutine = StartCoroutine(FadeInBubble());
+            
+            _bubbleGroup.alpha = 1;
         }
 
         private void HandleDialogueContinued()
         {
             if (_currentBubble != null)
             {
-                if (_fadeCoroutine != null)
-                    StopCoroutine(_fadeCoroutine);
-
-                _fadeCoroutine = StartCoroutine(FadeOutAndDestroy());
+                Destroy(_currentBubble);
             }
         }
 
@@ -105,7 +98,7 @@ namespace _Project.Scripts.Presentation.Dialogue
 
         private NpcAnchor FindNpcAnchor(string speakerId)
         {
-            NpcAnchor[] anchors = { FindAnyObjectByType<NpcAnchor>() };
+            NpcAnchor[] anchors = FindObjectsByType<NpcAnchor>(FindObjectsSortMode.None);
             foreach (var npcAnchor in anchors)
             {
                 if (npcAnchor.NpcId.Equals(speakerId, StringComparison.OrdinalIgnoreCase))
@@ -113,33 +106,6 @@ namespace _Project.Scripts.Presentation.Dialogue
             }
 
             return null;
-        }
-
-        private IEnumerator FadeInBubble()
-        {
-            float t = 0f;
-            while (t < fadeDuration)
-            {
-                if (_bubbleGroup == null) yield break;
-                t += Time.deltaTime;
-                _bubbleGroup.alpha = Mathf.Lerp(0, 1, t / fadeDuration);
-                yield return null;
-            }
-        }
-
-        private IEnumerator FadeOutAndDestroy()
-        {
-            float t = 0f;
-            while (t < fadeDuration)
-            {
-                if (_bubbleGroup == null) yield break;
-                t += Time.deltaTime;
-                _bubbleGroup.alpha = Mathf.Lerp(1, 0, t / fadeDuration);
-                yield return null;
-            }
-
-            if (_currentBubble != null)
-                Destroy(_currentBubble);
         }
 
         private void LateUpdate()
