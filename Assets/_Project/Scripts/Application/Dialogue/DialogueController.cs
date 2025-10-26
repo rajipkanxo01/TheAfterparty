@@ -21,6 +21,8 @@ namespace _Project.Scripts.Application.Dialogue
             runner.onDialogueComplete?.AddListener(OnDialogueComplete);
             runner.DialoguePresenters = Array.Empty<DialoguePresenterBase>();
             runner.AddCommandHandler("say", new Action<string[]>(HandleSayCommand));
+            
+            ServiceLocater.RegisterService(this);
         }
 
         public void StartDialogueWithNpc(string npcId)

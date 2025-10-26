@@ -8,7 +8,6 @@ namespace _Project.Scripts.Presentation.Player
     public class PlayerInteraction : MonoBehaviour
     {
         private IInteractable _nearestInteractable;
-        
         private DialogueController _dialogueController;
 
         private void Start()
@@ -26,17 +25,16 @@ namespace _Project.Scripts.Presentation.Player
 
             Debug.Log("PlayerInteraction: OnInteract triggered");
 
-            _dialogueController.StartDialogueWithNpc("Boss");
-            
-            /*if (_nearestInteractable != null)
+            // _dialogueController.StartDialogueWithNpc("Boss");
+
+            if (_nearestInteractable != null)
             {
                 _nearestInteractable.Interact(gameObject);
-            }*/
+            }
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-
             if (other.TryGetComponent<IInteractable>(out var interactable))
             {
                 Debug.Log("PlayerInteraction: Enter interactable trigger" + other.name);
