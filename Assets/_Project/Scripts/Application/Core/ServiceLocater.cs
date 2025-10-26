@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace _Project.Scripts.Application
+namespace _Project.Scripts.Application.Core
 {
     public static class ServiceLocater
     {

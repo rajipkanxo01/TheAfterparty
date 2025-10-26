@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using _Project.Scripts.Application.Core;
 using UnityEngine;
 using Yarn.Unity;
 using _Project.Scripts.Data.Npc;
@@ -19,6 +20,7 @@ namespace _Project.Scripts.Application.Dialogue
         
 
         private TaskCompletionSource<bool> _waitForContinue;
+        private GameStateService _gameStateService;
         public bool IsDialogueRunning { get; private set; }
 
         private void Awake()
@@ -30,7 +32,12 @@ namespace _Project.Scripts.Application.Dialogue
             
             ServiceLocater.RegisterService(this);
         }
-        
+
+        private void Start()
+        {
+            _gameStateService = ServiceLocater.GetService<GameStateService>();
+        }
+
         public void StartDialogueWithNpc(string npcId)
         {
             var npc = npcDatabase.GetById(npcId);
@@ -77,17 +84,16 @@ namespace _Project.Scripts.Application.Dialogue
 
             await _waitForContinue.Task;
             OnDialogueContinued?.Invoke();
-            
-            Debug.Log("HandleSayCommandAsync: player continued");
         }
 
         private void OnNodeStart(string nodeName)
         {
-            Debug.Log($"Yarn node started: {nodeName}");
+            _gameStateService.SetState(GameState.Dialogue);
         }
 
         private void OnDialogueComplete()
         {
+            _gameStateService.SetState(GameState.Normal);
             IsDialogueRunning = false;
             OnDialogueEnded?.Invoke();
         }
@@ -97,14 +103,15 @@ namespace _Project.Scripts.Application.Dialogue
             if (_waitForContinue != null && !_waitForContinue.Task.IsCompleted)
             {
                 _waitForContinue.SetResult(true);
-                Debug.Log("ContinueDialogue: resumed Yarn");
             }
         }
 
         public int GetNpcProgress(string npcId)
         {
             if (variableStorage.TryGetValue($"${npcId}_progress", out float value))
+            {
                 return Mathf.RoundToInt(value);
+            }
             return 0;
         }
     }

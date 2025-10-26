@@ -1,4 +1,5 @@
 ﻿using _Project.Scripts.Application;
+using _Project.Scripts.Application.Core;
 using _Project.Scripts.Application.Memory;
 using UnityEngine;
 using UnityEngine.SceneManagement;
