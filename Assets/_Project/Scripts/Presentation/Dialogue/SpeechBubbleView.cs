@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using _Project.Scripts.Application.Dialogue;
 using _Project.Scripts.Presentation.Npc;
 using UnityEngine;
@@ -15,7 +14,7 @@ namespace _Project.Scripts.Presentation.Dialogue
         [SerializeField] private DialogueController dialogueController;
 
         [Header("Settings")] 
-        [SerializeField] private Vector3 offset = new Vector3(0, 2f, 0);
+        [SerializeField] private Vector3 screenOffset = new Vector3(0, 10f, 0);
 
         private GameObject _currentBubble;
         private RectTransform _bubbleRectTransform;
@@ -59,18 +58,17 @@ namespace _Project.Scripts.Presentation.Dialogue
                 return;
             }
 
-            _currentTarget = npcAnchor.HeadPoint != null ? npcAnchor.HeadPoint : npcAnchor.transform;
+            _currentTarget = npcAnchor.HeadPoint;
             
             _currentBubble = Instantiate(bubblePrefab, transform);
             _bubbleRectTransform = _currentBubble.GetComponent<RectTransform>();
-            
+            Vector3 screenPos = mainCamera.WorldToScreenPoint(_currentTarget.position);
+            _bubbleRectTransform.position = screenPos + screenOffset;
             
             var bubbleUI = _currentBubble.GetComponent<SpeechBubbleUI>();
-            Vector3 screenPos = mainCamera.WorldToScreenPoint(_currentTarget.position + offset);
-            _bubbleRectTransform.position = screenPos;
-            
             bubbleUI.DialogueText.text = e.LineText;
             bubbleUI.PortraitImage.sprite = e.Portrait;
+            bubbleUI.SpeakerText.text = e.SpeakerName;
             
             _bubbleGroup = bubbleUI.CanvasGroup;
             bubbleUI.CanvasGroup.alpha = 0;
