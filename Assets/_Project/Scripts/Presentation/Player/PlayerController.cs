@@ -9,8 +9,10 @@ namespace _Project.Scripts.Presentation.Player
     public class PlayerController : MonoBehaviour
     {
         [SerializeField] private float moveSpeed;
+        [SerializeField] private SpriteRenderer spriteRenderer;
 
         private PlayerMovementManager movementManager;
+        // private TileOpacityManager tileOpacityManager;
         private Vector2 currentPos;
         private Vector2 targetPos;
         private float moveTimer;
@@ -24,6 +26,8 @@ namespace _Project.Scripts.Presentation.Player
         [SerializeField] private List<Tilemap> tilemapLayers;
         private int currentLayer;
 
+        // [SerializeField] private Material tilemapMat;
+
         private void Awake()
         {
             currentLayer = groundLayer;
@@ -34,9 +38,15 @@ namespace _Project.Scripts.Presentation.Player
 
             movementManager.OnMoveStarted += StartMoveAnimation;
 
-            currentPos = GridToWorld(startGridPos);
+            currentPos = GridToWorld(startGridPos, currentLayer);
             targetPos = currentPos;
             transform.position = currentPos;
+
+            spriteRenderer.sortingOrder = 2 * currentLayer + 1;
+
+            // Manages the materials to hide tiles based on player position
+            // tileOpacityManager = new TileOpacityManager(tilemapLayers, currentLayer, tilemapMat);
+            // tileOpacityManager.UpdatePosition(transform.position);
         }
 
         private void Update()
@@ -50,11 +60,17 @@ namespace _Project.Scripts.Presentation.Player
             Vector2 floatInput = context.ReadValue<Vector2>();
             moveInput = new Vector3Int(Mathf.RoundToInt(floatInput.y), -Mathf.RoundToInt(floatInput.x));
         }
-
-        private void StartMoveAnimation(Vector3Int from, Vector3Int to)
+        public void JumpInput(InputAction.CallbackContext context)
         {
-            currentPos = tilemapLayers[0].CellToWorld(from);
-            targetPos = GridToWorld(to);
+            movementManager.ProcessJumpInput();
+        }
+
+        private void StartMoveAnimation(Vector3Int from, Vector3Int to, int toLayer)
+        {
+            currentPos = GridToWorld(from, currentLayer);
+            targetPos = GridToWorld(to, toLayer);
+            currentLayer = toLayer;
+            
             moveTimer = 0f;
             isMoving = true;
         }
@@ -69,16 +85,20 @@ namespace _Project.Scripts.Presentation.Player
             {
                 moveTimer = 1f;
                 isMoving = false;
+                spriteRenderer.sortingOrder = 2 * currentLayer + 1;
                 movementManager.DoneMoving();
             }
 
             transform.position = Vector2.Lerp(currentPos, targetPos, moveTimer);
+            // tileOpacityManager.UpdatePosition(transform.position);
             // TODO: have to change the sorting layer here
         }
 
-        private Vector2 GridToWorld(Vector3Int gridPos)
+        private Vector2 GridToWorld(Vector3Int gridPos, int layer)
         {
-            return tilemapLayers[currentLayer].CellToWorld(gridPos);
+            if(layer >= tilemapLayers.Count) Debug.LogError(layer);
+
+            return tilemapLayers[layer].CellToWorld(gridPos);
         }
     }
 }
