@@ -28,7 +28,7 @@ namespace _Project.Scripts.Presentation.Player
 
         // [SerializeField] private Material tilemapMat;
 
-        private void Awake()
+        private void Start()
         {
             currentLayer = groundLayer;
 
