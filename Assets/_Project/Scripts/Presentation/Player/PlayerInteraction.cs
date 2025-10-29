@@ -22,9 +22,6 @@ namespace _Project.Scripts.Presentation.Player
         public void OnInteract(InputAction.CallbackContext context)
         {
             if (!context.performed) return;
-
-            Debug.Log("PlayerInteraction: OnInteract triggered");
-            
             if (_nearestInteractable != null)
             {
                 if (_dialogueController.IsDialogueRunning)
