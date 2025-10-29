@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using _Project.Scripts.Application.Core;
+using _Project.Tools.Tilemap;
+using NUnit.Framework;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -11,10 +13,12 @@ namespace _Project.Scripts.Application.Player
     {
         // Animating from first Vector2 to second Vector2
         public event Action<Vector3Int, Vector3Int, int> OnMoveStarted;
+        public event Action<bool> ToggleCrawl;
 
         private Vector3Int currentGridPos;
         private Vector3Int targetGridPos;
         private bool isMoving;
+        private bool isCrawling;
 
         // If the player is holding two directions at once, we will try to alternate between them
         // (unless they are against a wall)
@@ -24,6 +28,7 @@ namespace _Project.Scripts.Application.Player
         // Tilemap storage for collisions
         private List<Tilemap> tilemapLayers;
         private int currentLayer;
+        private int targetLayer;
         
         private GameStateService _gameStateService;
         private bool _canMove = true;
@@ -35,6 +40,7 @@ namespace _Project.Scripts.Application.Player
 
             tilemapLayers = _tilemapLayers;
             currentLayer = _currentLayer;
+            targetLayer = currentLayer;
         
             _gameStateService = ServiceLocater.GetService<GameStateService>();
             _gameStateService.OnStateChanged += HandleGameStateChanged;
@@ -65,17 +71,20 @@ namespace _Project.Scripts.Application.Player
 
             Vector3Int moveDirection = input;
             // Handle walls
+            Vector3Int movePosX = currentGridPos + new Vector3Int(moveDirection.x, 0, 0);
+            Vector3Int movePosY = currentGridPos + new Vector3Int(0, moveDirection.y, 0);
+
             if (moveDirection.x != 0 
-                && (!tilemapLayers[currentLayer].HasTile(currentGridPos + new Vector3Int(moveDirection.x, 0, 0)) // There isn't a tile to step forwards onto
-                    || (currentLayer + 1 < tilemapLayers.Count // There is a layer above + theres a wall in front
-                        && tilemapLayers[currentLayer + 1].HasTile(currentGridPos + new Vector3Int(moveDirection.x, 0, 0)))))
+                && (!IsWalkable(movePosX, currentLayer) // There isn't a tile to step forwards onto
+                    || (!isCrawling && IsSolid(movePosX, currentLayer + 1)) // There is a layer above + theres a wall in front
+                    || (isCrawling && !CanCrawlUnder(movePosX, currentLayer + 1))))  
             {
                 moveDirection.x = 0;
             }
             if (moveDirection.y != 0
-                && (!tilemapLayers[currentLayer].HasTile(currentGridPos + new Vector3Int(0, moveDirection.y, 0)) // There isn't a tile to step forwards onto
-                    || (currentLayer + 1 < tilemapLayers.Count // There is a layer above + theres a wall in front
-                        && tilemapLayers[currentLayer + 1].HasTile(currentGridPos + new Vector3Int(0, moveDirection.y, 0)))))
+                && (!IsWalkable(movePosY, currentLayer) // There isn't a tile to step forwards onto
+                    || (!isCrawling && IsSolid(movePosY, currentLayer + 1)) // There is a layer above + theres a wall in front
+                    || (isCrawling && !CanCrawlUnder(movePosY, currentLayer + 1))))  
             {
                 moveDirection.y = 0;
             }
@@ -117,46 +126,118 @@ namespace _Project.Scripts.Application.Player
         {
             if (isMoving) return;
 
+            // disable movement during dialogues, cutscenes, etc.
+            if (!_canMove)
+            {
+                return;
+            };
+
             // Position we are hoping to jump to
             Vector3Int checkGridPos = currentGridPos + facingDir;
 
-            // If the layer above in the direction you are facing has a tile
-            // AND the layer two above doesnt exist or has an open space 
-            if (currentLayer + 1 < tilemapLayers.Count && tilemapLayers[currentLayer + 1].HasTile(checkGridPos)
-               && (currentLayer + 2 >= tilemapLayers.Count || !tilemapLayers[currentLayer + 2].HasTile(checkGridPos)))
+            // If the layer above in the direction you is jumpable
+            // AND the layer two above isnt solid
+            if (CanJumpOnto(checkGridPos, currentLayer + 1) && !IsSolid(checkGridPos, currentLayer + 2))
             {
                 // Jump one space up
-                currentLayer = currentLayer + 1;
+                targetLayer = currentLayer + 1;
                 targetGridPos = checkGridPos;
-                OnMoveStarted?.Invoke(currentGridPos, targetGridPos, currentLayer);
+                OnMoveStarted?.Invoke(currentGridPos, targetGridPos, targetLayer);
 
-            } // If the layer above you is not blocking the way 
-            else if (!tilemapLayers[currentLayer].HasTile(checkGridPos)
-                     && (currentLayer + 1 >= tilemapLayers.Count || !tilemapLayers[currentLayer + 1].HasTile(checkGridPos)))
+            } // If the layer above you is not blocking the way AND theres a hole in front
+            else if (!IsSolid(checkGridPos, currentLayer) && !IsSolid(checkGridPos, currentLayer + 1))
             {
                 // Fall down as far as we can (unless we hit nothing)
                 int layer = currentLayer - 1;
                 while (layer >= 0)
                 {
-                    if (tilemapLayers[layer].HasTile(checkGridPos)) break;
+                    if (IsSolid(checkGridPos, layer)) break;
                     layer -= 1;
                 }
 
-                if (layer >= 0)
+                if (layer >= 0 && CanJumpOnto(checkGridPos, layer))
                 {
                     // Jump down
-                    currentLayer = layer;
+                    targetLayer = layer;
                     targetGridPos = checkGridPos;
-                    OnMoveStarted?.Invoke(currentGridPos, targetGridPos, layer);
+                    OnMoveStarted?.Invoke(currentGridPos, targetGridPos, targetLayer);
                 }
             }
+        }
+
+        public void ProcessCrawlInput()
+        {
+            // disable movement during dialogues, cutscenes, etc.
+            if (!_canMove)
+            {
+                return;
+            };
+
+            if (isCrawling)
+            {
+                if (IsSolid(currentGridPos, currentLayer + 1) || IsSolid(targetGridPos, targetLayer + 1)) return;
+
+                isCrawling = false;
+                ToggleCrawl?.Invoke(isCrawling);
+            }
+            else
+            {
+                // Can always start crawling (TODO: should this still be possible while jumping??)
+                isCrawling = true;
+                ToggleCrawl?.Invoke(isCrawling);
+            } 
         }
 
         // Called after the movement has been animated
         public void DoneMoving()
         {
             currentGridPos = targetGridPos;
+            currentLayer = targetLayer;
             isMoving = false;
+        }
+
+
+        // Helper functions for tile detection
+        private bool IsWalkable(Vector3Int _gridPos, int _layer)
+        {
+            MysteryTile tile = GetTileAt(_gridPos, _layer);
+            if (tile == null) return false;
+
+            return tile.isWalkable;
+        }
+
+        private bool IsSolid(Vector3Int _gridPos, int _layer)
+        {
+            MysteryTile tile = GetTileAt(_gridPos, _layer);
+            if (tile == null) return false;
+
+            return tile.isSolid;
+        }
+
+        private bool CanJumpOnto(Vector3Int _gridPos, int _layer)
+        {
+            MysteryTile tile = GetTileAt(_gridPos, _layer);
+            if (tile == null) return false;
+
+            return tile.canJumpOnto;
+        }
+
+        private bool CanCrawlUnder(Vector3Int _gridPos, int _layer)
+        {
+            MysteryTile tile = GetTileAt(_gridPos, _layer);
+            // Having this default to true, if they are crawling they should be able to move through empty space
+            // That being said, it should be allowed by an IsSolid() check as well
+            if (tile == null) return true; 
+
+            return tile.canCrawlUnder;
+        }
+        
+        private MysteryTile GetTileAt(Vector3Int _gridPos, int _layer)
+        {
+            if (_layer < 0 || _layer >= tilemapLayers.Count) return null;
+
+            MysteryTile tile = tilemapLayers[_layer].GetTile<MysteryTile>(_gridPos);
+            return tile;
         }
     }
 }
