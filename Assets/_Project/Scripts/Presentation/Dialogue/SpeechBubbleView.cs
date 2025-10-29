@@ -111,7 +111,7 @@ namespace _Project.Scripts.Presentation.Dialogue
             if (_currentBubble != null && _currentTarget != null)
             {
                 Vector3 screenPos = mainCamera.WorldToScreenPoint(_currentTarget.position);
-                _bubbleRectTransform.position = screenPos;
+                _bubbleRectTransform.position = screenPos + screenOffset;
             }
         }
     }

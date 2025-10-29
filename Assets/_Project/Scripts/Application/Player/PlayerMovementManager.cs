@@ -39,14 +39,6 @@ namespace _Project.Scripts.Application.Player
             _gameStateService = ServiceLocater.GetService<GameStateService>();
             _gameStateService.OnStateChanged += HandleGameStateChanged;
         }
-
-        private void OnDisable()
-        {
-            if (_gameStateService != null)
-            {
-                _gameStateService.OnStateChanged -= HandleGameStateChanged;
-            }
-        }
         
         private void HandleGameStateChanged(GameState newState)
         {
