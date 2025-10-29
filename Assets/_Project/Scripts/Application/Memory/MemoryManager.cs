@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using _Project.Scripts.Data;
+using _Project.Scripts.Data.Npc;
 
 namespace _Project.Scripts.Application.Memory
 {

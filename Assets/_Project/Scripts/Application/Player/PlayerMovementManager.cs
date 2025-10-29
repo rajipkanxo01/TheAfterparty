@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using _Project.Scripts.Application.Core;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -23,8 +24,10 @@ namespace _Project.Scripts.Application.Player
         // Tilemap storage for collisions
         private List<Tilemap> tilemapLayers;
         private int currentLayer;
-
-
+        
+        private GameStateService _gameStateService;
+        private bool _canMove = true;
+        
         public PlayerMovementManager(Vector3Int startGridPos, List<Tilemap> _tilemapLayers, int _currentLayer)
         {
             currentGridPos = startGridPos;
@@ -32,6 +35,14 @@ namespace _Project.Scripts.Application.Player
 
             tilemapLayers = _tilemapLayers;
             currentLayer = _currentLayer;
+            
+            _gameStateService = ServiceLocater.GetService<GameStateService>();
+            _gameStateService.OnStateChanged += HandleGameStateChanged;
+        }
+        
+        private void HandleGameStateChanged(GameState newState)
+        {
+            _canMove = newState == GameState.Normal;
         }
 
         public void ProcessMoveInput(Vector3Int input)
@@ -41,6 +52,14 @@ namespace _Project.Scripts.Application.Player
                 // TODO: maybe some extra processing to handle the two directions held down issue better?
                 return;
             }
+            
+            
+            // disable movement during dialogues, cutscenes, etc.
+            if (!_canMove)
+            {
+                return;
+            };
+            
             if (isMoving) return;
 
 
