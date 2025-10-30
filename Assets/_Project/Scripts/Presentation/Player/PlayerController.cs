@@ -45,7 +45,7 @@ namespace _Project.Scripts.Presentation.Player
             targetPos = currentPos;
             transform.position = currentPos;
 
-            spriteRenderer.sortingOrder = 2 * currentLayer + 1;
+            spriteRenderer.sortingOrder = currentLayer + 1;
 
             // Manages the materials to hide tiles based on player position
             // tileOpacityManager = new TileOpacityManager(tilemapLayers, currentLayer, tilemapMat);
@@ -76,8 +76,10 @@ namespace _Project.Scripts.Presentation.Player
         {
             currentPos = GridToWorld(from, currentLayer);
             targetPos = GridToWorld(to, toLayer);
+            if(currentLayer < toLayer) spriteRenderer.sortingOrder = toLayer + 1;
             currentLayer = toLayer;
-            
+
+
             moveTimer = 0f;
             isMoving = true;
         }
@@ -92,7 +94,7 @@ namespace _Project.Scripts.Presentation.Player
             {
                 moveTimer = 1f;
                 isMoving = false;
-                spriteRenderer.sortingOrder = 2 * currentLayer + 1;
+                spriteRenderer.sortingOrder = currentLayer + 1;
                 movementManager.DoneMoving();
             }
 
