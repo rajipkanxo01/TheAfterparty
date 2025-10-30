@@ -14,29 +14,29 @@
 title: boss_intro
 ---
 <<say Boss "Hey. You’re the cat, right?">>
-<<say Cat "Yeah. You must be the boss around here.">>
-<<say Cat "Tell me what you remember.">>
+<<say DetectiveCat "Yeah. You must be the boss around here.">>
+<<say DetectiveCat "Tell me what you remember.">>
 <<say Boss "It’s all a bit blurry… the carousel lights were flickering just before the incident.">>
 <<say Boss "Then there was a loud bang and everything went dark.">>
 <<say Boss "I was heading toward the central area when I fell into the pit.">>
-<<say Cat "Did you see anyone else nearby?">>
+<<say DetectiveCat "Did you see anyone else nearby?">>
 <<say Boss "No, but I heard noises from the storage room earlier.">>
-<<say Cat "That helps. I’ll check it out.">>
+<<say DetectiveCat "That helps. I’ll check it out.">>
 <<set $boss_progress = 1>>
 ===
 
 title: boss_followup
 ---
-<<say Cat "I checked the storage room. There were strange footprints leading away from it.">>
+<<say DetectiveCat "I checked the storage room. There were strange footprints leading away from it.">>
 <<say Boss "Footprints? That’s strange. Any idea whose they are?">>
-<<say Cat "Not yet. I’m going to follow them and see where they go.">>
+<<say DetectiveCat "Not yet. I’m going to follow them and see where they go.">>
 <<say Boss "Be careful. We still don’t know what we’re dealing with.">>
-<<say Cat "I will. Thanks.">>
+<<say DetectiveCat "I will. Thanks.">>
 <<set $boss_progress = 2>>
 ===
 
 title: boss_done
 ---
 <<say Boss "I already told you everything I remember, cat.">>
-<<say Cat "That’s fine. Stay safe.">>
+<<say DetectiveCat "That’s fine. Stay safe.">>
 ===

@@ -2,26 +2,38 @@
 using System.Threading.Tasks;
 using _Project.Scripts.Application.Clue;
 using _Project.Scripts.Application.Core;
+using _Project.Scripts.Application.Player;
 using UnityEngine;
 using Yarn.Unity;
 using _Project.Scripts.Data.Npc;
 
 namespace _Project.Scripts.Application.Dialogue
 {
+    public enum DialogueType
+    {
+        NpcConversation,  // Standard dialogue with NPCs
+        PlayerMonologue,  // When discovering clues
+    }
+    
     public class DialogueController : MonoBehaviour
     {
+        [Header("Dialogue Settings")]
         [SerializeField] private DialogueRunner runner;
         [SerializeField] private InMemoryVariableStorage variableStorage;
         [SerializeField] private NpcDatabase npcDatabase;
         
-        public event EventHandler<DialogueLineEventArgs> OnDialogueLineStarted;
+        
+        /*public event EventHandler<DialogueLineEventArgs> OnDialogueLineStarted;
         public event Action OnDialogueStarted;
         public event Action OnDialogueEnded;
-        public event Action OnDialogueContinued;
+        public event Action OnDialogueContinued;*/
         
-
         private TaskCompletionSource<bool> _waitForContinue;
         private GameStateService _gameStateService;
+        private DialogueType _currentDialogueType  = DialogueType.NpcConversation;
+        private PlayerProfile _playerProfile;
+        
+        public DialogueType CurrentDialogueType => _currentDialogueType;
 
         private void Awake()
         {
@@ -43,19 +55,23 @@ namespace _Project.Scripts.Application.Dialogue
         private void Start()
         {
             _gameStateService = ServiceLocater.GetService<GameStateService>();
+            _playerProfile = ServiceLocater.GetService<PlayerProfile>();
         }
-
-        public void StartDialogueWithNpc(string npcId)
+        
+        public void StartDialogue(string yarnNode, DialogueType dialogueType = DialogueType.NpcConversation)
         {
-            var npc = npcDatabase.GetById(npcId);
-            if (npc == null)
+            if (string.IsNullOrEmpty(yarnNode))
             {
-                Debug.LogWarning($"NPC '{npcId}' not found.");
+                Debug.LogWarning("DialogueController: No Yarn node provided.");
                 return;
             }
             
-            OnDialogueStarted?.Invoke();
-            runner.StartDialogue(npc.yarnRootNode);
+            if (!runner.IsDialogueRunning)
+                Debug.Log($"Starting dialogue node: {yarnNode}");
+
+            _currentDialogueType = dialogueType;
+            DialogueEvents.RaiseDialogueStarted();
+            runner.StartDialogue(yarnNode);
         }
         
         private async Task HandleSayCommandAsync(string[] parameters)
@@ -72,37 +88,60 @@ namespace _Project.Scripts.Application.Dialogue
                 return;
             }
 
-            string speaker = parameters[0];
+            string speakerId = parameters[0];
             string line = parameters[1];
 
-            var npc = npcDatabase.GetById(speaker);
-            if (npc == null)
-            {
-                Debug.LogWarning($"HandleSayCommand: NPC '{speaker}' not found in database.");
-            }
-
-            Sprite portrait = npc != null ? npc.portrait : null;
-            string speakerId = npc != null ? npc.npcId : speaker.ToLower();
-
-            OnDialogueLineStarted?.Invoke(this, new DialogueLineEventArgs(speaker, line, portrait, speakerId));
-
+            var (displayName, portrait) = ResolveSpeaker(speakerId);
+            DialogueEvents.RaiseDialogueLineStarted(this, new DialogueLineEventArgs(displayName, line, portrait, speakerId));
+            
             _waitForContinue = new TaskCompletionSource<bool>();
-
             await _waitForContinue.Task;
-            OnDialogueContinued?.Invoke();
+            
+            DialogueEvents.RaiseDialogueContinued();
+        }
+
+        private (string, Sprite) ResolveSpeaker(string speakerId)
+        {
+            switch (_currentDialogueType)
+            {
+                case DialogueType.NpcConversation:
+                    var npc = npcDatabase.GetById(speakerId);
+                    if (npc == null)
+                    {
+                        Debug.LogWarning($"DialogueController: NPC '{speakerId}' not found in database.");
+                        return (speakerId, null);
+                    }
+                    return (npc.npcName, npc.portrait);
+                
+                case DialogueType.PlayerMonologue:
+                    return (_playerProfile.DisplayName, _playerProfile.Portrait);
+                
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         private void OnNodeStart(string nodeName)
         {
-            _gameStateService.SetState(GameState.Dialogue);
+            switch (_currentDialogueType)
+            {
+                case DialogueType.PlayerMonologue:
+                case DialogueType.NpcConversation:
+                    _gameStateService.SetState(GameState.Dialogue);
+                    break;
+                default:
+                    Debug.LogWarning($"DialogueController: Unknown dialogue type '{_currentDialogueType}'.");
+                    break;
+            }
         }
 
         private void OnDialogueComplete()
         {
             _gameStateService.SetState(GameState.Normal);
-            OnDialogueEnded?.Invoke();
+            _currentDialogueType = DialogueType.NpcConversation;
+            DialogueEvents.RaiseDialogueEnded();
         }
-        
+
         public void ContinueDialogue()
         {
             if (_waitForContinue != null && !_waitForContinue.Task.IsCompleted)
