@@ -26,6 +26,7 @@ namespace _Project.Scripts.Application.Player
         private Vector3Int facingDir;
 
         // Tilemap storage for collisions
+        private MysteryTilemapHelper helper;
         private List<Tilemap> tilemapLayers;
         private int currentLayer;
         private int targetLayer;
@@ -39,6 +40,7 @@ namespace _Project.Scripts.Application.Player
             targetGridPos = startGridPos;
 
             tilemapLayers = _tilemapLayers;
+            helper = new MysteryTilemapHelper(tilemapLayers);
             currentLayer = _currentLayer;
             targetLayer = currentLayer;
         
@@ -75,16 +77,16 @@ namespace _Project.Scripts.Application.Player
             Vector3Int movePosY = currentGridPos + new Vector3Int(0, moveDirection.y, 0);
 
             if (moveDirection.x != 0 
-                && (!IsWalkable(movePosX, currentLayer) // There isn't a tile to step forwards onto
-                    || (!isCrawling && IsSolid(movePosX, currentLayer + 1)) // There is a layer above + theres a wall in front
-                    || (isCrawling && !CanCrawlUnder(movePosX, currentLayer + 1))))  
+                && (!helper.IsWalkable(movePosX, currentLayer) // There isn't a tile to step forwards onto
+                    || (!isCrawling && helper.IsSolid(movePosX, currentLayer + 1)) // There is a layer above + theres a wall in front
+                    || (isCrawling && !helper.CanCrawlUnder(movePosX, currentLayer + 1))))  
             {
                 moveDirection.x = 0;
             }
             if (moveDirection.y != 0
-                && (!IsWalkable(movePosY, currentLayer) // There isn't a tile to step forwards onto
-                    || (!isCrawling && IsSolid(movePosY, currentLayer + 1)) // There is a layer above + theres a wall in front
-                    || (isCrawling && !CanCrawlUnder(movePosY, currentLayer + 1))))  
+                && (!helper.IsWalkable(movePosY, currentLayer) // There isn't a tile to step forwards onto
+                    || (!isCrawling && helper.IsSolid(movePosY, currentLayer + 1)) // There is a layer above + theres a wall in front
+                    || (isCrawling && !helper.CanCrawlUnder(movePosY, currentLayer + 1))))  
             {
                 moveDirection.y = 0;
             }
@@ -137,7 +139,8 @@ namespace _Project.Scripts.Application.Player
 
             // If the layer above in the direction you is jumpable
             // AND the layer two above isnt solid
-            if (IsWalkable(checkGridPos, currentLayer + 1) && CanJumpOnto(checkGridPos, currentLayer + 1) && !IsSolid(checkGridPos, currentLayer + 2))
+            if (helper.IsWalkable(checkGridPos, currentLayer + 1) && helper.CanJumpOnto(checkGridPos, currentLayer + 1) 
+                && !helper.IsSolid(checkGridPos, currentLayer + 2))
             {
                 // Jump one space up
                 targetLayer = currentLayer + 1;
@@ -145,17 +148,17 @@ namespace _Project.Scripts.Application.Player
                 OnMoveStarted?.Invoke(currentGridPos, targetGridPos, targetLayer);
 
             } // If the layer above you is not blocking the way AND theres a hole in front
-            else if (!IsSolid(checkGridPos, currentLayer) && !IsSolid(checkGridPos, currentLayer + 1))
+            else if (!helper.IsSolid(checkGridPos, currentLayer) && !helper.IsSolid(checkGridPos, currentLayer + 1))
             {
                 // Fall down as far as we can (unless we hit nothing)
                 int layer = currentLayer - 1;
                 while (layer >= 0)
                 {
-                    if (IsSolid(checkGridPos, layer)) break;
+                    if (helper.IsSolid(checkGridPos, layer)) break;
                     layer -= 1;
                 }
 
-                if (layer >= 0 && CanJumpOnto(checkGridPos, layer) && IsWalkable(checkGridPos, layer))
+                if (layer >= 0 && helper.CanJumpOnto(checkGridPos, layer) && helper.IsWalkable(checkGridPos, layer))
                 {
                     // Jump down
                     targetLayer = layer;
@@ -175,7 +178,7 @@ namespace _Project.Scripts.Application.Player
 
             if (isCrawling)
             {
-                if (IsSolid(currentGridPos, currentLayer + 1) || IsSolid(targetGridPos, targetLayer + 1)) return;
+                if (helper.IsSolid(currentGridPos, currentLayer + 1) || helper.IsSolid(targetGridPos, targetLayer + 1)) return;
 
                 isCrawling = false;
                 ToggleCrawl?.Invoke(isCrawling);
@@ -194,50 +197,6 @@ namespace _Project.Scripts.Application.Player
             currentGridPos = targetGridPos;
             currentLayer = targetLayer;
             isMoving = false;
-        }
-
-
-        // Helper functions for tile detection
-        private bool IsWalkable(Vector3Int _gridPos, int _layer)
-        {
-            MysteryTile tile = GetTileAt(_gridPos, _layer);
-            if (tile == null) return false;
-
-            return tile.isWalkable;
-        }
-
-        private bool IsSolid(Vector3Int _gridPos, int _layer)
-        {
-            MysteryTile tile = GetTileAt(_gridPos, _layer);
-            if (tile == null) return false;
-
-            return tile.isSolid;
-        }
-
-        private bool CanJumpOnto(Vector3Int _gridPos, int _layer)
-        {
-            MysteryTile tile = GetTileAt(_gridPos, _layer);
-            if (tile == null) return false;
-
-            return tile.canJumpOnto;
-        }
-
-        private bool CanCrawlUnder(Vector3Int _gridPos, int _layer)
-        {
-            MysteryTile tile = GetTileAt(_gridPos, _layer);
-            // Having this default to true, if they are crawling they should be able to move through empty space
-            // That being said, it should be allowed by an IsSolid() check as well
-            if (tile == null) return true; 
-
-            return tile.canCrawlUnder;
-        }
-        
-        private MysteryTile GetTileAt(Vector3Int _gridPos, int _layer)
-        {
-            if (_layer < 0 || _layer >= tilemapLayers.Count) return null;
-
-            MysteryTile tile = tilemapLayers[_layer].GetTile<MysteryTile>(_gridPos);
-            return tile;
-        }
+        }        
     }
 }
