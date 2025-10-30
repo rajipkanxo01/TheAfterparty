@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using _Project.Scripts.Application.Clue;
 using _Project.Scripts.Application.Core;
 using UnityEngine;
 using Yarn.Unity;
@@ -29,6 +30,14 @@ namespace _Project.Scripts.Application.Dialogue
             runner.onDialogueComplete?.AddListener(OnDialogueComplete);
             runner.DialoguePresenters = Array.Empty<DialoguePresenterBase>();
             runner.AddCommandHandler("say", new Func<string[], Task>(HandleSayCommandAsync));
+            
+            
+            // todo: this is temp for debugging
+            ClueEvents.OnClueExamined += (clue) =>
+            {
+                string varName = $"${clue.clueId}_examined";
+                Debug.Log($"{varName} examined");
+            };
             
             ServiceLocater.RegisterService(this);
         }
