@@ -1,11 +1,12 @@
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
-using UnityEditor.VersionControl;
 using System.IO;
 
 namespace _Project.Tools.Tilemap
 {
+    #if UNITY_EDITOR
+    
     public class MysteryTileGenerator : EditorWindow
     {
         private Texture2D spritesheet;
@@ -76,4 +77,6 @@ namespace _Project.Tools.Tilemap
             AssetDatabase.Refresh();
         }
     }
+    
+    #endif
 }
