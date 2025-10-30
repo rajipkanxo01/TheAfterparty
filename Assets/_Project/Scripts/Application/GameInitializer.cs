@@ -15,8 +15,15 @@ namespace _Project.Scripts.Application
         [SerializeField] private ClueDatabase clueDatabase;
         // [SerializeField] private NpcDatabase npcDatabase;
         
+        private PlayerProfileListener _profileListener;
+        
         private void Awake()
         {
+            // create and register player profile
+            var profile = new PlayerProfile(playerProfile.displayName, playerProfile.playerId, playerProfile.portrait);
+            ServiceLocater.RegisterService(profile);
+            
+            // create and register services and managers
             var gameStateService = new GameStateService();
             ServiceLocater.RegisterService(gameStateService);
             
@@ -26,8 +33,13 @@ namespace _Project.Scripts.Application
             var clueService = new ClueService(clueManager, gameStateService);
             ServiceLocater.RegisterService(clueService);
 
-            var profile = new PlayerProfile(playerProfile.displayName, playerProfile.playerId, playerProfile.portrait);
-            ServiceLocater.RegisterService(profile);
+            // create and register profile listener
+            _profileListener = new PlayerProfileListener(profile);
+        }
+        
+        private void OnDestroy()
+        {
+            _profileListener.Unsubscribe();
         }
     }
 }

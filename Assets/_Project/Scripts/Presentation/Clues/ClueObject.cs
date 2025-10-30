@@ -36,8 +36,8 @@ namespace _Project.Scripts.Presentation.Clues
             if (discoveredClue.clueId == clueId)
             {
                 Destroy(gameObject);
+                ToastNotification.Show( $"Clue '{discoveredClue.clueName}' added to journal.", "success" );
                 // gameObject.SetActive(false);
-                Debug.Log($"ClueObject '{clueId}' destroyed after discovery.");
             }
         }
 
