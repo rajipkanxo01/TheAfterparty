@@ -24,7 +24,7 @@ namespace _Project.Scripts.Application.Clue
                 UnityEngine.Debug.LogWarning($"ClueService: Clue with ID {clueId} not found.");
             }
             
-            ClueEvents.RaiseExamined(clueData.dialogueNode);
+            ClueEvents.RaiseExamined(clueData);
         }
 
         public void Sniff(string clueId)

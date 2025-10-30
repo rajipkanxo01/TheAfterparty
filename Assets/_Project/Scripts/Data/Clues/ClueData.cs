@@ -12,9 +12,9 @@ namespace _Project.Scripts.Data.Clues
         public bool isImportantClue;
         
         [TextArea] public string description;
-        public string dialogueNode;
+        [TextArea] public List<string> detectiveNotes;
         
-        [TextArea] public List<string> hints; 
+        public string dialogueNode;
         public string sniffDialogueNode;
         
     }

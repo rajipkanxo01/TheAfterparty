@@ -1,0 +1,15 @@
+﻿title: clue_handkerchief_intro
+---
+<<say DetectiveCat "A handkerchief… bloodstained, but not soaked. Someone tried to wipe something clean.">>
+<<say DetectiveCat "Perfume and engine oil. that’s a strange mix for a party night.">>
+<<say DetectiveCat "And these initials… D.M. Dan the conductor, maybe? He keeps one in his coat pocket.">>
+<<say DetectiveCat "He was here and close enough to leave this behind.">>
+<<set $clue_handkerchief_found = true>>
+===
+
+title: clue_handkerchief_sniff
+---
+<<say DetectiveCat "Smells like coal dust… and oil.">>
+<<say DetectiveCat "The scent leads toward the train tracks.">>
+<<set $clue_handkerchief_sniffed = true>>
+===

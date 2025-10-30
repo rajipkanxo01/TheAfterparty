@@ -1,17 +1,17 @@
 ﻿using System;
 using _Project.Scripts.Application.Clue;
 using _Project.Scripts.Application.Core;
+using _Project.Scripts.Data.Clues;
 using UnityEngine;
 
 namespace _Project.Scripts.Presentation.Clues
 {
-    public class ClueView : MonoBehaviour, IInteractable
+    public class ClueObject : MonoBehaviour, IInteractable
     {
         [SerializeField] private string clueId;
         
         private ClueService _clueService;
-
-
+        
         private void Start()
         {
             _clueService = ServiceLocater.GetService<ClueService>();
@@ -20,7 +20,27 @@ namespace _Project.Scripts.Presentation.Clues
                 Debug.LogError("ClueView: ClueService not found in scene.");
             }
         }
-        
+
+        private void OnEnable()
+        {
+            ClueEvents.OnClueDiscovered += HandleClueDiscovered;
+        }
+
+        private void OnDisable()
+        {
+            ClueEvents.OnClueDiscovered -= HandleClueDiscovered;
+        }
+
+        private void HandleClueDiscovered(ClueData discoveredClue)
+        {
+            if (discoveredClue.clueId == clueId)
+            {
+                Destroy(gameObject);
+                // gameObject.SetActive(false);
+                Debug.Log($"ClueObject '{clueId}' destroyed after discovery.");
+            }
+        }
+
         public void Interact(GameObject interactor)
         {
             if (!interactor.CompareTag("Player")) return;
