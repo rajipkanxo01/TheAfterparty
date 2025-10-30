@@ -137,7 +137,7 @@ namespace _Project.Scripts.Application.Player
 
             // If the layer above in the direction you is jumpable
             // AND the layer two above isnt solid
-            if (CanJumpOnto(checkGridPos, currentLayer + 1) && !IsSolid(checkGridPos, currentLayer + 2))
+            if (IsWalkable(checkGridPos, currentLayer + 1) && CanJumpOnto(checkGridPos, currentLayer + 1) && !IsSolid(checkGridPos, currentLayer + 2))
             {
                 // Jump one space up
                 targetLayer = currentLayer + 1;
@@ -155,7 +155,7 @@ namespace _Project.Scripts.Application.Player
                     layer -= 1;
                 }
 
-                if (layer >= 0 && CanJumpOnto(checkGridPos, layer))
+                if (layer >= 0 && CanJumpOnto(checkGridPos, layer) && IsWalkable(checkGridPos, layer))
                 {
                     // Jump down
                     targetLayer = layer;
