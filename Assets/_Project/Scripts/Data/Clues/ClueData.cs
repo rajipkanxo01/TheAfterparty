@@ -9,7 +9,6 @@ namespace _Project.Scripts.Data.Clues
         public string clueId;
         public string clueName;
         public Sprite clueIcon;
-        public GameObject cluePrefab;
         public bool isImportantClue;
         
         [TextArea] public string description;

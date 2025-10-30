@@ -1,4 +1,5 @@
 ﻿using System;
+using _Project.Scripts.Application.Core;
 using _Project.Scripts.Application.Dialogue;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -9,6 +10,7 @@ namespace _Project.Scripts.Presentation.Player
     {
         private IInteractable _nearestInteractable;
         private DialogueController _dialogueController;
+        private GameStateService _gameStateService;
 
         private void Start()
         {
@@ -17,6 +19,8 @@ namespace _Project.Scripts.Presentation.Player
             {
                 Debug.LogError("PlayerInteraction: DialogueController not found in scene.");
             }
+            
+            _gameStateService = ServiceLocater.GetService<GameStateService>();
         }
 
         public void OnInteract(InputAction.CallbackContext context)
@@ -24,7 +28,7 @@ namespace _Project.Scripts.Presentation.Player
             if (!context.performed) return;
             if (_nearestInteractable != null)
             {
-                if (_dialogueController.IsDialogueRunning)
+                if (_gameStateService.IsState(GameState.Dialogue))
                 {
                     _dialogueController.ContinueDialogue();
                     return;

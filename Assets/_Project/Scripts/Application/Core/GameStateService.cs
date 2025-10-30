@@ -24,9 +24,7 @@ namespace _Project.Scripts.Application.Core
             {
                 return;
             }
-
-            Debug.Log($"GameState changed: {_currentState} → {newState}");
-
+            
             _currentState = newState;
             OnStateChanged?.Invoke(_currentState);
         }
@@ -35,5 +33,6 @@ namespace _Project.Scripts.Application.Core
         {
             return _currentState == state;
         }
+        
     }
 }

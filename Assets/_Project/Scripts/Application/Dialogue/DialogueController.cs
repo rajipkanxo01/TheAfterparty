@@ -13,7 +13,7 @@ namespace _Project.Scripts.Application.Dialogue
         [SerializeField] private DialogueRunner runner;
         [SerializeField] private InMemoryVariableStorage variableStorage;
         [SerializeField] private NpcDatabase npcDatabase;
-
+        
         public event EventHandler<DialogueLineEventArgs> OnDialogueLineStarted;
         public event Action OnDialogueStarted;
         public event Action OnDialogueEnded;
@@ -22,7 +22,6 @@ namespace _Project.Scripts.Application.Dialogue
 
         private TaskCompletionSource<bool> _waitForContinue;
         private GameStateService _gameStateService;
-        public bool IsDialogueRunning { get; private set; }
 
         private void Awake()
         {
@@ -35,8 +34,7 @@ namespace _Project.Scripts.Application.Dialogue
             // todo: this is temp for debugging
             ClueEvents.OnClueExamined += (clue) =>
             {
-                string varName = $"${clue.clueId}_examined";
-                Debug.Log($"{varName} examined");
+                Debug.Log($"{clue} examined");
             };
             
             ServiceLocater.RegisterService(this);
@@ -55,8 +53,7 @@ namespace _Project.Scripts.Application.Dialogue
                 Debug.LogWarning($"NPC '{npcId}' not found.");
                 return;
             }
-
-            IsDialogueRunning = true;
+            
             OnDialogueStarted?.Invoke();
             runner.StartDialogue(npc.yarnRootNode);
         }
@@ -103,7 +100,6 @@ namespace _Project.Scripts.Application.Dialogue
         private void OnDialogueComplete()
         {
             _gameStateService.SetState(GameState.Normal);
-            IsDialogueRunning = false;
             OnDialogueEnded?.Invoke();
         }
         

@@ -5,10 +5,10 @@ namespace _Project.Scripts.Application.Clue
 {
     public static class ClueEvents
     {
-        public static event Action<ClueData> OnClueExamined;
+        public static event Action<string> OnClueExamined;
         public static event Action<ClueData> OnClueDiscovered;
         
-        public static void RaiseExamined(ClueData clue) => OnClueExamined?.Invoke(clue);
+        public static void RaiseExamined(string clueNode) => OnClueExamined?.Invoke(clueNode);
         public static void RaiseDiscovered(ClueData clue) => OnClueDiscovered?.Invoke(clue);
     }
 }

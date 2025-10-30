@@ -17,6 +17,9 @@ namespace _Project.Scripts.Application
             
             var clueManager = new ClueManager(clueDatabase);
             ServiceLocater.RegisterService(clueManager);
+            
+            var clueService = new ClueService(clueManager, gameStateService);
+            ServiceLocater.RegisterService(clueService);
         }
     }
 }
