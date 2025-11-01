@@ -57,9 +57,7 @@ namespace _Project.Scripts.Presentation.Dialogue
             _bubbleRectTransform.position = screenPos + screenOffset;
             
             var bubbleUI = _currentBubble.GetComponent<SpeechBubbleUI>();
-            bubbleUI.DialogueText.text = e.LineText;
-            bubbleUI.PortraitImage.sprite = e.Portrait;
-            bubbleUI.SpeakerText.text = e.SpeakerName;
+            bubbleUI.Show(e.SpeakerName, e.LineText, e.Portrait);
             
             _bubbleGroup = bubbleUI.CanvasGroup;
             bubbleUI.CanvasGroup.alpha = 0;
