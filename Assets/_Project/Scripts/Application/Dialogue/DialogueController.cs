@@ -50,21 +50,20 @@ namespace _Project.Scripts.Application.Dialogue
             runner.onDialogueComplete?.AddListener(OnDialogueComplete);
 
             runner.AddCommandHandler("say", new Func<string[], Task>(HandleSayCommandAsync));
-
-            ClueEvents.OnClueExamined += clue => Debug.Log($"{clue} examined");
-
+            
             ServiceLocater.RegisterService(this);
         }
         
         
         private void OnEnable()
         {
-            ClueEvents.OnClueExamined += OnClueExamined;
+            ClueEvents.OnClueExamined += HandleClueExamined;
+            //todo: maybe trigger dialogue for hint dialogue??
         }
 
         private void OnDisable()
         {
-            ClueEvents.OnClueExamined -= OnClueExamined;
+            ClueEvents.OnClueExamined -= HandleClueExamined;
         }
 
         private void Start()
@@ -90,13 +89,13 @@ namespace _Project.Scripts.Application.Dialogue
             runner.StartDialogue(nodeName);
         }
 
-        private void OnClueExamined(ClueData clueData)
+        private void HandleClueExamined(ClueData clueData)
         {
             StartDialogue(clueData.dialogueNode, DialogueType.PlayerMonologue);
             _isClueDialogue = true;
             _currentClue = clueData;
         }
-
+        
         private void OnNodeStart(string nodeName)
         {
             // Enter dialogue game state

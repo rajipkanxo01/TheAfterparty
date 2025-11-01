@@ -12,5 +12,10 @@ namespace _Project.Scripts.Data.Clues
         {
             return clues.Find(clue => clue.clueId == clueId);
         }
+        
+        public List<ClueData> GetAllClues()
+        {
+            return clues;
+        }
     }
 }
