@@ -1,5 +1,4 @@
-﻿using _Project.Scripts.Application;
-using _Project.Scripts.Application.Core;
+﻿using _Project.Scripts.Application.Core;
 using _Project.Scripts.Application.Dialogue;
 using UnityEngine;
 
@@ -8,6 +7,7 @@ namespace _Project.Scripts.Presentation.Npc
     public class NpcDialogueTrigger : MonoBehaviour, IInteractable
     {
         [SerializeField] private string npcId;
+        [SerializeField] private string yarnRootNode;
         [SerializeField] private Transform headPoint;
 
         private DialogueController _dialogueController;
@@ -24,7 +24,7 @@ namespace _Project.Scripts.Presentation.Npc
         public void Interact(GameObject interactor)
         {
             Debug.Log($"NpcDialogueTrigger: Interact with NPC {npcId}");
-            _dialogueController.StartDialogueWithNpc(npcId);
+            _dialogueController.StartDialogue(yarnRootNode);
         }
 
         public string GetInteractionPrompt()

@@ -11,7 +11,6 @@ namespace _Project.Scripts.Presentation.Dialogue
         [SerializeField] private GameObject bubblePrefab;
 
         [SerializeField] private Camera mainCamera;
-        [SerializeField] private DialogueController dialogueController;
 
         [Header("Settings")] 
         [SerializeField] private Vector3 screenOffset = new Vector3(0, 10f, 0);
@@ -29,24 +28,16 @@ namespace _Project.Scripts.Presentation.Dialogue
 
         private void OnEnable()
         {
-            if (dialogueController == null)
-            {
-                Debug.LogError("SpeechBubbleView: DialogueController not assigned.");
-                return;
-            }
-
-            dialogueController.OnDialogueLineStarted += HandleDialogueLineStarted;
-            dialogueController.OnDialogueEnded += HandleDialogueEnded;
-            dialogueController.OnDialogueContinued += HandleDialogueContinued;
+            DialogueEvents.OnDialogueLineStarted += HandleDialogueLineStarted;
+            DialogueEvents.OnDialogueEnded += HandleDialogueEnded;
+            DialogueEvents.OnDialogueContinued += HandleDialogueContinued;
         }
 
         private void OnDisable()
         {
-            if (dialogueController == null) return;
-
-            dialogueController.OnDialogueLineStarted -= HandleDialogueLineStarted;
-            dialogueController.OnDialogueEnded -= HandleDialogueEnded;
-            dialogueController.OnDialogueContinued -= HandleDialogueContinued;
+            DialogueEvents.OnDialogueLineStarted -= HandleDialogueLineStarted;
+            DialogueEvents.OnDialogueEnded -= HandleDialogueEnded;
+            DialogueEvents.OnDialogueContinued -= HandleDialogueContinued;
         }
 
         private void HandleDialogueLineStarted(object sender, DialogueLineEventArgs e)

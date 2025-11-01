@@ -1,0 +1,21 @@
+﻿using System.Collections.Generic;
+using UnityEngine;
+
+namespace _Project.Scripts.Data.Clues
+{
+    [CreateAssetMenu(fileName = "New Clue Data", menuName = "Game/Clue", order = 0)]
+    public class ClueData : ScriptableObject
+    {
+        public string clueId;
+        public string clueName;
+        public Sprite clueIcon;
+        public bool isImportantClue;
+        
+        [TextArea] public string description;
+        [TextArea] public List<string> detectiveNotes;
+        
+        public string dialogueNode;
+        public string sniffDialogueNode;
+        
+    }
+}
