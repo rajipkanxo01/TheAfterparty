@@ -8,6 +8,7 @@ namespace _Project.Scripts.Application.Core
         Normal,
         Dialogue,
         Cutscene,
+        Journal,
         Paused
     }
 
