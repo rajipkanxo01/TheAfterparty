@@ -46,10 +46,6 @@ namespace _Project.Scripts.Presentation.Player
             transform.position = currentPos;
 
             spriteRenderer.sortingOrder = currentLayer + 1;
-
-            // Manages the materials to hide tiles based on player position
-            // tileOpacityManager = new TileOpacityManager(tilemapLayers, currentLayer, tilemapMat);
-            // tileOpacityManager.UpdatePosition(transform.position);
         }
 
         private void Update()

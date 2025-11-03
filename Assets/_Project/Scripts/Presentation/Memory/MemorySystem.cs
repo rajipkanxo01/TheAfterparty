@@ -1,4 +1,5 @@
-﻿using _Project.Scripts.Application;
+﻿using System.Collections;
+using _Project.Scripts.Application;
 using _Project.Scripts.Application.Core;
 using _Project.Scripts.Application.Memory;
 using UnityEngine;
@@ -24,15 +25,20 @@ namespace _Project.Scripts.Presentation.Memory
             // transitionView.OnTransitionComplete += _memoryManager.OnVisualsDone;
             
             ServiceLocater.RegisterService(this);
-            DontDestroyOnLoad(this);
+            // DontDestroyOnLoad(this);
         }
-
+        
         private void OnTransitionCompleted(string sceneName)
         {
-            Debug.Log("OnTransitionCompleted");
-            SceneManager.LoadScene(sceneName);
+            StartCoroutine(LoadSceneAfterDelay(sceneName, 2f));
         }
 
+        private IEnumerator  LoadSceneAfterDelay(string sceneName, float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            SceneManager.LoadScene(sceneName);
+        }
+        
         private void OnTransitionStarted()
         {
             Debug.Log("OnTransitionStarted");
