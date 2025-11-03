@@ -33,6 +33,11 @@ namespace _Project.Scripts.Application.Dialogue
         public DialogueType CurrentType => _currentType;
         public NpcDialogueHandler NpcHandler => _npcHandler;
 
+        private void Awake()
+        {
+            ServiceLocater.RegisterService(this);
+        }
+
         private void Start()
         {
             if (!runner)
@@ -44,7 +49,7 @@ namespace _Project.Scripts.Application.Dialogue
             runner.DialoguePresenters = System.Array.Empty<DialoguePresenterBase>();
             runner.onNodeStart?.AddListener(OnNodeStart);
             runner.onDialogueComplete?.AddListener(OnDialogueComplete);
-            
+
             _gameState = ServiceLocater.GetService<GameStateService>();
             _playerProfile = ServiceLocater.GetService<PlayerProfile>();
             _npcDatabase = ServiceLocater.GetService<NpcDatabase>();
@@ -55,9 +60,9 @@ namespace _Project.Scripts.Application.Dialogue
             _clueHandler = new ClueDialogueHandler(this);
             _npcHandler = new NpcDialogueHandler(this, _npcDatabase);
 
-            ServiceLocater.RegisterService(this);
+            // ServiceLocater.RegisterService(this);
             ServiceLocater.RegisterService(_speakerResolver);
-            
+
             _commandRegistry.RegisterBuiltInCommands();
         }
 

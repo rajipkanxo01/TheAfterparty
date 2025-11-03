@@ -16,7 +16,7 @@ namespace _Project.Scripts.Application.Player
         private PlayerProfile _playerProfile;
         private JournalManager journalManager;
 
-        private int _numShownClues = 0;
+        private int numShownItems = 0;
 
         public PlayerJournalManager(JournalManager _journalManager)
         {
@@ -36,11 +36,11 @@ namespace _Project.Scripts.Application.Player
                 _gameStateService.SetState(GameState.Journal);
 
                 // Update journal contents
-                if(_playerProfile.GetDiscoveredClues().Count > _numShownClues)
+                if(_playerProfile.GetDiscoveredClues().Count + _playerProfile.GetUnlockedMemories().Count > numShownItems)
                 {
                     // Could show an animation here later
-                    journalManager.RecreateClues(_playerProfile.GetDiscoveredClues());
-                    _numShownClues = _playerProfile.GetDiscoveredClues().Count;
+                    journalManager.RecreateClues(_playerProfile.GetDiscoveredClues(), _playerProfile.GetUnlockedMemories());
+                    numShownItems = _playerProfile.GetDiscoveredClues().Count + _playerProfile.GetUnlockedMemories().Count;
                 } 
 
                 ToggleJournal?.Invoke(true);

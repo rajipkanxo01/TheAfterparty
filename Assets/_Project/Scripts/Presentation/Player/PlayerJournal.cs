@@ -38,7 +38,6 @@ namespace _Project.Scripts.Presentation.Player
         
         public void SetJournal(bool open)
         {
-            journalImage.enabled = open;
             journalManager.ToggleClues(open);
         }
     }
