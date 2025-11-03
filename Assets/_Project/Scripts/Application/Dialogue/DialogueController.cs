@@ -50,11 +50,24 @@ namespace _Project.Scripts.Application.Dialogue
             runner.onDialogueComplete?.AddListener(OnDialogueComplete);
 
             runner.AddCommandHandler("say", new Func<string[], Task>(HandleSayCommandAsync));
+            runner.AddCommandHandler("VisitMemory", new Action<string[]>(HandleVisitMemoryCommand));
             
             ServiceLocater.RegisterService(this);
         }
-        
-        
+
+        private void HandleVisitMemoryCommand(string[] parameters)
+        {
+            if (parameters == null || parameters.Length == 0)
+            {
+                Debug.LogWarning("DialogueController: 'VisitMemory' command missing parameter.");
+                return;
+            }
+
+            string memoryId = parameters[0];
+            Debug.Log($"DialogueController: VisitMemory command received for '{memoryId}'");
+        }
+
+
         private void OnEnable()
         {
             ClueEvents.OnClueExamined += HandleClueExamined;
@@ -144,6 +157,7 @@ namespace _Project.Scripts.Application.Dialogue
 
             DialogueEvents.RaiseDialogueContinued();
         }
+        
 
         public void ContinueDialogue()
         {

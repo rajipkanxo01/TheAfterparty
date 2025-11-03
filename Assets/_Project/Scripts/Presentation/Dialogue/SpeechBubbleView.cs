@@ -154,10 +154,13 @@ namespace _Project.Scripts.Presentation.Dialogue
         private NpcAnchor FindNpcAnchor(string speakerId)
         {
             var anchors = FindObjectsByType<NpcAnchor>(FindObjectsSortMode.None);
+            
             foreach (var a in anchors)
             {
-                if (a.NpcId.Equals(speakerId, StringComparison.OrdinalIgnoreCase))
+                if (a.NpcId.Trim().Equals(speakerId.Trim(), StringComparison.OrdinalIgnoreCase))
+                {
                     return a;
+                }
             }
             return null;
         }
