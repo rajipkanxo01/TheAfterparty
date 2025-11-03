@@ -10,18 +10,18 @@ namespace _Project.Scripts.Presentation.Memory
     {
         [SerializeField] private MemoryTransitionView transitionView;
 
-        private MemoryManager memoryManager;
+        private MemoryManager _memoryManager;
 
         private void Awake()
         {
-            memoryManager = new MemoryManager();
+            _memoryManager = new MemoryManager();
 
             // subscribe to application events
-            memoryManager.MemoryTransitionStarted += OnTransitionStarted;
-            memoryManager.MemoryTransitionCompleted += OnTransitionCompleted;
+            _memoryManager.MemoryTransitionStarted += OnTransitionStarted;
+            _memoryManager.MemoryTransitionCompleted += OnTransitionCompleted;
 
             // application subscribe to presentation callback
-            transitionView.OnTransitionComplete += memoryManager.OnVisualsDone;
+            transitionView.OnTransitionComplete += _memoryManager.OnVisualsDone;
             
             ServiceLocater.RegisterService(this);
             DontDestroyOnLoad(this);
@@ -39,7 +39,7 @@ namespace _Project.Scripts.Presentation.Memory
 
         public void ReVisitMemory(string memorySceneName)
         {
-            memoryManager.RevisitMemory(memorySceneName);
+            _memoryManager.RevisitMemory(memorySceneName);
         }
     }
 }

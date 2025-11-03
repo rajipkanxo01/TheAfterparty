@@ -1,5 +1,6 @@
 ﻿using _Project.Scripts.Application.Clue;
 using _Project.Scripts.Application.Core;
+using _Project.Scripts.Application.Memory;
 using _Project.Scripts.Application.Player;
 using _Project.Scripts.Data.Clues;
 using _Project.Scripts.Data.Player;
@@ -36,7 +37,9 @@ namespace _Project.Scripts.Application
             
             var clueManager = new ClueManager(clueDatabase);
             ServiceLocater.RegisterService(clueManager);
-            
+
+            var memoryManger = new MemoryManager();
+            ServiceLocater.RegisterService(memoryManger);
             
             var clueService = new ClueService(clueManager, gameStateService, sniffConfig);
             ServiceLocater.RegisterService(clueService);
