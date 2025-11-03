@@ -4,10 +4,10 @@ using UnityEngine;
 using Yarn.Unity;
 using _Project.Scripts.Application.Clue;
 using _Project.Scripts.Application.Core;
+using _Project.Scripts.Application.Memory;
 using _Project.Scripts.Application.Player;
 using _Project.Scripts.Data.Clues;
 using _Project.Scripts.Data.Npc;
-using Unity.VisualScripting;
 
 namespace _Project.Scripts.Application.Dialogue
 {
@@ -32,6 +32,7 @@ namespace _Project.Scripts.Application.Dialogue
         private ClueManager _clueManager;
         
         private ClueData _currentClue;
+        private NpcData _currentNpc;
         private bool _isClueDialogue = false;
         
         public DialogueType CurrentType => _currentType;
@@ -95,7 +96,9 @@ namespace _Project.Scripts.Application.Dialogue
             }
 
             if (!runner.IsDialogueRunning)
+            {
                 Debug.Log($"DialogueController: Starting dialogue node '{nodeName}'");
+            }
 
             _currentType = type;
             DialogueEvents.RaiseDialogueStarted();
@@ -117,6 +120,12 @@ namespace _Project.Scripts.Application.Dialogue
 
         private void OnDialogueComplete()
         {
+            // todo: this is temp solution
+            if (_currentType == DialogueType.NpcConversation)
+            {
+                MemoryEvents.RaiseMemoryUnlocked(_currentNpc.memorySceneName);
+            }
+            
             // Return to normal gameplay
             _gameStateService?.SetState(GameState.Normal);
             _currentType = DialogueType.NpcConversation;
@@ -124,7 +133,6 @@ namespace _Project.Scripts.Application.Dialogue
             
             if (_isClueDialogue)
             {
-                Debug.Log($"DialogueController: Dialogue completed for clue {_currentClue.clueId}");
                 _clueManager.CompleteClue(_currentClue.clueId);
                 _isClueDialogue = false;
                 _currentClue = null;
@@ -187,7 +195,10 @@ namespace _Project.Scripts.Application.Dialogue
             // NPCs
             var npc = npcDatabase.GetById(speakerId);
             if (npc != null)
+            {
+                _currentNpc = npc;
                 return (npc.npcName, npc.portrait);
+            }
 
             // Fallbacks by dialogue type
             return _currentType switch
