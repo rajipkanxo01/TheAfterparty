@@ -11,12 +11,15 @@ namespace _Project.Scripts.Presentation.Player
     public class PlayerJournal : MonoBehaviour
     {
         private PlayerJournalManager playerJournalManager;
-        [SerializeField] private GameObject journalPanel;
-        private Image journalImage;
+        // [SerializeField] private GameObject journalPanel;
+        // private Image journalImage;
         private JournalManager journalManager;
 
         private void Start()
         {
+            GameObject journalPanel = GameObject.Find("JournalPanel");
+            if (journalPanel == null) Debug.LogError("Could not find journal panel");
+
             if (journalPanel.TryGetComponent<JournalManager>(out journalManager))
             {
                 playerJournalManager = new PlayerJournalManager(journalManager);
@@ -26,8 +29,6 @@ namespace _Project.Scripts.Presentation.Player
             {
                 Debug.LogError("Could not find JournalManager in journalPanel");
             }
-
-            journalImage = journalPanel.GetComponent<Image>();
         }
 
         public void JournalInput(InputAction.CallbackContext context)
