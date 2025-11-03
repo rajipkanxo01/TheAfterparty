@@ -9,13 +9,13 @@ namespace _Project.Scripts.Presentation.Player
     public class PlayerInteraction : MonoBehaviour
     {
         private IInteractable _nearestInteractable;
-        private DialogueController _dialogueController;
+        private DialogueController _dialogueControl;
         private GameStateService _gameStateService;
 
         private void Start()
         {
-            _dialogueController = FindAnyObjectByType<DialogueController>();
-            if (_dialogueController == null)
+            _dialogueControl = FindAnyObjectByType<DialogueController>();
+            if (_dialogueControl == null)
             {
                 Debug.LogError("PlayerInteraction: DialogueController not found in scene.");
             }
@@ -32,7 +32,7 @@ namespace _Project.Scripts.Presentation.Player
             {
                 if (_gameStateService.IsState(GameState.Dialogue))
                 {
-                    _dialogueController.ContinueDialogue();
+                    _dialogueControl.ContinueDialogue();
                     return;
                 }
                 

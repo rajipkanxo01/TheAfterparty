@@ -3,6 +3,7 @@ using _Project.Scripts.Application.Core;
 using _Project.Scripts.Application.Memory;
 using _Project.Scripts.Application.Player;
 using _Project.Scripts.Data.Clues;
+using _Project.Scripts.Data.Npc;
 using _Project.Scripts.Data.Player;
 using UnityEngine;
 
@@ -14,7 +15,7 @@ namespace _Project.Scripts.Application
         
         [Header("Databases")]
         [SerializeField] private ClueDatabase clueDatabase;
-        // [SerializeField] private NpcDatabase npcDatabase;
+        [SerializeField] private NpcDatabase npcDatabase;
         
         [Header("Configs")]
         [SerializeField] private SniffConfig sniffConfig;
@@ -25,7 +26,7 @@ namespace _Project.Scripts.Application
         {
             // register databases
             ServiceLocater.RegisterService(clueDatabase);
-            // ServiceLocater.RegisterService(npcDatabase);
+            ServiceLocater.RegisterService(npcDatabase);
             
             // create and register player profile
             var profile = new PlayerProfile(playerProfile.displayName, playerProfile.playerId, playerProfile.portrait);

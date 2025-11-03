@@ -10,12 +10,12 @@ namespace _Project.Scripts.Presentation.Npc
         [SerializeField] private string yarnRootNode;
         [SerializeField] private Transform headPoint;
 
-        private DialogueController _dialogueController;
+        private DialogueController _dialogueControl;
 
         private void Start()
         {
-            _dialogueController = ServiceLocater.GetService<DialogueController>();
-            if (_dialogueController == null)
+            _dialogueControl = ServiceLocater.GetService<DialogueController>();
+            if (_dialogueControl == null)
             {
                 Debug.LogError("NpcDialogueTrigger: DialogueController not found in scene.");
             }
@@ -24,7 +24,7 @@ namespace _Project.Scripts.Presentation.Npc
         public void Interact(GameObject interactor)
         {
             Debug.Log($"NpcDialogueTrigger: Interact with NPC {npcId}");
-            _dialogueController.StartDialogue(yarnRootNode);
+            _dialogueControl.StartDialogue(yarnRootNode);
         }
 
         public string GetInteractionPrompt()
