@@ -1,9 +1,7 @@
 ﻿title: Detective_Main_BadgeMissing
 ---
-
 <<set $first_memory_started = true>>
-<<set $badge_lost = true>>
-
+ 
 <<say Cat "Human - follow me. There are witnesses that you must interrogate for me.">>
 <<say Detective "Right, err, Of course. About that...">>
 <<say Cat "Mrrp?">>
@@ -18,4 +16,19 @@
 
 <<set $detective_state = "memory_started">>
 <<VisitMemory "Memory_Detective">>
+===
+
+
+title: Detective_Main_ReturnToPresent
+---
+<<say detective "Did you find it?">>
+<<say cat "Mrrp. Stay - do not move.">>
+===
+
+
+title: Detective_Main_BadgeReturned
+---
+<<say detective "Thank you! Where did you find it?">>
+<<say cat "Never mind that. Now, come with me - I need you to speak with the other primates you call your peers.">>
+
 ===
