@@ -9,40 +9,54 @@ namespace _Project.Scripts.Application.Memory
 {
     public class MemoryManager
     {
-        public event Action MemoryTransitionStarted;
+        public event Action<string> MemoryTransitionStarted;
         public event Action<string> MemoryTransitionCompleted;
 
         private string _targetScene;
         private PlayerProfile _playerProfile;
 
-
         public MemoryManager()
         {
             MemoryEvents.OnMemoryUnlocked += UnlockMemory;
+            MemoryEvents.OnVisitMemory += VisitMemory;
 
             _playerProfile = ServiceLocater.GetService<PlayerProfile>();
         }
 
-        public void VisitMemory(string memoryId)
+        private void VisitMemory(string memoryId)
         {
-            // todo: need to create memory data and memory database in future
+            if (string.IsNullOrEmpty(memoryId))
+            {
+                Debug.LogWarning("MemoryManager: Invalid memoryId for VisitMemory.");
+                return;
+            }
+
+            // Unlock if not already unlocked
+            UnlockMemory(memoryId);
+
             _targetScene = memoryId;
-            MemoryTransitionStarted?.Invoke();
+            
+            
+
+            // Start the transition (fade out / load scene etc.)
+            // todo: remove direct completed call and hook into visuals. this is temp solution
+            MemoryTransitionCompleted?.Invoke(_targetScene);
         }
+
 
         private void UnlockMemory(string memoryId)
         {
             if (!_playerProfile.HasUnlockedMemory(memoryId))
             {
                 _playerProfile.AddUnlockedMemory(memoryId);
-                ToastNotification.Show("New Memory Unlocked! Check your Memories Journal.", 2f);
+                ToastNotification.Show("New Memory Unlocked! Visiting Memory.", 2f);
             }
         }
 
         public void RevisitMemory(string sceneName)
         {
             _targetScene = sceneName;
-            MemoryTransitionStarted?.Invoke();
+            MemoryTransitionStarted?.Invoke(_targetScene);
         }
 
         public void OnVisualsDone()

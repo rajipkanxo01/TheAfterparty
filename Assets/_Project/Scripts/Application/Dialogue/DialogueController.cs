@@ -51,23 +51,22 @@ namespace _Project.Scripts.Application.Dialogue
             runner.onDialogueComplete?.AddListener(OnDialogueComplete);
 
             runner.AddCommandHandler("say", new Func<string[], Task>(HandleSayCommandAsync));
-            runner.AddCommandHandler("VisitMemory", new Action<string[]>(HandleVisitMemoryCommand));
+            runner.AddCommandHandler<string>("VisitMemory", HandleVisitMemoryCommand);
             
             ServiceLocater.RegisterService(this);
         }
 
-        private void HandleVisitMemoryCommand(string[] parameters)
+        private void HandleVisitMemoryCommand(string memoryId)
         {
-            if (parameters == null || parameters.Length == 0)
+            if (string.IsNullOrEmpty(memoryId))
             {
-                Debug.LogWarning("DialogueController: 'VisitMemory' command missing parameter.");
+                Debug.LogWarning("DialogueController: 'VisitMemory' command missing memoryId.");
                 return;
             }
 
-            string memoryId = parameters[0];
             Debug.Log($"DialogueController: VisitMemory command received for '{memoryId}'");
+            MemoryEvents.RaiseVisitMemory(memoryId);
         }
-
 
         private void OnEnable()
         {
@@ -120,11 +119,11 @@ namespace _Project.Scripts.Application.Dialogue
 
         private void OnDialogueComplete()
         {
-            // todo: this is temp solution
-            if (_currentType == DialogueType.NpcConversation)
+            // todo: this is temp solution. commenting out for now. because memory unlocking is handled from yarn command in dialogue
+            /*if (_currentType == DialogueType.NpcConversation)
             {
                 MemoryEvents.RaiseMemoryUnlocked(_currentNpc.memorySceneName);
-            }
+            }*/
             
             // Return to normal gameplay
             _gameStateService?.SetState(GameState.Normal);

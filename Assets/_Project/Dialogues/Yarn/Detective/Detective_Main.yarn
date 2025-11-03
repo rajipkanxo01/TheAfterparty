@@ -17,5 +17,5 @@
 <<say Cat "Now, think of when you last saw the badge. Recall it as clearly in your mind as you can.">>
 
 <<set $detective_state = "memory_started">>
-<<command VisitMemory "detective">>
+<<VisitMemory "Memory_Detective">>
 ===

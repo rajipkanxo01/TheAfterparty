@@ -8,20 +8,20 @@ namespace _Project.Scripts.Presentation.Memory
 {
     public class MemorySystem : MonoBehaviour
     {
-        [SerializeField] private MemoryTransitionView transitionView;
+        // [SerializeField] private MemoryTransitionView transitionView;
 
         private MemoryManager _memoryManager;
 
-        private void Awake()
+        private void Start()
         {
-            _memoryManager = new MemoryManager();
-
+            _memoryManager = ServiceLocater.GetService<MemoryManager>();
+            
             // subscribe to application events
-            _memoryManager.MemoryTransitionStarted += OnTransitionStarted;
+            // _memoryManager.MemoryTransitionStarted += OnTransitionStarted;
             _memoryManager.MemoryTransitionCompleted += OnTransitionCompleted;
 
             // application subscribe to presentation callback
-            transitionView.OnTransitionComplete += _memoryManager.OnVisualsDone;
+            // transitionView.OnTransitionComplete += _memoryManager.OnVisualsDone;
             
             ServiceLocater.RegisterService(this);
             DontDestroyOnLoad(this);
@@ -29,12 +29,14 @@ namespace _Project.Scripts.Presentation.Memory
 
         private void OnTransitionCompleted(string sceneName)
         {
+            Debug.Log("OnTransitionCompleted");
             SceneManager.LoadScene(sceneName);
         }
 
         private void OnTransitionStarted()
         {
-            transitionView.Play();
+            Debug.Log("OnTransitionStarted");
+            // transitionView.Play();
         }
 
         public void ReVisitMemory(string memorySceneName)

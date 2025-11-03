@@ -16,7 +16,6 @@ namespace _Project.Scripts.Presentation.Memory
         [SerializeField] private float whiteFlashDuration = 0.8f;
         [SerializeField] private bool useScaleEffect = true;
         
-
         public event Action OnTransitionComplete;
 
         private RectTransform overlayRect;
