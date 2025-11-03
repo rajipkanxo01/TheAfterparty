@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using _Project.Scripts.Application.Core;
+using _Project.Scripts.Application.Dialogue;
 using _Project.Scripts.Application.Player;
 using _Project.Scripts.Data.Npc;
 using UnityEngine;
@@ -41,6 +43,35 @@ namespace _Project.Scripts.Application.Memory
             // Start the transition (fade out / load scene etc.)
             // todo: remove direct completed call and hook into visuals. this is temp solution
             MemoryTransitionCompleted?.Invoke(_targetScene);
+            
+            // todo: temp dialogue trigger for memory entry. really hacky
+            var dialogue = ServiceLocater.GetService<DialogueController>();
+            if (dialogue != null)
+            {
+                dialogue.EnableAutoMode(true);
+                dialogue.StartCoroutine(StartMemoryDialogueRoutine());            
+            }
+        }
+
+        private IEnumerator StartMemoryDialogueRoutine()
+        {
+            yield return null;                      
+            yield return new WaitForSeconds(5f);    
+
+            var dialogue = ServiceLocater.GetService<DialogueController>();
+            if (dialogue != null)
+            {
+                dialogue.EnableAutoMode(true);
+                
+                GameStateService gameStateService = ServiceLocater.GetService<GameStateService>();
+                gameStateService.SetState(GameState.Cutscene);
+                
+                dialogue.StartDialogue("detective_root", DialogueType.PlayerMonologue);
+            }
+            else
+            {
+                Debug.LogWarning("Memory dialogue couldn't start – DialogueController not found.");
+            }
         }
 
 

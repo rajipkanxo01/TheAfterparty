@@ -20,6 +20,8 @@ namespace _Project.Scripts.Application.Dialogue
         {
             RegisterCommand(new SayCommandHandler());
             RegisterCommand(new VisitMemoryCommandHandler());
+            RegisterCommand(new CutsceneCommandHandler());
+            RegisterCommand(new SceneCommandHandler());
         }
 
         private void RegisterCommand(IDialogueCommandHandler handler)
@@ -42,6 +44,19 @@ namespace _Project.Scripts.Application.Dialogue
                     _runner.AddCommandHandler<string>(handler.CommandName, async (memoryId) =>
                     {
                         await handler.ExecuteAsync(memoryId);
+                    });
+                    break;
+                
+                case "cutscene":
+                    _runner.AddCommandHandler<string[]>(handler.CommandName, async (args) =>
+                    {
+                        await handler.ExecuteAsync(args);
+                    });
+                    break;
+                
+                case "scene":
+                    _runner.AddCommandHandler<string[]>(handler.CommandName, async (args) => {
+                        await handler.ExecuteAsync(args);
                     });
                     break;
 

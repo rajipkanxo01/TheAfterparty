@@ -6,7 +6,14 @@ namespace _Project.Scripts
     {
         private void Awake()
         {
-            DontDestroyOnLoad(this);
+            var existing = GameObject.Find(gameObject.name);
+            if (existing != null && existing != gameObject)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            DontDestroyOnLoad(gameObject);
         }
     }
 }

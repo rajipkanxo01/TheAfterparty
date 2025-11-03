@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using _Project.Scripts.Application.Core;
 using _Project.Scripts.Application.Dialogue;
 using _Project.Scripts.Presentation.Npc;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace _Project.Scripts.Presentation.Dialogue
 {
@@ -36,11 +38,26 @@ namespace _Project.Scripts.Presentation.Dialogue
 
         private readonly Dictionary<string, BubbleInstance> _activeBubbles = new Dictionary<string, BubbleInstance>();
         private string _lastSpeakerId;
+        private DialogueController _dialogueController;
 
         private void Awake()
         {
             if (mainCamera == null)
                 mainCamera = Camera.main;
+            
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+        
+        private void OnDestroy()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded; 
+        }
+
+        
+
+        private void Start()
+        {
+            _dialogueController = ServiceLocater.GetService<DialogueController>();
         }
 
         private void OnEnable()
@@ -131,8 +148,29 @@ namespace _Project.Scripts.Presentation.Dialogue
                 }
             }
 
-            _lastSpeakerId = e.SpeakerId; 
+            _lastSpeakerId = e.SpeakerId;
+            
+            if (_dialogueController != null && _dialogueController.IsAutoModeEnabled)
+            {
+                var bubbleUI = bubble.GameObject.GetComponent<SpeechBubbleUI>();
+                if (bubbleUI != null)
+                {
+                    float typingSpeed = bubbleUI.CharactersPerSecond;
+                    int textLength = e.LineText.Length;
+                    float typingTime = textLength / typingSpeed;
+                    float bufferTime = _dialogueController.AutoAdvanceDelay;
+                    StartCoroutine(AutoContinueAfterDelay(typingTime + bufferTime));
+                }
+            }
         }
+        
+        private IEnumerator AutoContinueAfterDelay(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            _dialogueController?.ContinueDialogue();
+        }
+        
+        
         private void HandleDialogueContinued()
         {
             foreach (var bubble in _activeBubbles.Values)
@@ -225,6 +263,12 @@ namespace _Project.Scripts.Presentation.Dialogue
 
             rect.localScale = end;
             bubble.GameObject.SetActive(false);
+        }
+        
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            // Reassign camera whenever a new scene loads
+            mainCamera = Camera.main;
         }
     }
 }

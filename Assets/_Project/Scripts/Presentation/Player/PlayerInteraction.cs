@@ -26,7 +26,9 @@ namespace _Project.Scripts.Presentation.Player
         public void OnInteract(InputAction.CallbackContext context)
         {
             if (!context.performed) return;
-            if (!_gameStateService.IsState(GameState.Normal) && !_gameStateService.IsState(GameState.Dialogue)) return;
+            
+            // todo: commented for vertical slice showcase only
+            // if (!_gameStateService.IsState(GameState.Normal) && !_gameStateService.IsState(GameState.Dialogue)) return;
 
             if (_nearestInteractable != null)
             {

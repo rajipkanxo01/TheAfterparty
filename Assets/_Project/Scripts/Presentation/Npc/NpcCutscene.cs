@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace _Project.Scripts.Presentation.Npc
 {
@@ -8,6 +7,7 @@ namespace _Project.Scripts.Presentation.Npc
     {
         [SerializeField] private Transform path;
         [SerializeField] private Transform npcSprite;
+        [SerializeField] private NpcAnchor anchor;
 
         private List<Vector3> positions = new List<Vector3>();
         private int positionIndex = 0;
@@ -15,6 +15,8 @@ namespace _Project.Scripts.Presentation.Npc
         private bool moving;
         private float speed;
 
+        public bool IsMoving => moving;
+        
         private void Start()
         {
             foreach (Transform child in path)
@@ -32,14 +34,18 @@ namespace _Project.Scripts.Presentation.Npc
             if (moving)
             {
                 timer += speed * Time.deltaTime / Mathf.Max(Vector3.Distance(positions[positionIndex], positions[positionIndex + 1]), 1);
-                if (timer < 1)
+                npcSprite.position = Vector3.Lerp(positions[positionIndex], positions[positionIndex + 1], timer);
+
+                if (anchor != null)
                 {
-                    npcSprite.position = Vector3.Lerp(positions[positionIndex], positions[positionIndex + 1], timer);
+                    // anchor follows npcSprite
+                    anchor.HeadPoint.position = npcSprite.position;
                 }
-                else
+
+                if (timer >= 1)
                 {
                     npcSprite.position = positions[positionIndex + 1];
-                    ++positionIndex;
+                    positionIndex++;
                     timer = 0;
                     moving = false;
                 }

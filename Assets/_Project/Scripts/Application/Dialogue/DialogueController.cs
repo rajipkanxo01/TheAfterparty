@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using _Project.Scripts.Application.Core;
 using _Project.Scripts.Application.Player;
 using _Project.Scripts.Data.Npc;
@@ -17,7 +18,7 @@ namespace _Project.Scripts.Application.Dialogue
     {
         [Header("Dialogue Settings")] 
         [SerializeField] private DialogueRunner runner;
-
+        [SerializeField] private float autoAdvanceDelay = 1.5f;
         [SerializeField] private InMemoryVariableStorage variableStorage;
 
         private DialogueCommandRegistry _commandRegistry;
@@ -30,8 +31,16 @@ namespace _Project.Scripts.Application.Dialogue
 
         private DialogueType _currentType = DialogueType.NpcConversation;
         private TaskCompletionSource<bool> _waitForContinue;
+        private bool _autoModeEnabled;
         public DialogueType CurrentType => _currentType;
         public NpcDialogueHandler NpcHandler => _npcHandler;
+        public bool IsAutoModeEnabled => _autoModeEnabled;
+        public float AutoAdvanceDelay => autoAdvanceDelay;
+
+        private void Awake()
+        {
+            ServiceLocater.RegisterService(this);
+        }
 
         private void Start()
         {
@@ -43,6 +52,7 @@ namespace _Project.Scripts.Application.Dialogue
 
             runner.DialoguePresenters = System.Array.Empty<DialoguePresenterBase>();
             runner.onNodeStart?.AddListener(OnNodeStart);
+            runner.onNodeComplete?.AddListener(HandleNodeComplete);
             runner.onDialogueComplete?.AddListener(OnDialogueComplete);
             
             _gameState = ServiceLocater.GetService<GameStateService>();
@@ -55,10 +65,17 @@ namespace _Project.Scripts.Application.Dialogue
             _clueHandler = new ClueDialogueHandler(this);
             _npcHandler = new NpcDialogueHandler(this, _npcDatabase);
 
-            ServiceLocater.RegisterService(this);
             ServiceLocater.RegisterService(_speakerResolver);
             
             _commandRegistry.RegisterBuiltInCommands();
+        }
+
+        private void HandleNodeComplete(string arg0)
+        {
+            /*if (_autoModeEnabled)
+            {
+                runner.Dialogue.Continue();
+            }*/
         }
 
         public void StartDialogue(string nodeName, DialogueType type = DialogueType.NpcConversation)
@@ -94,6 +111,13 @@ namespace _Project.Scripts.Application.Dialogue
         {
             DialogueEvents.RaiseDialogueContinueRequested();
         }
+        
+        public void EnableAutoMode(bool mode)
+        {
+            _autoModeEnabled = mode;
+        }
+
+        
 
         public int GetNpcProgress(string npcId)
         {
