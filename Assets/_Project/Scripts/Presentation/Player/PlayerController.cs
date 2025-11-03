@@ -54,7 +54,7 @@ namespace _Project.Scripts.Presentation.Player
 
         private void Update()
         {
-            movementManager.ProcessMoveInput(moveInput);
+            movementManager?.ProcessMoveInput(moveInput);
             UpdateMoveAnimation();
         }
 
