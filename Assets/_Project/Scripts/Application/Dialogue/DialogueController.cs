@@ -42,11 +42,7 @@ namespace _Project.Scripts.Application.Dialogue
             ServiceLocater.RegisterService(this);
         }
 
-        private void Awake()
-        {
-            ServiceLocater.RegisterService(this);
-        }
-
+        
         private void Start()
         {
             if (!runner)
