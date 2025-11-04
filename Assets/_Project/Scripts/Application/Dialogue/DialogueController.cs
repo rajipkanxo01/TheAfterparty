@@ -42,6 +42,11 @@ namespace _Project.Scripts.Application.Dialogue
             ServiceLocater.RegisterService(this);
         }
 
+        private void Awake()
+        {
+            ServiceLocater.RegisterService(this);
+        }
+
         private void Start()
         {
             if (!runner)
@@ -54,7 +59,7 @@ namespace _Project.Scripts.Application.Dialogue
             runner.onNodeStart?.AddListener(OnNodeStart);
             runner.onNodeComplete?.AddListener(HandleNodeComplete);
             runner.onDialogueComplete?.AddListener(OnDialogueComplete);
-            
+
             _gameState = ServiceLocater.GetService<GameStateService>();
             _playerProfile = ServiceLocater.GetService<PlayerProfile>();
             _npcDatabase = ServiceLocater.GetService<NpcDatabase>();
@@ -65,8 +70,9 @@ namespace _Project.Scripts.Application.Dialogue
             _clueHandler = new ClueDialogueHandler(this);
             _npcHandler = new NpcDialogueHandler(this, _npcDatabase);
 
+            // ServiceLocater.RegisterService(this);
             ServiceLocater.RegisterService(_speakerResolver);
-            
+
             _commandRegistry.RegisterBuiltInCommands();
         }
 
