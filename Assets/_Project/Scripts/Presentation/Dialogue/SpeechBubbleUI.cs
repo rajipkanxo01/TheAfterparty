@@ -22,6 +22,7 @@ namespace _Project.Scripts.Presentation.Dialogue
         private Coroutine _resizeCoroutine;
 
         public CanvasGroup CanvasGroup => canvasGroup;
+        public float CharactersPerSecond => charactersPerSecond;
 
         public void Show(string speakerName, string lineText, Sprite portrait)
         {

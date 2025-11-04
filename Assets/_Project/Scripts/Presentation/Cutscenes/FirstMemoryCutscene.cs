@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using _Project.Scripts.Presentation.Npc;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -23,6 +24,7 @@ namespace _Project.Scripts.Presentation.Dialogue
         }
 
         private MemoryState state = MemoryState.DetectiveGirlTalking;
+        public bool IsPlaying { get; private set; }
 
         private void Update()
         {
@@ -35,17 +37,22 @@ namespace _Project.Scripts.Presentation.Dialogue
 
         public void NextAnimation()
         {
+            IsPlaying = true;
+
+            Debug.Log($"FirstMemoryCutscene: Starting cutscene animation {state}");
+
             switch (state)
             {
                 case MemoryState.DetectiveGirlTalking:
                     state = MemoryState.GirlRunning;
+
                     girl.NextPosition(2);
                     break;
                 case MemoryState.GirlRunning:
+                    
                     state = MemoryState.ElliotChasingGirl;
                     detective.NextPosition();
                     girl.NextPosition(2);
-                    // Mascot appears while detective chasess
                     mascot.NextPosition();
                     break;
                 case MemoryState.ElliotChasingGirl:
@@ -63,13 +70,34 @@ namespace _Project.Scripts.Presentation.Dialogue
                     girl.NextPosition(1.5f);
                     break;
                 case MemoryState.GirlPlacesBadge:
-                    // TODO: CAN SPAWN BADGE OBJECT HERE
                     state = MemoryState.GirlLeaves;
                     girl.NextPosition(1.5f);
                     break;
-                case MemoryState.GirlLeaves:
-                    break;
             }
+
+            StartCoroutine(WaitUntilAllNpcStop());
+        }
+
+        private IEnumerator WaitUntilAllNpcStop()
+        {
+            var npcs = new[] { detective, girl, mascot };
+            bool moving;
+            do
+            {
+                moving = false;
+                foreach (var npc in npcs)
+                {
+                    if (npc != null && npc.IsMoving)
+                    {
+                        moving = true;
+                        break;
+                    }
+                }
+
+                yield return null;
+            } while (moving);
+
+            IsPlaying = false;
         }
     }
 }

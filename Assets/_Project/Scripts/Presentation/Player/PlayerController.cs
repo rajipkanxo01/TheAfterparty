@@ -59,10 +59,12 @@ namespace _Project.Scripts.Presentation.Player
             Vector2 floatInput = context.ReadValue<Vector2>();
             moveInput = new Vector3Int(Mathf.RoundToInt(floatInput.y), -Mathf.RoundToInt(floatInput.x));
         }
+        
         public void JumpInput(InputAction.CallbackContext context)
         {
             if(context.performed) movementManager.ProcessJumpInput();
         }
+        
         public void CrawlInput(InputAction.CallbackContext context)
         {
             if(context.performed) movementManager.ProcessCrawlInput();

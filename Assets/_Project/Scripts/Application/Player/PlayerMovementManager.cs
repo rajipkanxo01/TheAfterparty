@@ -50,7 +50,7 @@ namespace _Project.Scripts.Application.Player
         
         private void HandleGameStateChanged(GameState newState)
         {
-            _canMove = newState == GameState.Normal;
+            // _canMove = newState == GameState.Normal || newState == GameState.Cutscene;
         }
 
         public void ProcessMoveInput(Vector3Int input)
@@ -62,11 +62,11 @@ namespace _Project.Scripts.Application.Player
             }
             
             
-            // disable movement during dialogues, cutscenes, etc.
-            if (!_canMove)
+            // disable movement during dialogues, etc.
+            /*if (!_canMove)
             {
                 return;
-            };
+            };*/
             
             if (isMoving) return;
 

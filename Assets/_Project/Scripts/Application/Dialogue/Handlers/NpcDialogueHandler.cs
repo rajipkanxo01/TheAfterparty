@@ -18,6 +18,9 @@ namespace _Project.Scripts.Application.Dialogue
             _npcDatabase = npcDatabase;
         }
         
+        
+        // todo: maybe this is not needed
+        
         public void StartNpcConversation(string npcId)
         {
             if (string.IsNullOrEmpty(npcId))

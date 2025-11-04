@@ -10,6 +10,16 @@
 <<say girl "A badge! So cool!">>
     
 <<set $detective_state = "girl_ran_away">>
+
+<<cutscene next>>
+
+<<say girl "Mom look! A real police badge!">>
+<<say detective "W-Wait!">>
+
+<<cutscene next>>
+<<cutscene next>>
+
+<<jump Detective_Memory_Mascot>>
 ===
 
 
@@ -32,6 +42,11 @@ title: Detective_Memory_Mascot
 <<say detective "...What was I doing again?">>
 
 <<set $detective_state = "girl_reentry">>
+
+<<cutscene next>>
+<<cutscene next>>
+
+<<jump Detective_Memory_GirlReEntry>>
 ===
 
 
@@ -45,6 +60,8 @@ title: Detective_Memory_GirlReEntry
 
 <<set $detective_state = "memory_complete">>
 <<set $badge_location_known = true>>
+
+<<scene load IsometricTest_Clue>>
 ===
 
 
