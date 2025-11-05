@@ -38,13 +38,7 @@ namespace _Project.Scripts.Application.Dialogue
         public NpcDialogueHandler NpcHandler => _npcHandler;
         public bool IsAutoModeEnabled => _autoModeEnabled;
         public float AutoAdvanceDelay => autoAdvanceDelay;
-
-        private void Awake()
-        {
-            SceneManager.sceneLoaded += HandleSceneLoaded;
-            ServiceLocater.RegisterService(this);
-        }
-
+        
         private void OnDestroy()
         {
             SceneManager.sceneLoaded -= HandleSceneLoaded;
@@ -53,6 +47,8 @@ namespace _Project.Scripts.Application.Dialogue
 
         private void Start()
         {
+            SceneManager.sceneLoaded += HandleSceneLoaded;
+            
             if (!runner)
             {
                 Debug.LogError("DialogueController: DialogueRunner not assigned.");

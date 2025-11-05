@@ -1,5 +1,6 @@
 ﻿using _Project.Scripts.Application.Clue;
 using _Project.Scripts.Application.Core;
+using _Project.Scripts.Application.Dialogue;
 using _Project.Scripts.Application.Memory;
 using _Project.Scripts.Application.Player;
 using _Project.Scripts.Data.Clues;
@@ -7,13 +8,13 @@ using _Project.Scripts.Data.Npc;
 using _Project.Scripts.Data.Player;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace _Project.Scripts.Application
 {
     public class GameInitializer : MonoBehaviour
     {
         [SerializeField] private PlayerProfileSo playerProfile;
-        [SerializeField] private string mainSceneName = "IsometricTest_Clue";
 
         [Header("Databases")]
         [SerializeField] private ClueDatabase clueDatabase;
@@ -24,9 +25,6 @@ namespace _Project.Scripts.Application
 
         [Header("Scene Systems (to enable after Start)")]
         [SerializeField] private GameObject[] systemsToEnable;
-
-        // [Header("Menu UI")]
-        // [SerializeField] private GameObject menuUI;
 
         private static bool _initialized;
 
@@ -63,26 +61,12 @@ namespace _Project.Scripts.Application
 
             var clueService = new ClueService(clueManager, gameStateService, sniffConfig);
             ServiceLocater.RegisterService(clueService);
-        }
-
-        public void OnStartGamePressed()
-        {
-            Debug.Log("[GameInitializer] Starting game...");
-
-            /*// Hide menu
-            if (menuUI != null)
-                menuUI.SetActive(false);*/
-
-            // Enable all game systems
-            foreach (var system in systemsToEnable)
-            {
-                if (system != null)
-                {
-                    system.SetActive(true);
-                }
-            }
             
-            SceneManager.LoadSceneAsync(mainSceneName);
+            var dialogueController = FindAnyObjectByType<DialogueController>();
+            if (dialogueController != null)
+            {
+                ServiceLocater.RegisterService(dialogueController);
+            }
         }
     }
 }
