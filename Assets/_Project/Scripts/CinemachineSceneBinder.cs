@@ -8,12 +8,6 @@ namespace _Project.Scripts
     public class CinemachineSceneBinder : MonoBehaviour
     {
         [SerializeField] private CinemachineCamera virtualCamera;
-
-        private void Awake()
-        {
-            DontDestroyOnLoad(gameObject);
-        }
-
         private void OnEnable()
         {
             SceneManager.sceneLoaded += OnSceneLoaded;

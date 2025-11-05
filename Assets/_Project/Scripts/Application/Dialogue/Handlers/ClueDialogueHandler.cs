@@ -2,7 +2,7 @@
 using _Project.Scripts.Application.Core;
 using _Project.Scripts.Data.Clues;
 
-namespace _Project.Scripts.Application.Dialogue
+namespace _Project.Scripts.Application.Dialogue.Handlers
 {
     public class ClueDialogueHandler
     {

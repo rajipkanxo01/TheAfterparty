@@ -6,54 +6,83 @@ using _Project.Scripts.Data.Clues;
 using _Project.Scripts.Data.Npc;
 using _Project.Scripts.Data.Player;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace _Project.Scripts.Application
 {
     public class GameInitializer : MonoBehaviour
     {
         [SerializeField] private PlayerProfileSo playerProfile;
-        
+        [SerializeField] private string mainSceneName = "IsometricTest_Clue";
+
         [Header("Databases")]
         [SerializeField] private ClueDatabase clueDatabase;
         [SerializeField] private NpcDatabase npcDatabase;
-        
+
         [Header("Configs")]
         [SerializeField] private SniffConfig sniffConfig;
-        
-        private PlayerProfileListener _profileListener;
-        
+
+        [Header("Scene Systems (to enable after Start)")]
+        [SerializeField] private GameObject[] systemsToEnable;
+
+        // [Header("Menu UI")]
+        // [SerializeField] private GameObject menuUI;
+
+        private static bool _initialized;
+
         private void Awake()
         {
-            // register databases
+            if (_initialized)
+            {
+                return;
+            }
+
+            _initialized = true;
+
+            InitializeServices();
+        }
+
+        private void InitializeServices()
+        {
+            Debug.Log("[GameInitializer] Initializing services...");
+
             ServiceLocater.RegisterService(clueDatabase);
             ServiceLocater.RegisterService(npcDatabase);
-            
-            // create and register player profile
+
             var profile = new PlayerProfile(playerProfile.displayName, playerProfile.playerId, playerProfile.portrait);
             ServiceLocater.RegisterService(profile);
-            
-            // create and register services and managers
+
             var gameStateService = new GameStateService();
             ServiceLocater.RegisterService(gameStateService);
-            
+
             var clueManager = new ClueManager(clueDatabase);
             ServiceLocater.RegisterService(clueManager);
 
-            var memoryManger = new MemoryManager();
-            ServiceLocater.RegisterService(memoryManger);
-            
+            var memoryManager = new MemoryManager();
+            ServiceLocater.RegisterService(memoryManager);
+
             var clueService = new ClueService(clueManager, gameStateService, sniffConfig);
             ServiceLocater.RegisterService(clueService);
-            
-
-
-            // create and register profile listener
-            _profileListener = new PlayerProfileListener(profile);
         }
-        
-        private void OnDestroy()
+
+        public void OnStartGamePressed()
         {
-            _profileListener.Unsubscribe();
+            Debug.Log("[GameInitializer] Starting game...");
+
+            /*// Hide menu
+            if (menuUI != null)
+                menuUI.SetActive(false);*/
+
+            // Enable all game systems
+            foreach (var system in systemsToEnable)
+            {
+                if (system != null)
+                {
+                    system.SetActive(true);
+                }
+            }
+            
+            SceneManager.LoadSceneAsync(mainSceneName);
         }
     }
 }

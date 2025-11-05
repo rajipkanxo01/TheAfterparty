@@ -80,7 +80,9 @@ namespace _Project.Scripts.Application.Memory
             if (!_playerProfile.HasUnlockedMemory(memoryId))
             {
                 _playerProfile.AddUnlockedMemory(memoryId);
-                ToastNotification.Show("New Memory Unlocked! Visiting Memory.", 2f);
+                
+                // todo: show notification to player
+                Debug.Log("MemoryManager: Memory unlocked: " + memoryId);
             }
         }
 

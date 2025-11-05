@@ -58,6 +58,7 @@ namespace _Project.Scripts.Presentation.Dialogue
         private void Start()
         {
             _dialogueController = ServiceLocater.GetService<DialogueController>();
+            _activeBubbles.Clear();
         }
 
         private void OnEnable()
@@ -181,11 +182,23 @@ namespace _Project.Scripts.Presentation.Dialogue
 
         private void HandleDialogueEnded()
         {
-            // Destroy all bubbles when dialogue ends
             foreach (var bubble in _activeBubbles.Values)
             {
-                Destroy(bubble.GameObject);
+                if (bubble.ScaleCoroutine != null)
+                {
+                    StopCoroutine(bubble.ScaleCoroutine);
+                }
             }
+
+            // Then destroy all bubbles
+            foreach (var bubble in _activeBubbles.Values)
+            {
+                if (bubble.GameObject != null)
+                {
+                    Destroy(bubble.GameObject);
+                }
+            }
+
             _activeBubbles.Clear();
         }
 
@@ -247,6 +260,11 @@ namespace _Project.Scripts.Presentation.Dialogue
 
         private IEnumerator AnimateScaleOut(BubbleInstance bubble)
         {
+            if (bubble == null || bubble.Transform == null)
+            {
+                yield break;
+            }
+
             Transform rect = bubble.Transform;
             Vector3 start = rect.localScale;
             Vector3 end = Vector3.zero;
@@ -254,6 +272,7 @@ namespace _Project.Scripts.Presentation.Dialogue
             float t = 0;
             while (t < scaleDuration)
             {
+                if (rect == null) yield break;
                 t += Time.deltaTime;
                 float normalized = t / scaleDuration;
                 float ease = 1f - Mathf.Pow(1f - normalized, 3f);
@@ -261,9 +280,17 @@ namespace _Project.Scripts.Presentation.Dialogue
                 yield return null;
             }
 
-            rect.localScale = end;
-            bubble.GameObject.SetActive(false);
+            if (rect != null)
+            {
+                rect.localScale = end;
+            }
+
+            if (bubble.GameObject != null)
+            {
+                bubble.GameObject.SetActive(false);
+            }
         }
+
         
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {

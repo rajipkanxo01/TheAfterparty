@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
 using _Project.Scripts.Application.Core;
+using _Project.Scripts.Application.Dialogue.Handlers;
 using _Project.Scripts.Application.Player;
 using _Project.Scripts.Data.Npc;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Yarn.Unity;
 
 namespace _Project.Scripts.Application.Dialogue
@@ -39,10 +41,16 @@ namespace _Project.Scripts.Application.Dialogue
 
         private void Awake()
         {
+            SceneManager.sceneLoaded += HandleSceneLoaded;
             ServiceLocater.RegisterService(this);
         }
 
-        
+        private void OnDestroy()
+        {
+            SceneManager.sceneLoaded -= HandleSceneLoaded;
+        }
+
+
         private void Start()
         {
             if (!runner)
@@ -51,7 +59,7 @@ namespace _Project.Scripts.Application.Dialogue
                 return;
             }
 
-            runner.DialoguePresenters = System.Array.Empty<DialoguePresenterBase>();
+            runner.DialoguePresenters = Array.Empty<DialoguePresenterBase>();
             runner.onNodeStart?.AddListener(OnNodeStart);
             runner.onNodeComplete?.AddListener(HandleNodeComplete);
             runner.onDialogueComplete?.AddListener(OnDialogueComplete);
@@ -70,6 +78,22 @@ namespace _Project.Scripts.Application.Dialogue
             ServiceLocater.RegisterService(_speakerResolver);
 
             _commandRegistry.RegisterBuiltInCommands();
+        }
+
+        private void HandleSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            if (runner == null)
+            {
+                runner = FindAnyObjectByType<DialogueRunner>();
+                if (runner != null)
+                {
+                    Debug.Log($"DialogueController: Found new DialogueRunner in scene '{scene.name}'.");
+                }
+                else
+                {
+                    Debug.LogWarning($"DialogueController: No DialogueRunner found in scene '{scene.name}'.");
+                }
+            }
         }
 
         private void HandleNodeComplete(string arg0)

@@ -42,6 +42,12 @@ namespace _Project.Scripts.Presentation.Clues
             {
                 Debug.LogError("ClueObject: ClueService not found in scene.");
             }
+            
+            if (_clueService.IsClueDiscovered(clueId))
+            {
+                Debug.Log($"[ClueObject] Clue '{clueId}' already discovered — skipping spawn.");
+                Destroy(gameObject);
+            }
         }
 
         private void OnEnable()
@@ -59,13 +65,10 @@ namespace _Project.Scripts.Presentation.Clues
         private void HandleClueDiscovered(ClueData discoveredClue)
         {
             if (discoveredClue.clueId != clueId) return;
-
-            /*if (discoverEffect != null)
-            {
-                Instantiate(discoverEffect, transform.position, Quaternion.identity);
-            }*/
             
-            ToastNotification.Show($"Clue '{discoveredClue.clueName}' added to journal.", "success");
+            //todo: show notification to player
+            _clueService.DiscoverClue(discoveredClue.clueId);
+            Debug.Log("$\"Clue '{discoveredClue.clueName}' added to journal.\"");
 
             // Delay destroy slightly if there's an effect
             Destroy(gameObject, 0f);
