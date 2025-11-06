@@ -111,7 +111,7 @@ namespace _Project.Scripts.Presentation.Dialogue
                 var rect = go.transform;
                 
                 rect.localScale = Vector3.zero;
-                rect.localPosition += worldOffset ;
+                rect.localPosition = Vector3.zero;
                 
                 var ui = go.GetComponent<SpeechBubbleUI>();
                 ui.Show(e.SpeakerName, e.LineText, e.Portrait);

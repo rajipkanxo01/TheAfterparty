@@ -49,5 +49,14 @@ namespace _Project.Scripts.Presentation.Memory
         {
             _memoryManager.RevisitMemory(memorySceneName);
         }
+        
+        private void OnDestroy()
+        {
+            if (_memoryManager != null)
+            {
+                _memoryManager.MemoryTransitionCompleted -= OnTransitionCompleted;
+            }
+        }
+
     }
 }
