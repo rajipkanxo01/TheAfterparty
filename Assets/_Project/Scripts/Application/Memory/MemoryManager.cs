@@ -1,28 +1,27 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using _Project.Scripts.Application.Core;
-using _Project.Scripts.Application.Dialogue;
 using _Project.Scripts.Application.Player;
-using _Project.Scripts.Data.Npc;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace _Project.Scripts.Application.Memory
 {
     public class MemoryManager
     {
-        public event Action<string> MemoryTransitionStarted;
-        public event Action<string> MemoryTransitionCompleted;
-
         private string _targetScene;
-        private PlayerProfile _playerProfile;
+        private readonly PlayerProfile _playerProfile;
+        private AsyncOperation _backgroundLoad;
+        private readonly StaticCoroutine _coroutineRunner;
 
         public MemoryManager()
         {
             MemoryEvents.OnMemoryUnlocked += UnlockMemory;
             MemoryEvents.OnVisitMemory += VisitMemory;
+            MemoryEvents.OnMemoryTransitionEnd += HandleTransitionEnd;
 
             _playerProfile = ServiceLocater.GetService<PlayerProfile>();
+            _coroutineRunner = ServiceLocater.GetService<StaticCoroutine>();
         }
 
         private void VisitMemory(string memoryId)
@@ -38,43 +37,11 @@ namespace _Project.Scripts.Application.Memory
 
             _targetScene = memoryId;
             
+            MemoryEvents.RaiseMemoryTransitionStart();
             
-
-            // Start the transition (fade out / load scene etc.)
-            // todo: remove direct completed call and hook into visuals. this is temp solution
-            MemoryTransitionCompleted?.Invoke(_targetScene);
-            
-            // todo: temp dialogue trigger for memory entry. really hacky
-            var dialogue = ServiceLocater.GetService<DialogueController>();
-            if (dialogue != null)
-            {
-                dialogue.EnableAutoMode(true);
-                dialogue.StartCoroutine(StartMemoryDialogueRoutine());            
-            }
+            _coroutineRunner.StartCoroutine(PreloadScene(_targetScene));
         }
-
-        private IEnumerator StartMemoryDialogueRoutine()
-        {
-            yield return null;                      
-            yield return new WaitForSeconds(5f);    
-
-            var dialogue = ServiceLocater.GetService<DialogueController>();
-            if (dialogue != null)
-            {
-                dialogue.EnableAutoMode(true);
-                
-                GameStateService gameStateService = ServiceLocater.GetService<GameStateService>();
-                gameStateService.SetState(GameState.Cutscene);
-                
-                dialogue.StartDialogue("detective_root", DialogueType.PlayerMonologue);
-            }
-            else
-            {
-                Debug.LogWarning("Memory dialogue couldn't start – DialogueController not found.");
-            }
-        }
-
-
+        
         private void UnlockMemory(string memoryId)
         {
             if (!_playerProfile.HasUnlockedMemory(memoryId))
@@ -85,16 +52,38 @@ namespace _Project.Scripts.Application.Memory
                 Debug.Log("MemoryManager: Memory unlocked: " + memoryId);
             }
         }
+        
+        
+        // todo: move to its own class
+        private IEnumerator PreloadScene(string sceneName)
+        {
+            Debug.Log($"MemoryManager: Preloading scene '{sceneName}'...");
+            _backgroundLoad = SceneManager.LoadSceneAsync(sceneName);
+            _backgroundLoad.allowSceneActivation = false;
+
+            while (_backgroundLoad.progress < 0.9f)
+            {
+                yield return null; // keep loading
+            }
+
+            Debug.Log($"MemoryManager: Scene '{sceneName}' preloaded (waiting for transition end).");
+        }
+        
+        private void HandleTransitionEnd()
+        {
+            if (_backgroundLoad == null)
+            {
+                Debug.LogWarning("MemoryManager: No background load operation to activate.");
+                return;
+            }
+
+            Debug.Log($"MemoryManager: Activating scene '{_targetScene}'.");
+            _backgroundLoad.allowSceneActivation = true;
+        }
 
         public void RevisitMemory(string sceneName)
         {
             _targetScene = sceneName;
-            MemoryTransitionStarted?.Invoke(_targetScene);
-        }
-
-        public void OnVisualsDone()
-        {
-            MemoryTransitionCompleted?.Invoke(_targetScene);
         }
     }
 }

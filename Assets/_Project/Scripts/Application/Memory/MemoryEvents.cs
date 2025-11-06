@@ -1,5 +1,4 @@
 ﻿using System;
-using UnityEngine;
 
 namespace _Project.Scripts.Application.Memory
 {
@@ -7,6 +6,8 @@ namespace _Project.Scripts.Application.Memory
     {
         public static event Action<string> OnMemoryUnlocked;
         public static event Action<string> OnVisitMemory;
+        public static event Action OnMemoryTransitionStart;
+        public static event Action OnMemoryTransitionEnd;
         
         public static void RaiseMemoryUnlocked(string memoryId)
         {
@@ -16,6 +17,16 @@ namespace _Project.Scripts.Application.Memory
         public static void RaiseVisitMemory(string memoryId)
         {
             OnVisitMemory?.Invoke(memoryId);
+        }
+        
+        public static void RaiseMemoryTransitionStart()
+        {
+            OnMemoryTransitionStart?.Invoke();
+        }
+        
+        public static void RaiseMemoryTransitionEnd()
+        {
+            OnMemoryTransitionEnd?.Invoke();
         }
     }
 }

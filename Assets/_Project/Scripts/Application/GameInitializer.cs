@@ -7,8 +7,6 @@ using _Project.Scripts.Data.Clues;
 using _Project.Scripts.Data.Npc;
 using _Project.Scripts.Data.Player;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 namespace _Project.Scripts.Application
 {
@@ -46,6 +44,8 @@ namespace _Project.Scripts.Application
 
             ServiceLocater.RegisterService(clueDatabase);
             ServiceLocater.RegisterService(npcDatabase);
+            
+            ServiceLocater.RegisterService(StaticCoroutine.Instance);
 
             var profile = new PlayerProfile(playerProfile.displayName, playerProfile.playerId, playerProfile.portrait);
             ServiceLocater.RegisterService(profile);
@@ -67,6 +67,7 @@ namespace _Project.Scripts.Application
             {
                 ServiceLocater.RegisterService(dialogueController);
             }
+            
         }
     }
 }

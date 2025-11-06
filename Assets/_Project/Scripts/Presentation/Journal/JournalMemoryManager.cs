@@ -1,4 +1,5 @@
 using _Project.Scripts.Application.Core;
+using _Project.Scripts.Application.Memory;
 using _Project.Scripts.Presentation.Memory;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,14 +12,8 @@ namespace _Project.Scripts.Presentation.Journal
     {
         [SerializeField] private Image image;
         [SerializeField] private TextMeshProUGUI nameText;
+        
         private string memorySceneName;
-
-        private MemorySystem _memorySystem;
-
-        private void Start()
-        {
-            _memorySystem = ServiceLocater.GetService<MemorySystem>();
-        }
 
         public void SetMemoryData(string memoryId)
         {
@@ -30,7 +25,8 @@ namespace _Project.Scripts.Presentation.Journal
         {
             if(memorySceneName != SceneManager.GetActiveScene().name)
             {
-                _memorySystem.ReVisitMemory(memorySceneName);
+                // _memorySystem.ReVisitMemory(memorySceneName);
+                MemoryEvents.RaiseVisitMemory(memorySceneName);
             }
         }
     }

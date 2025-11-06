@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using _Project.Scripts.Application;
+﻿using System;
+
 using _Project.Scripts.Application.Core;
 using _Project.Scripts.Application.Memory;
 using UnityEngine;
@@ -9,54 +9,38 @@ namespace _Project.Scripts.Presentation.Memory
 {
     public class MemorySystem : MonoBehaviour
     {
-        // [SerializeField] private MemoryTransitionView transitionView;
+        [SerializeField] private MemoryTransitionView transitionView;
 
-        private MemoryManager _memoryManager;
+        private void Awake()
+        {
+            ServiceLocater.RegisterService(this);
+        }
 
         private void Start()
         {
-            _memoryManager = ServiceLocater.GetService<MemoryManager>();
+            if (transitionView == null)
+            {
+                transitionView = ServiceLocater.GetService<MemoryTransitionView>();
+            }
             
-            // subscribe to application events
-            // _memoryManager.MemoryTransitionStarted += OnTransitionStarted;
-            _memoryManager.MemoryTransitionCompleted += OnTransitionCompleted;
-
-            // application subscribe to presentation callback
-            // transitionView.OnTransitionComplete += _memoryManager.OnVisualsDone;
-            
-            ServiceLocater.RegisterService(this);
-            // DontDestroyOnLoad(this);
+            MemoryEvents.OnMemoryTransitionStart += HandleMemoryTransitionStart;
+            MemoryEvents.OnMemoryTransitionEnd += HandleMemoryTransitionEnd;
         }
         
-        private void OnTransitionCompleted(string sceneName)
+        private void HandleMemoryTransitionStart()
         {
-            StartCoroutine(LoadSceneAfterDelay(sceneName, 2f));
+            transitionView.Play();
         }
 
-        private IEnumerator  LoadSceneAfterDelay(string sceneName, float delay)
+        private void HandleMemoryTransitionEnd()
         {
-            yield return new WaitForSeconds(delay);
-            SceneManager.LoadScene(sceneName);
-        }
-        
-        private void OnTransitionStarted()
-        {
-            Debug.Log("OnTransitionStarted");
-            // transitionView.Play();
+            Debug.Log("Memory transition end");
         }
 
-        public void ReVisitMemory(string memorySceneName)
-        {
-            _memoryManager.RevisitMemory(memorySceneName);
-        }
-        
         private void OnDestroy()
         {
-            if (_memoryManager != null)
-            {
-                _memoryManager.MemoryTransitionCompleted -= OnTransitionCompleted;
-            }
+            MemoryEvents.OnMemoryTransitionStart -= HandleMemoryTransitionStart;
+            MemoryEvents.OnMemoryTransitionEnd -= HandleMemoryTransitionEnd;
         }
-
     }
 }

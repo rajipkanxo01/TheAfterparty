@@ -25,7 +25,6 @@ namespace _Project.Scripts.Presentation
             }
 
             Instance = this;
-            // DontDestroyOnLoad(gameObject);
         }
 
         public void PlaySfx(AudioClip clip, float volumeMultiplier = 1f)
