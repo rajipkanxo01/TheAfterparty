@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using _Project.Scripts.Application.Core;
 using _Project.Scripts.Application.Player;
+using _Project.Scripts.Data.Memory;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,6 +14,7 @@ namespace _Project.Scripts.Application.Memory
         private readonly PlayerProfile _playerProfile;
         private AsyncOperation _backgroundLoad;
         private readonly StaticCoroutine _coroutineRunner;
+        private readonly MemoryDatabase _memoryDatabase;
 
         public MemoryManager()
         {
@@ -20,6 +22,7 @@ namespace _Project.Scripts.Application.Memory
             MemoryEvents.OnVisitMemory += VisitMemory;
             MemoryEvents.OnMemoryTransitionEnd += HandleTransitionEnd;
 
+            _memoryDatabase = ServiceLocater.GetService<MemoryDatabase>();
             _playerProfile = ServiceLocater.GetService<PlayerProfile>();
             _coroutineRunner = ServiceLocater.GetService<StaticCoroutine>();
         }
@@ -31,11 +34,18 @@ namespace _Project.Scripts.Application.Memory
                 Debug.LogWarning("MemoryManager: Invalid memoryId for VisitMemory.");
                 return;
             }
+            
+            var sceneName = _memoryDatabase.GetById(memoryId).sceneName;
+            if (sceneName == null)
+            {
+                Debug.LogWarning($"MemoryManager: Memory with ID '{memoryId}' not found in database.");
+                return;
+            }
 
             // Unlock if not already unlocked
             UnlockMemory(memoryId);
 
-            _targetScene = memoryId;
+            _targetScene = sceneName;
             
             MemoryEvents.RaiseMemoryTransitionStart();
             

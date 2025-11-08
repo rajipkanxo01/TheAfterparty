@@ -4,6 +4,7 @@ using _Project.Scripts.Application.Dialogue;
 using _Project.Scripts.Application.Memory;
 using _Project.Scripts.Application.Player;
 using _Project.Scripts.Data.Clues;
+using _Project.Scripts.Data.Memory;
 using _Project.Scripts.Data.Npc;
 using _Project.Scripts.Data.Player;
 using UnityEngine;
@@ -17,6 +18,7 @@ namespace _Project.Scripts.Application
         [Header("Databases")]
         [SerializeField] private ClueDatabase clueDatabase;
         [SerializeField] private NpcDatabase npcDatabase;
+        [SerializeField] private MemoryDatabase memoryDatabase;
 
         [Header("Configs")]
         [SerializeField] private SniffConfig sniffConfig;
@@ -44,6 +46,7 @@ namespace _Project.Scripts.Application
 
             ServiceLocater.RegisterService(clueDatabase);
             ServiceLocater.RegisterService(npcDatabase);
+            ServiceLocater.RegisterService(memoryDatabase);
             
             ServiceLocater.RegisterService(StaticCoroutine.Instance);
 

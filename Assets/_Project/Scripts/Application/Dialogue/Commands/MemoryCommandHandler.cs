@@ -16,20 +16,20 @@ namespace _Project.Scripts.Application.Dialogue.Commands
         {
             if (parameters == null || parameters.Length < 2)
             {
-                Debug.LogError("MemoryCommandHandler: Invalid format for 'memory' command. Expected format: memory <unlock|visit> <sceneId>");
+                Debug.LogError("MemoryCommandHandler: Invalid format for 'memory' command. Expected format: memory <unlock|visit> <memoryId>");
                 return;
             }
             
             string mode = parameters[0];
-            string sceneId = parameters[1];
+            string memoryId = parameters[1];
 
             if (mode.Equals("unlock"))
             {
-                MemoryEvents.RaiseMemoryUnlocked(sceneId);
+                MemoryEvents.RaiseMemoryUnlocked(memoryId);
             }
             else if (mode.Equals("visit"))
             {
-                MemoryEvents.RaiseVisitMemory(sceneId);
+                MemoryEvents.RaiseVisitMemory(memoryId);
             }
 
         }
