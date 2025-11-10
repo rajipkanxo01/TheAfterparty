@@ -1,0 +1,63 @@
+﻿using System;
+using System.Threading.Tasks;
+using _Project.Scripts.Application.Core;
+using _Project.Scripts.Application.Dialogue;
+using _Project.Scripts.Application.Memory.Services;
+using UnityEngine;
+
+namespace _Project.Scripts.Presentation.Memory.Services
+{
+    public class MemoryDialogueService : MonoBehaviour, IMemoryDialogueService
+    {
+        private DialogueController _dialogueController;
+        private TaskCompletionSource<bool> _dialogueFinished = new();
+
+        private void Start()
+        {
+            _dialogueController = ServiceLocater.GetService<DialogueController>();
+            if (_dialogueController == null)
+            {
+                Debug.LogError("MemoryDialogueService: DialogueController service not found!");
+                return;
+            }
+            
+            DialogueEvents.OnDialogueEnded += HandleDialogueEnded;
+        }
+
+        private void OnDestroy()
+        {
+            DialogueEvents.OnDialogueEnded -= HandleDialogueEnded;
+        }
+
+        public async Task PlayNodeAsync(string nodeName)
+        {
+            if (string.IsNullOrEmpty(nodeName))
+            {
+                Debug.LogWarning("MemoryDialogueService: Empty node name.");
+                return;
+            }
+
+            if (_dialogueController == null)
+            {
+                Debug.LogError("MemoryDialogueService: DialogueRunner missing!");
+                return;
+            }
+
+            Debug.Log($"MemoryDialogueService: Starting Yarn node '{nodeName}'");
+
+            _dialogueFinished = new TaskCompletionSource<bool>();
+
+            _dialogueController.ChangeAutoModeTo(true);
+            _dialogueController.StartDialogue(nodeName);
+
+            await _dialogueFinished.Task;
+
+            Debug.Log($"MemoryDialogueService:  Node '{nodeName}' finished.");
+        }
+        
+        private void HandleDialogueEnded()
+        {
+            _dialogueFinished?.TrySetResult(true);
+        }
+    }
+}

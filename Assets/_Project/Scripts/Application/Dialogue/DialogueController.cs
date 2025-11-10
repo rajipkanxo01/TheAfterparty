@@ -33,7 +33,7 @@ namespace _Project.Scripts.Application.Dialogue
 
         private DialogueType _currentType = DialogueType.NpcConversation;
         private TaskCompletionSource<bool> _waitForContinue;
-        private bool _autoModeEnabled;
+        private bool _autoModeEnabled = false;
         public DialogueType CurrentType => _currentType;
         public NpcDialogueHandler NpcHandler => _npcHandler;
         public bool IsAutoModeEnabled => _autoModeEnabled;
@@ -92,12 +92,19 @@ namespace _Project.Scripts.Application.Dialogue
             }
         }
 
-        private void HandleNodeComplete(string arg0)
+        private async void HandleNodeComplete(string nodeName)
         {
-            /*if (_autoModeEnabled)
+            if (_autoModeEnabled)
             {
-                runner.Dialogue.Continue();
-            }*/
+                await Task.Delay((int)(autoAdvanceDelay * 1000f));
+
+                if (runner != null && runner.Dialogue.IsActive)
+                {
+                    runner.Dialogue.Continue();
+                }
+
+                _autoModeEnabled = false;
+            }
         }
 
         public void StartDialogue(string nodeName, DialogueType type = DialogueType.NpcConversation)
@@ -111,6 +118,8 @@ namespace _Project.Scripts.Application.Dialogue
             _currentType = type;
             DialogueEvents.RaiseDialogueStarted();
             runner.StartDialogue(nodeName);
+            
+            Debug.Log($"DialogueController: StartDialogue node '{nodeName}'.");
         }
 
         private void OnNodeStart(string nodeName)
@@ -134,13 +143,11 @@ namespace _Project.Scripts.Application.Dialogue
             DialogueEvents.RaiseDialogueContinueRequested();
         }
         
-        public void EnableAutoMode(bool mode)
+        public void ChangeAutoModeTo(bool mode)
         {
             _autoModeEnabled = mode;
         }
-
         
-
         public int GetNpcProgress(string npcId)
         {
             if (string.IsNullOrEmpty(npcId) || variableStorage == null)

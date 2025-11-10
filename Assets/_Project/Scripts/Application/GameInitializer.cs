@@ -2,11 +2,13 @@
 using _Project.Scripts.Application.Core;
 using _Project.Scripts.Application.Dialogue;
 using _Project.Scripts.Application.Memory;
+using _Project.Scripts.Application.Memory.Services;
 using _Project.Scripts.Application.Player;
 using _Project.Scripts.Data.Clues;
 using _Project.Scripts.Data.Memory;
 using _Project.Scripts.Data.Npc;
 using _Project.Scripts.Data.Player;
+using _Project.Scripts.Presentation.Memory.Services;
 using UnityEngine;
 
 namespace _Project.Scripts.Application

@@ -11,15 +11,8 @@
     
 <<set $detective_state = "girl_ran_away">>
 
-<<cutscene next>>
-
 <<say girl "Mom look! A real police badge!">>
 <<say detective "W-Wait!">>
-
-<<cutscene next>>
-<<cutscene next>>
-
-<<jump Detective_Memory_Mascot>>
 ===
 
 

@@ -8,6 +8,12 @@ using UnityEngine.SceneManagement;
 
 namespace _Project.Scripts.Application.Memory
 {
+    public enum MemoryVersion
+    {
+        Corrupted = 0,
+        Real = 1
+    }
+    
     public class MemoryManager
     {
         private string _targetScene;
