@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using _Project.Scripts.Application.Core;
@@ -26,8 +27,7 @@ namespace _Project.Scripts.Application.Memory
                 dialogueActionExecutor,
                 moveActionExecutor
             };
-            
-            // register executors
+
             ServiceLocater.RegisterService<IMemoryActionExecutor>(dialogueActionExecutor);
             ServiceLocater.RegisterService<IMemoryActionExecutor>(moveActionExecutor);
         }
@@ -47,39 +47,133 @@ namespace _Project.Scripts.Application.Memory
                 return;
             }
 
-            var orderedActions = actions.Where(a => a != null).OrderBy(a => a.order).ToList();
-            
+            // Order is still your primary control for rough timeline
+            var orderedActions = actions
+                .Where(a => a != null)
+                .OrderBy(a => a.order)
+                .ToList();
+
+            var parallelAndDelayedTasks = new List<Task>();
+            var fragmentStartTime = Time.realtimeSinceStartup;
+
+            // Tracks the "chain" of sequential actions so they run one after another
+            Task lastSequentialTask = Task.CompletedTask;
+
             foreach (var action in orderedActions)
             {
-                foreach (var executor in _actionExecutors.Where(executor => executor.CanExecute(action)))
+                var executor = _actionExecutors.FirstOrDefault(ex => ex.CanExecute(action));
+                if (executor == null)
                 {
-                    await executor.ExecuteAsync(action, _context);
-                    break; 
+                    Debug.LogWarning($"MemoryFragmentExecutor: No executor found for action {action.name}");
+                    continue;
+                }
+
+                switch (action.playMode)
+                {
+                    case ActionPlayMode.Sequential:
+                    {
+                        lastSequentialTask = RunSequentialAsync(
+                            lastSequentialTask,
+                            executor,
+                            action,
+                            fragmentStartTime
+                        );
+                        break;
+                    }
+
+                    case ActionPlayMode.Parallel:
+                    {
+                        var task = executor.ExecuteAsync(action, _context);
+                        parallelAndDelayedTasks.Add(task);
+                        break;
+                    }
+
+                    case ActionPlayMode.DelayedFromFragmentStart:
+                    {
+                        var task = RunDelayedFromStartAsync(
+                            executor,
+                            action,
+                            fragmentStartTime
+                        );
+                        parallelAndDelayedTasks.Add(task);
+                        break;
+                    }
                 }
             }
+
+            // Wait for sequential chain to finish
+            await lastSequentialTask;
+
+            // Wait for all parallel + delayed actions to finish
+            if (parallelAndDelayedTasks.Count > 0)
+            {
+                await Task.WhenAll(parallelAndDelayedTasks);
+            }
+        }
+
+        private async Task RunSequentialAsync(
+            Task previousSequential,
+            IMemoryActionExecutor executor,
+            ActionBaseData action,
+            float fragmentStartTime)
+        {
+            // Wait for previous sequential action
+            await previousSequential;
+
+            if (action.startDelaySeconds > 0f)
+            {
+                float targetTime = fragmentStartTime + action.startDelaySeconds;
+                float now = Time.realtimeSinceStartup;
+                float waitSeconds = targetTime - now;
+
+                if (waitSeconds > 0f)
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(waitSeconds));
+                }
+            }
+
+            await executor.ExecuteAsync(action, _context);
+        }
+
+        private async Task RunDelayedFromStartAsync(
+            IMemoryActionExecutor executor,
+            ActionBaseData action,
+            float fragmentStartTime)
+        {
+            float delay = Mathf.Max(0f, action.startDelaySeconds);
+            float targetTime = fragmentStartTime + delay;
+
+            while (true)
+            {
+                float now = Time.realtimeSinceStartup;
+                float remaining = targetTime - now;
+                if (remaining <= 0f)
+                    break;
+
+                var step = Mathf.Min(remaining, 0.1f);
+                await Task.Delay(TimeSpan.FromSeconds(step));
+            }
+
+            await executor.ExecuteAsync(action, _context);
         }
 
         private List<ActionBaseData> SelectActions(FragmentData fragmentData)
         {
-            // case 1: fragment not corrupted. always real
             if (!fragmentData.isCorrupted)
             {
                 return fragmentData.realMemoryActions;
             }
 
-            // case 2: fragment corrupted but repaired. show real
             if (fragmentData.isCorrupted && fragmentData.isRepaired)
             {
                 return fragmentData.realMemoryActions;
             }
-            
-            // case 3: fragment corrupted and not repaired. show corrupted
+
             if (fragmentData.HasCorruptedVersion)
             {
                 return fragmentData.corruptedMemoryActions;
             }
             
-            // default: show real
             return fragmentData.realMemoryActions;
         }
     }
