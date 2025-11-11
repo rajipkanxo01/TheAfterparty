@@ -23,13 +23,11 @@ namespace _Project.Scripts.Presentation.Memory
 
         private void Start()
         {
-            var dialogueService = gameObject.AddComponent<MemoryDialogueService>();
-            ServiceLocater.RegisterService<IMemoryDialogueService>(dialogueService);
-            
-            IMemoryActorService actorService = new DebugActorService();
-            ServiceLocater.RegisterService<IMemoryActorService>(actorService);
+            Debug.Log("MemoryFragmentPresenter: Retrieving IMemoryNpcMoveService from ServiceLocater...");
+            var npcService = ServiceLocater.GetService<IMemoryNpcMoveService>();
+            var dialogueService = ServiceLocater.GetService<IMemoryDialogueService>();
 
-            var context = new MemoryActionContext(dialogueService, actorService);
+            var context = new MemoryActionContext(dialogueService, npcService);
             _executor = new MemoryFragmentExecutor(context);
 
             if (fragmentToPlay != null)
@@ -60,27 +58,4 @@ namespace _Project.Scripts.Presentation.Memory
             }
         }
     }
-
-    #region Mock Debug Services
-
-    /// <summary>
-    /// Simple console-only movement handler for testing.
-    /// </summary>
-    public class DebugActorService : IMemoryActorService
-    {
-        public async Task MoveAlongPathAsync(string actorId, IReadOnlyList<Vector3> positions, float speed)
-        {
-            Debug.Log($"[Move] Actor '{actorId}' moving through {positions.Count} points at speed {speed}");
-
-            foreach (var pos in positions)
-            {
-                Debug.Log($"[Move] → Moving {actorId} to {pos}");
-                await Task.Delay(500);
-            }
-
-            Debug.Log($"[Move] '{actorId}' finished path");
-        }
-    }
-
-    #endregion
 }

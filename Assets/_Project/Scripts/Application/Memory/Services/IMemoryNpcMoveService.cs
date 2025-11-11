@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace _Project.Scripts.Application.Memory.Services
 {
-    public interface IMemoryActorService
+    public interface IMemoryNpcMoveService
     {
-        Task MoveAlongPathAsync(string actorId, IReadOnlyList<Vector3> positions, float speed);
+        Task MoveAlongPathAsync(string npcId, IReadOnlyList<Vector3> positions, float speed);
     }
 }

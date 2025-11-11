@@ -5,12 +5,12 @@ namespace _Project.Scripts.Application.Memory
     public class MemoryActionContext
     {
         public IMemoryDialogueService DialogueService { get; private set; }
-        public IMemoryActorService ActorService { get; private set; }
+        public IMemoryNpcMoveService NpcMoveService { get; private set; }
 
-        public MemoryActionContext(IMemoryDialogueService dialogueService, IMemoryActorService actorService)
+        public MemoryActionContext(IMemoryDialogueService dialogueService, IMemoryNpcMoveService npcMoveService)
         {
             DialogueService = dialogueService;
-            ActorService = actorService;
+            NpcMoveService = npcMoveService;
         }
     }
 }

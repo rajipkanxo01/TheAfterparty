@@ -22,10 +22,10 @@ namespace _Project.Scripts.Application.Memory.Actions
                 return;
             }
 
-            IMemoryActorService actorService = context.ActorService;
-            if (actorService == null)
+            IMemoryNpcMoveService npcMoveService = context.NpcMoveService;
+            if (npcMoveService == null)
             {
-                Debug.LogError("MoveActionExecutor: ActorService is null.");
+                Debug.LogError("MoveActionExecutor: NpcService is null.");
                 return;
             }
 
@@ -36,7 +36,7 @@ namespace _Project.Scripts.Application.Memory.Actions
                 return;
             }
 
-            await actorService.MoveAlongPathAsync(data.actorId, positions, data.speed);
+            await npcMoveService.MoveAlongPathAsync(data.actorId, positions, data.speed);
         }
 
         private List<Vector3> GetPathPositions(List<string> names)

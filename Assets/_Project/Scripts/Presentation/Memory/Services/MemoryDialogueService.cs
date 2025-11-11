@@ -12,6 +12,12 @@ namespace _Project.Scripts.Presentation.Memory.Services
         private DialogueController _dialogueController;
         private TaskCompletionSource<bool> _dialogueFinished = new();
 
+
+        private void Awake()
+        {
+            ServiceLocater.RegisterService<IMemoryDialogueService>(this);
+        }
+
         private void Start()
         {
             _dialogueController = ServiceLocater.GetService<DialogueController>();
