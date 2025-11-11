@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using _Project.Scripts.Application.Core;
+using _Project.Scripts.Application.Memory;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,23 +18,22 @@ namespace _Project.Scripts.Presentation.Memory
         [SerializeField] private float whiteFlashDuration = 0.8f;
         [SerializeField] private bool useScaleEffect = true;
         
-
-        public event Action OnTransitionComplete;
-
-        private RectTransform overlayRect;
+        private RectTransform _overlayRect;
 
         private void Awake()
         {
             if (fadeOverlay != null)
             {
                 fadeOverlay.color = new Color(0, 0, 0, 0);
-                overlayRect = fadeOverlay.GetComponent<RectTransform>();
+                _overlayRect = fadeOverlay.GetComponent<RectTransform>();
             }
+            
+            ServiceLocater.RegisterService(this);
         }
 
         public void Play()
         {
-            Debug.Log("Transition started");
+            Debug.Log($"TransitionCanvas activeSelf={gameObject.activeSelf}, inHierarchy={gameObject.activeInHierarchy}");
             StartCoroutine(PlayTransition());
         }
 
@@ -45,9 +46,9 @@ namespace _Project.Scripts.Presentation.Memory
             }
 
             // Reset transform
-            if (useScaleEffect && overlayRect != null)
+            if (useScaleEffect && _overlayRect != null)
             {
-                overlayRect.localScale = Vector3.one * 3f;
+                _overlayRect.localScale = Vector3.one * 3f;
             }
             
             // Play transition sound
@@ -58,12 +59,14 @@ namespace _Project.Scripts.Presentation.Memory
 
             // 2. Hold full black
             yield return new WaitForSeconds(blackHoldDuration);
+            
+            // 4. Transition complete (scene load trigger)
+            MemoryEvents.RaiseMemoryTransitionEnd();
 
             // 3. Bright flash
             yield return StartCoroutine(FadeToColor(Color.white, whiteFlashDuration, false));
 
-            // 4. Transition complete (scene load trigger)
-            OnTransitionComplete?.Invoke();
+          
 
             // 5. Fade back to transparent and restore size
             yield return StartCoroutine(FadeToColor(new Color(0, 0, 0, 0), fadeDuration, useScaleEffect));
@@ -74,7 +77,7 @@ namespace _Project.Scripts.Presentation.Memory
         {
             float time = 0;
             Color startColor = fadeOverlay.color;
-            Vector3 startScale = overlayRect != null ? overlayRect.localScale : Vector3.one;
+            Vector3 startScale = _overlayRect != null ? _overlayRect.localScale : Vector3.one;
             Vector3 targetScale = Vector3.one;
 
             if (scaleEffect)
@@ -89,9 +92,9 @@ namespace _Project.Scripts.Presentation.Memory
 
                 fadeOverlay.color = Color.Lerp(startColor, targetColor, t);
 
-                if (scaleEffect && overlayRect != null)
+                if (scaleEffect && _overlayRect != null)
                 {
-                    overlayRect.localScale = Vector3.Lerp(startScale, targetScale, t);
+                    _overlayRect.localScale = Vector3.Lerp(startScale, targetScale, t);
                 }
 
                 time += Time.deltaTime;
@@ -100,10 +103,16 @@ namespace _Project.Scripts.Presentation.Memory
 
             fadeOverlay.color = targetColor;
 
-            if (scaleEffect && overlayRect != null)
+            if (scaleEffect && _overlayRect != null)
             {
-                overlayRect.localScale = targetScale;
+                _overlayRect.localScale = targetScale;
             }
         }
+        
+        private void OnDestroy()
+        {
+            Debug.LogWarning("[MemoryTransitionView] Destroyed during runtime!", this);
+        }
+
     }
 }

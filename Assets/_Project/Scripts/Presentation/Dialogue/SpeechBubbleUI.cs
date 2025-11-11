@@ -15,13 +15,15 @@ namespace _Project.Scripts.Presentation.Dialogue
         [SerializeField] private float charactersPerSecond = 40f;
 
         [Header("Layout Settings")]
-        [SerializeField] private Vector2 padding = new Vector2(0.4f, 0.3f); // world units
+        [SerializeField] private Vector2 padding = new Vector2(0.4f, 0.3f);
         [SerializeField] private float resizeDuration = 0.25f;
+        [SerializeField] private float minWidth = 1.5f; 
 
         private Coroutine _typingCoroutine;
         private Coroutine _resizeCoroutine;
 
         public CanvasGroup CanvasGroup => canvasGroup;
+        public float CharactersPerSecond => charactersPerSecond;
 
         public void Show(string speakerName, string lineText, Sprite portrait)
         {
@@ -36,35 +38,45 @@ namespace _Project.Scripts.Presentation.Dialogue
 
         private IEnumerator ResizeAndType(string text)
         {
-            // Step 1: Temporarily hide text while measuring
-            string originalText = dialogueText.text;
+            var rect = dialogueText.rectTransform;
+            rect.sizeDelta = new Vector2(10f, rect.sizeDelta.y);
+
             dialogueText.alpha = 0f;
             dialogueText.text = text;
             dialogueText.ForceMeshUpdate();
 
-            // Get target width (only width)
-            float targetWidth = GetTextWidthWithPadding();
-            float initialWidth = backgroundImage.size.x;
-            float height = backgroundImage.size.y; // keep existing height
+            Vector2 targetSize = GetTextSizeWithPadding();
+            Vector2 initialSize = backgroundImage.size;
+            float fixedHeight = initialSize.y;
 
-            // Step 2: Animate width only
+            targetSize.x = Mathf.Max(targetSize.x, minWidth);
+            targetSize.y = fixedHeight;
+
             float elapsed = 0f;
             while (elapsed < resizeDuration)
             {
                 elapsed += Time.deltaTime;
                 float t = Mathf.SmoothStep(0f, 1f, elapsed / resizeDuration);
-                float newWidth = Mathf.Lerp(initialWidth, targetWidth, t);
-                backgroundImage.size = new Vector2(newWidth, height);
+                float newWidth = Mathf.Lerp(initialSize.x, targetSize.x, t);
+
+                backgroundImage.size = new Vector2(newWidth, fixedHeight);
+                UpdateTextBoxSize(new Vector2(newWidth, fixedHeight));
                 yield return null;
             }
-            backgroundImage.size = new Vector2(targetWidth, height);
 
-            // Step 3: Clear text and show again
+            backgroundImage.size = new Vector2(targetSize.x, fixedHeight);
+            UpdateTextBoxSize(new Vector2(targetSize.x, fixedHeight));
+
             dialogueText.text = "";
             dialogueText.alpha = 1f;
 
-            // Step 4: Type text
             _typingCoroutine = StartCoroutine(TypeText(text));
+        }
+
+        private void UpdateTextBoxSize(Vector2 backgroundSize)
+        {
+            var rect = dialogueText.rectTransform;
+            rect.sizeDelta = backgroundSize - padding;
         }
 
         private IEnumerator TypeText(string text)
@@ -78,11 +90,11 @@ namespace _Project.Scripts.Presentation.Dialogue
             }
         }
 
-        private float GetTextWidthWithPadding()
+        private Vector2 GetTextSizeWithPadding()
         {
             dialogueText.ForceMeshUpdate();
             var bounds = dialogueText.textBounds.size;
-            return bounds.x + padding.x;
+            return new Vector2(bounds.x + padding.x, backgroundImage.size.y);
         }
     }
 }

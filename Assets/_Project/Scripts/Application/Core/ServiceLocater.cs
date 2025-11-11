@@ -11,28 +11,30 @@ namespace _Project.Scripts.Application.Core
         public static void RegisterService<T>(T service)
         {
             var type = typeof(T);
-            if (services.ContainsKey(type))
-            {
-                Debug.LogWarning($"[ServiceLocator] Service of type {type.Name} is already registered. Overwriting.");
-                services[type] = service;
-            }
-            else
-            {
-                services.Add(type, service);
-                
-                Debug.Log($"[ServiceLocator] Service of type {type.Name} registered.");
-            }
+            services[type] = service;
         }
         
         public static T GetService<T>()
         {
-            if (services.TryGetValue(typeof(T), out var service))
+            var type = typeof(T);
+            if (services.TryGetValue(type, out var service))
             {
                 return (T)service;
             }
 
-            Debug.LogError($"[ServiceLocator] Service of type {typeof(T).Name} not found.");
+            Debug.LogError($"[ServiceLocator] Service of type {type.Name} not found. " +
+                           $"Registered types: {string.Join(", ", services.Keys)}");
             return default;
+        }
+
+        
+        public static void PrintAllServices()
+        {
+            Debug.Log("[ServiceLocator] Registered services:");
+            foreach (var service in services)
+            {
+                Debug.Log($"- {service.Key.Name}");
+            }
         }
         
         public static void Clear()

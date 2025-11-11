@@ -1,0 +1,60 @@
+﻿title: Detective_Memory_Entry
+---
+<<say girl "Look! A detective costume">>
+<<say detective "Indeed! And I am a real detective too.">>
+<<say girl "...">>
+<<say detective "What?">>
+<<say girl "You don't look like a detective! You are too short!">>
+<<say detective "H-hey now. Being short doesn't have anything to do with anything.">>
+<<say detective "Look here, I have proof!">>
+<<say girl "A badge! So cool!">>
+    
+<<set $detective_state = "girl_ran_away">>
+
+<<say girl "Mom look! A real police badge!">>
+<<say detective "W-Wait!">>
+===
+
+
+title: Detective_Memory_Mascot
+---
+<<say mascot "!!!">>
+<<say detective "Hey! What are you doing?!">>
+<<say detective "You stay right where you are!">>
+<<say mascot "Meow">>
+<<say detective "Don't you Meow at me - I want a proper answer!">>
+<<say mascot "Meow">>
+<<say detective "Did you get permission to paint the carousel?">>
+<<say mascot "Meow">>
+<<say detective "Probably not.">>
+<<say detective "You need to clean up the paint before it dries.">>
+<<say mascot "Meow?">>
+<<say detective "You heard me! Get some water and a sponge!">>
+<<say detective "Go ahead - I'll wait.">>
+<<say detective "Good!">>
+<<say detective "...What was I doing again?">>
+
+<<set $detective_state = "girl_reentry">>
+
+<<cutscene next>>
+<<cutscene next>>
+
+<<jump Detective_Memory_GirlReEntry>>
+===
+
+
+title: Detective_Memory_GirlReEntry
+---
+<<say girl "I'll return it mom! I promise!">>
+<<say girl "Mister Detective!">>
+<<say girl "Mister detective?">>
+<<say girl "...">>
+<<say girl "I'll just put it here.">>
+
+<<set $detective_state = "memory_complete">>
+<<set $badge_location_known = true>>
+
+<<scene load IsometricTest_Clue>>
+===
+
+

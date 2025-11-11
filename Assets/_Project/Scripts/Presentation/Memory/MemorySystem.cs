@@ -1,4 +1,5 @@
-﻿using _Project.Scripts.Application;
+﻿using System;
+
 using _Project.Scripts.Application.Core;
 using _Project.Scripts.Application.Memory;
 using UnityEngine;
@@ -10,36 +11,36 @@ namespace _Project.Scripts.Presentation.Memory
     {
         [SerializeField] private MemoryTransitionView transitionView;
 
-        private MemoryManager _memoryManager;
-
         private void Awake()
         {
-            _memoryManager = new MemoryManager();
-
-            // subscribe to application events
-            _memoryManager.MemoryTransitionStarted += OnTransitionStarted;
-            _memoryManager.MemoryTransitionCompleted += OnTransitionCompleted;
-
-            // application subscribe to presentation callback
-            transitionView.OnTransitionComplete += _memoryManager.OnVisualsDone;
-            
             ServiceLocater.RegisterService(this);
-            DontDestroyOnLoad(this);
         }
 
-        private void OnTransitionCompleted(string sceneName)
+        private void Start()
         {
-            SceneManager.LoadScene(sceneName);
+            if (transitionView == null)
+            {
+                transitionView = ServiceLocater.GetService<MemoryTransitionView>();
+            }
+            
+            MemoryEvents.OnMemoryTransitionStart += HandleMemoryTransitionStart;
+            MemoryEvents.OnMemoryTransitionEnd += HandleMemoryTransitionEnd;
         }
-
-        private void OnTransitionStarted()
+        
+        private void HandleMemoryTransitionStart()
         {
             transitionView.Play();
         }
 
-        public void ReVisitMemory(string memorySceneName)
+        private void HandleMemoryTransitionEnd()
         {
-            _memoryManager.RevisitMemory(memorySceneName);
+            Debug.Log("Memory transition end");
+        }
+
+        private void OnDestroy()
+        {
+            MemoryEvents.OnMemoryTransitionStart -= HandleMemoryTransitionStart;
+            MemoryEvents.OnMemoryTransitionEnd -= HandleMemoryTransitionEnd;
         }
     }
 }

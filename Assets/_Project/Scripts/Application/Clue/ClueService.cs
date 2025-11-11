@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using _Project.Scripts.Application.Core;
+using _Project.Scripts.Application.Player;
 using _Project.Scripts.Data.Clues;
 using _Project.Scripts.Presentation.Clues;
 using UnityEngine;
@@ -9,6 +10,7 @@ namespace _Project.Scripts.Application.Clue
     public class ClueService
     {
         private readonly ClueManager _clueManager;
+        private readonly PlayerProfile _playerProfile;
         private readonly GameStateService _gameStateService;
         
         private readonly ClueDatabase _clueDatabase;
@@ -22,6 +24,7 @@ namespace _Project.Scripts.Application.Clue
             _sniffConfig = sniffConfig;
             
             _clueDatabase = ServiceLocater.GetService<ClueDatabase>();
+            _playerProfile = ServiceLocater.GetService<PlayerProfile>();
         }
 
         public void Examine(string clueId)
@@ -35,6 +38,16 @@ namespace _Project.Scripts.Application.Clue
             
             ClueEvents.RaiseExamined(clueData);
         }
+        
+        public void DiscoverClue(string clueId)
+        {
+            if (IsClueDiscovered(clueId))
+            {
+                return;
+            }
+
+            _playerProfile.AddDiscoveredClue(clueId);
+        }
 
         public void PerformSniff(Vector3 playerPosition)
         {
@@ -43,7 +56,8 @@ namespace _Project.Scripts.Application.Clue
             // prevent spamming of sniff
             if (Time.time - _lastSniffTime < _sniffConfig.SniffCooldown)
             {
-                ToastNotification.Show("You need to wait before sniffing again.", _sniffConfig.SniffCooldownToastDuration);
+                // todo: show notification to player
+                Debug.Log("You need to wait before sniffing again.");
                 return;
             }
 
@@ -51,7 +65,8 @@ namespace _Project.Scripts.Application.Clue
             var nearbyClues = FindNearbyClues(playerPosition, _sniffConfig.SniffRadius);
             if (nearbyClues.Count == 0)
             {
-                ToastNotification.Show("No clues detected nearby.", 1f);
+                // todo: show notification to player
+                Debug.Log("No clues detected nearby.");
                 return;
             }
             
@@ -62,6 +77,12 @@ namespace _Project.Scripts.Application.Clue
             }
             
         }
+        
+        public bool IsClueDiscovered(string clueId)
+        {
+            return _playerProfile.HasDiscoveredClue(clueId);
+        }
+
         
         private List<ClueData> FindNearbyClues(Vector3 playerPosition, float radius)
         {

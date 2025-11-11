@@ -46,10 +46,6 @@ namespace _Project.Scripts.Presentation.Player
             transform.position = currentPos;
 
             spriteRenderer.sortingOrder = currentLayer + 1;
-
-            // Manages the materials to hide tiles based on player position
-            // tileOpacityManager = new TileOpacityManager(tilemapLayers, currentLayer, tilemapMat);
-            // tileOpacityManager.UpdatePosition(transform.position);
         }
 
         private void Update()
@@ -63,10 +59,12 @@ namespace _Project.Scripts.Presentation.Player
             Vector2 floatInput = context.ReadValue<Vector2>();
             moveInput = new Vector3Int(Mathf.RoundToInt(floatInput.y), -Mathf.RoundToInt(floatInput.x));
         }
+        
         public void JumpInput(InputAction.CallbackContext context)
         {
             if(context.performed) movementManager.ProcessJumpInput();
         }
+        
         public void CrawlInput(InputAction.CallbackContext context)
         {
             if(context.performed) movementManager.ProcessCrawlInput();

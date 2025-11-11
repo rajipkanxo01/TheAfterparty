@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using _Project.Scripts.Application.Core;
 using _Project.Scripts.Application.Dialogue;
 using _Project.Scripts.Presentation.Npc;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace _Project.Scripts.Presentation.Dialogue
 {
@@ -36,11 +38,27 @@ namespace _Project.Scripts.Presentation.Dialogue
 
         private readonly Dictionary<string, BubbleInstance> _activeBubbles = new Dictionary<string, BubbleInstance>();
         private string _lastSpeakerId;
+        private DialogueController _dialogueController;
 
         private void Awake()
         {
             if (mainCamera == null)
                 mainCamera = Camera.main;
+            
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+        
+        private void OnDestroy()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded; 
+        }
+
+        
+
+        private void Start()
+        {
+            _dialogueController = ServiceLocater.GetService<DialogueController>();
+            _activeBubbles.Clear();
         }
 
         private void OnEnable()
@@ -93,7 +111,7 @@ namespace _Project.Scripts.Presentation.Dialogue
                 var rect = go.transform;
                 
                 rect.localScale = Vector3.zero;
-                rect.localPosition += worldOffset ;
+                rect.localPosition = Vector3.zero;
                 
                 var ui = go.GetComponent<SpeechBubbleUI>();
                 ui.Show(e.SpeakerName, e.LineText, e.Portrait);
@@ -131,8 +149,29 @@ namespace _Project.Scripts.Presentation.Dialogue
                 }
             }
 
-            _lastSpeakerId = e.SpeakerId; 
+            _lastSpeakerId = e.SpeakerId;
+            
+            if (_dialogueController != null && _dialogueController.IsAutoModeEnabled)
+            {
+                var bubbleUI = bubble.GameObject.GetComponent<SpeechBubbleUI>();
+                if (bubbleUI != null)
+                {
+                    float typingSpeed = bubbleUI.CharactersPerSecond;
+                    int textLength = e.LineText.Length;
+                    float typingTime = textLength / typingSpeed;
+                    float bufferTime = _dialogueController.AutoAdvanceDelay;
+                    StartCoroutine(AutoContinueAfterDelay(typingTime + bufferTime));
+                }
+            }
         }
+        
+        private IEnumerator AutoContinueAfterDelay(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            _dialogueController?.ContinueDialogue();
+        }
+        
+        
         private void HandleDialogueContinued()
         {
             foreach (var bubble in _activeBubbles.Values)
@@ -143,21 +182,36 @@ namespace _Project.Scripts.Presentation.Dialogue
 
         private void HandleDialogueEnded()
         {
-            // Destroy all bubbles when dialogue ends
             foreach (var bubble in _activeBubbles.Values)
             {
-                Destroy(bubble.GameObject);
+                if (bubble.ScaleCoroutine != null)
+                {
+                    StopCoroutine(bubble.ScaleCoroutine);
+                }
             }
+
+            // Then destroy all bubbles
+            foreach (var bubble in _activeBubbles.Values)
+            {
+                if (bubble.GameObject != null)
+                {
+                    Destroy(bubble.GameObject);
+                }
+            }
+
             _activeBubbles.Clear();
         }
 
         private NpcAnchor FindNpcAnchor(string speakerId)
         {
             var anchors = FindObjectsByType<NpcAnchor>(FindObjectsSortMode.None);
+            
             foreach (var a in anchors)
             {
-                if (a.NpcId.Equals(speakerId, StringComparison.OrdinalIgnoreCase))
+                if (a.NpcId.Trim().Equals(speakerId.Trim(), StringComparison.OrdinalIgnoreCase))
+                {
                     return a;
+                }
             }
             return null;
         }
@@ -206,6 +260,11 @@ namespace _Project.Scripts.Presentation.Dialogue
 
         private IEnumerator AnimateScaleOut(BubbleInstance bubble)
         {
+            if (bubble == null || bubble.Transform == null)
+            {
+                yield break;
+            }
+
             Transform rect = bubble.Transform;
             Vector3 start = rect.localScale;
             Vector3 end = Vector3.zero;
@@ -213,6 +272,7 @@ namespace _Project.Scripts.Presentation.Dialogue
             float t = 0;
             while (t < scaleDuration)
             {
+                if (rect == null) yield break;
                 t += Time.deltaTime;
                 float normalized = t / scaleDuration;
                 float ease = 1f - Mathf.Pow(1f - normalized, 3f);
@@ -220,8 +280,22 @@ namespace _Project.Scripts.Presentation.Dialogue
                 yield return null;
             }
 
-            rect.localScale = end;
-            bubble.GameObject.SetActive(false);
+            if (rect != null)
+            {
+                rect.localScale = end;
+            }
+
+            if (bubble.GameObject != null)
+            {
+                bubble.GameObject.SetActive(false);
+            }
+        }
+
+        
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            // Reassign camera whenever a new scene loads
+            mainCamera = Camera.main;
         }
     }
 }

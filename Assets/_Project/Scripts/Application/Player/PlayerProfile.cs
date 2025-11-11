@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using _Project.Scripts.Application.Clue;
 using UnityEngine;
 
 namespace _Project.Scripts.Application.Player
@@ -17,6 +18,7 @@ namespace _Project.Scripts.Application.Player
             DisplayName = displayName;
             PlayerId = playerId;
             Portrait = portrait;
+            
         }
 
         public bool HasDiscoveredClue(string clueId)

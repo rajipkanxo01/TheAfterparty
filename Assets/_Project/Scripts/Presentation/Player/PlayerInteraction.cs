@@ -9,13 +9,13 @@ namespace _Project.Scripts.Presentation.Player
     public class PlayerInteraction : MonoBehaviour
     {
         private IInteractable _nearestInteractable;
-        private DialogueController _dialogueController;
+        private DialogueController _dialogueControl;
         private GameStateService _gameStateService;
 
         private void Start()
         {
-            _dialogueController = FindAnyObjectByType<DialogueController>();
-            if (_dialogueController == null)
+            _dialogueControl = FindAnyObjectByType<DialogueController>();
+            if (_dialogueControl == null)
             {
                 Debug.LogError("PlayerInteraction: DialogueController not found in scene.");
             }
@@ -26,13 +26,15 @@ namespace _Project.Scripts.Presentation.Player
         public void OnInteract(InputAction.CallbackContext context)
         {
             if (!context.performed) return;
-            if (!_gameStateService.IsState(GameState.Normal) && !_gameStateService.IsState(GameState.Dialogue)) return;
+            
+            // todo: commented for vertical slice showcase only
+            // if (!_gameStateService.IsState(GameState.Normal) && !_gameStateService.IsState(GameState.Dialogue)) return;
 
             if (_nearestInteractable != null)
             {
                 if (_gameStateService.IsState(GameState.Dialogue))
                 {
-                    _dialogueController.ContinueDialogue();
+                    _dialogueControl.ContinueDialogue();
                     return;
                 }
                 

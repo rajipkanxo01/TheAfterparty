@@ -1,0 +1,34 @@
+﻿title: Detective_Main_BadgeMissing
+---
+<<set $first_memory_started = true>>
+ 
+<<say Cat "Human - follow me. There are witnesses that you must interrogate for me.">>
+<<say Detective "Right, err, Of course. About that...">>
+<<say Cat "Mrrp?">>
+<<say Detective "... I don't have my badge.">>
+<<say Cat "Then you should go get it.">>
+<<say Detective "Well, I think I ... Misplaced it. While I was drunk.">>
+<<say Cat "Aha. Well, I suppose I shouldn’t expect anything less from someone of your ilk.">>
+<<say Cat "Foolish, all you creatures who walk on two legs.">>
+<<say Cat "Seeing as the investigation cannot continue without identification, it appears that I have no choice but to fix your mistake.">>
+<<say Detective "I am sorry. And thank you.">>
+<<say Cat "Now, think of when you last saw the badge. Recall it as clearly in your mind as you can.">>
+
+<<set $detective_state = "memory_started">>
+<<memory visit badgeLost>>
+===
+
+
+title: Detective_Main_ReturnToPresent
+---
+<<say detective "Did you find it?">>
+<<say cat "Mrrp. Stay - do not move.">>
+===
+
+
+title: Detective_Main_BadgeReturned
+---
+<<say detective "Thank you! Where did you find it?">>
+<<say cat "Never mind that. Now, come with me - I need you to speak with the other primates you call your peers.">>
+
+===
