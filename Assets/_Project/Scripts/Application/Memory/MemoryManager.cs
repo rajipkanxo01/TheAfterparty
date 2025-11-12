@@ -5,7 +5,6 @@ using _Project.Scripts.Application.Player;
 using _Project.Scripts.Data.Memory;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.WSA;
 
 namespace _Project.Scripts.Application.Memory
 {

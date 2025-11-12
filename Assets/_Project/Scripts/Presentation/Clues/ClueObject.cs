@@ -44,12 +44,12 @@ namespace _Project.Scripts.Presentation.Clues
             _clueService = ServiceLocater.GetService<ClueService>();
             _playerProfile = ServiceLocater.GetService<PlayerProfile>();
             
-            if (_clueService == null)
+            if (_clueService is null)
             {
                 Debug.LogError("ClueObject: ClueService not found in scene.");
             }
             
-            if (_clueService!.IsClueDiscovered(clueId))
+            if (_clueService != null && _clueService.IsClueDiscovered(clueId))
             {
                 Debug.Log($"[ClueObject] Clue '{clueId}' already discovered — skipping spawn.");
                 Destroy(gameObject);
