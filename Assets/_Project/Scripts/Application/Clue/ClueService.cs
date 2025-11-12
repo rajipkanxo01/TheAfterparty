@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using _Project.Scripts.Application.Core;
+using _Project.Scripts.Application.Memory;
 using _Project.Scripts.Application.Player;
 using _Project.Scripts.Data.Clues;
 using _Project.Scripts.Presentation.Clues;
@@ -45,6 +46,21 @@ namespace _Project.Scripts.Application.Clue
             {
                 return;
             }
+            
+            var clueData = _clueDatabase.GetClueById(clueId);
+
+            if (clueData == null)
+            {
+                Debug.LogWarning($"ClueService: Clue '{clueId}' not found.");
+                return;
+            }
+
+
+            if (!string.IsNullOrEmpty(clueData.repairsFragmentId))
+            {
+                Debug.Log($"ClueService: Clue '{clueId}' repairs fragment '{clueData.repairsFragmentId}'.");
+                MemoryEvents.RaiseRepairFragment(clueData.repairsFragmentId);
+            }
 
             _playerProfile.AddDiscoveredClue(clueId);
         }
@@ -56,8 +72,7 @@ namespace _Project.Scripts.Application.Clue
             // prevent spamming of sniff
             if (Time.time - _lastSniffTime < _sniffConfig.SniffCooldown)
             {
-                // todo: show notification to player
-                Debug.Log("You need to wait before sniffing again.");
+                ToastNotification.Show("You need to wait before sniffing again.");
                 return;
             }
 
@@ -65,8 +80,7 @@ namespace _Project.Scripts.Application.Clue
             var nearbyClues = FindNearbyClues(playerPosition, _sniffConfig.SniffRadius);
             if (nearbyClues.Count == 0)
             {
-                // todo: show notification to player
-                Debug.Log("No clues detected nearby.");
+                ToastNotification.Show("No clues detected nearby.");
                 return;
             }
             

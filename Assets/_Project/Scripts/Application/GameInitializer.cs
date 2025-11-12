@@ -66,7 +66,10 @@ namespace _Project.Scripts.Application
 
             var clueService = new ClueService(clueManager, gameStateService, sniffConfig);
             ServiceLocater.RegisterService(clueService);
-            
+
+            var memoryRepairService = new MemoryRepairService(memoryDatabase);
+            ServiceLocater.RegisterService(memoryRepairService);
+
             var dialogueController = FindAnyObjectByType<DialogueController>();
             if (dialogueController != null)
             {

@@ -12,13 +12,19 @@ namespace _Project.Scripts.Application.Player
 
         private readonly HashSet<string> _discoveredClues = new();
         private readonly HashSet<string> _unlockedMemories = new();
+        private readonly HashSet<string> _repairedFragments = new();
+        
+        public IReadOnlyCollection<string> GetDiscoveredClues() => _discoveredClues;
+        public IReadOnlyCollection<string> GetUnlockedMemories() => _unlockedMemories;
+        public IReadOnlyCollection<string> GetRequiredFragments() => _repairedFragments;
+        
+        private readonly HashSet<string> _flags = new();
 
         public PlayerProfile(string displayName, string playerId, Sprite portrait)
         {
             DisplayName = displayName;
             PlayerId = playerId;
             Portrait = portrait;
-            
         }
 
         public bool HasDiscoveredClue(string clueId)
@@ -48,8 +54,48 @@ namespace _Project.Scripts.Application.Player
                 // maybe trigger some event here to update memory UI
             }
         }
+        
+        public void AddRepairedFragment(string fragmentId)
+        {
+            if (_repairedFragments.Add(fragmentId))
+            {
+                ToastNotification.Show("Fragment repaired successfully! Go back to see the restored memory.");
+            }
+        }
+        
+        public bool HasRepairedFragment(string fragmentId)
+        {
+            Debug.Log($"PlayerProfile: Checking repaired fragments for '{fragmentId}'. Total repaired fragments: {_repairedFragments.Count}");
+            
+            foreach (var repairedFragment in _repairedFragments)
+            {
+                Debug.Log($"PlayerProfile: Repaired fragment '{repairedFragment}'.");
+            }
 
-        public IReadOnlyCollection<string> GetDiscoveredClues() => _discoveredClues;
-        public IReadOnlyCollection<string> GetUnlockedMemories() => _unlockedMemories;
+            return _repairedFragments.Contains(fragmentId);
+        }
+        
+        public bool HasFlag(string key)
+        {
+            return _flags.Contains(key);
+        }
+
+        public void SetFlag(string key, bool value)
+        {
+            if (value)
+            {
+                _flags.Add(key);
+            }
+            else
+            {
+                _flags.Remove(key);
+            }
+        }
+
+        
+        public void ClearRepairedFragments()
+        {
+            _repairedFragments.Clear();
+        } 
     }
 }
