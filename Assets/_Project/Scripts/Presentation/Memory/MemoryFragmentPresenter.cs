@@ -95,6 +95,10 @@ namespace _Project.Scripts.Presentation.Memory
             if (_currentIndex + 1 < _fragmentsToPlay.Count)
             {
                 Debug.Log($"MemoryFragmentPresenter: Press SPACE to play next fragment ({_currentIndex + 1}/{_fragmentsToPlay.Count}).");
+            } else
+            {
+                Debug.Log("MemoryFragmentPresenter: All fragments have been played.");
+                MemoryEvents.RaiseAllFragmentsCompleted();
             }
         }
     }

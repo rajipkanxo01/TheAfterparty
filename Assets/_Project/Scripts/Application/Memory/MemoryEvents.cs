@@ -8,6 +8,7 @@ namespace _Project.Scripts.Application.Memory
         public static event Action<string> OnVisitMemory;
         public static event Action OnMemoryTransitionStart;
         public static event Action OnMemoryTransitionEnd;
+        public static event Action OnAllFragmentsCompleted;
         
         public static void RaiseMemoryUnlocked(string memoryId)
         {
@@ -27,6 +28,11 @@ namespace _Project.Scripts.Application.Memory
         public static void RaiseMemoryTransitionEnd()
         {
             OnMemoryTransitionEnd?.Invoke();
+        }
+        
+        public static void RaiseAllFragmentsCompleted()
+        {
+            OnAllFragmentsCompleted?.Invoke();
         }
     }
 }
