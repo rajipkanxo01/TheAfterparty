@@ -50,7 +50,7 @@ namespace _Project.Scripts.Application.Player
         
         private void HandleGameStateChanged(GameState newState)
         {
-            // _canMove = newState == GameState.Normal || newState == GameState.Cutscene;
+             _canMove = newState == GameState.Normal || newState == GameState.Cutscene;
         }
 
         public void ProcessMoveInput(Vector3Int input)
@@ -60,14 +60,14 @@ namespace _Project.Scripts.Application.Player
                 // TODO: maybe some extra processing to handle the two directions held down issue better?
                 return;
             }
-            
-            
+
+
             // disable movement during dialogues, etc.
-            /*if (!_canMove)
+            if (!_canMove)
             {
                 return;
-            };*/
-            
+            };
+
             if (isMoving) return;
 
 

@@ -29,6 +29,7 @@ namespace _Project.Scripts.Presentation.Player
         private int currentLayer;
 
         // [SerializeField] private Material tilemapMat;
+        private PauseMenu pauseMenu;
 
         private void Start()
         {
@@ -46,6 +47,10 @@ namespace _Project.Scripts.Presentation.Player
             transform.position = currentPos;
 
             spriteRenderer.sortingOrder = currentLayer + 1;
+
+            if(!(GameObject.Find("PauseMenu")?.TryGetComponent<PauseMenu>(out pauseMenu) ?? false)){
+                Debug.LogError("Couldn't find pause menu");
+            }
         }
 
         private void Update()
@@ -68,6 +73,11 @@ namespace _Project.Scripts.Presentation.Player
         public void CrawlInput(InputAction.CallbackContext context)
         {
             if(context.performed) movementManager.ProcessCrawlInput();
+        }
+
+        public void PauseInput(InputAction.CallbackContext context)
+        {
+            if (context.performed && pauseMenu) pauseMenu.TogglePause();
         }
 
         private void StartMoveAnimation(Vector3Int from, Vector3Int to, int toLayer)
