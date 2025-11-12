@@ -36,6 +36,8 @@ namespace _Project.Scripts.Application.Memory.Actions
                 return;
             }
 
+            
+            Debug.Log("MoveActionExecutor: Starting movement for actor " + data.actorId);
             await npcMoveService.MoveAlongPathAsync(data.actorId, positions, data.speed);
         }
 
@@ -54,6 +56,7 @@ namespace _Project.Scripts.Application.Memory.Actions
                 if (obj != null)
                 {
                     result.Add(obj.transform.position);
+                    var go = GameObject.Find("GirlReEntry");
                 }
                 else
                 {

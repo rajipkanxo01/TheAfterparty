@@ -21,16 +21,27 @@ namespace _Project.Scripts.Application.Memory
         private AsyncOperation _backgroundLoad;
         private readonly StaticCoroutine _coroutineRunner;
         private readonly MemoryDatabase _memoryDatabase;
+        
+        // todo: instead of hardcoding, get from config or constants
+        private const string MainSceneName = "IsometricTest_Clue";
 
         public MemoryManager()
         {
             MemoryEvents.OnMemoryUnlocked += UnlockMemory;
             MemoryEvents.OnVisitMemory += VisitMemory;
             MemoryEvents.OnMemoryTransitionEnd += HandleTransitionEnd;
+            MemoryEvents.OnAllFragmentsCompleted += HandleAllFragmentsCompleted;
 
             _memoryDatabase = ServiceLocater.GetService<MemoryDatabase>();
             _playerProfile = ServiceLocater.GetService<PlayerProfile>();
             _coroutineRunner = ServiceLocater.GetService<StaticCoroutine>();
+        }
+
+        private void HandleAllFragmentsCompleted()
+        {
+            MemoryEvents.RaiseMemoryTransitionStart();
+            _targetScene = MainSceneName;
+            _coroutineRunner.StartCoroutine(PreloadScene(_targetScene));
         }
 
         private void VisitMemory(string memoryId)
@@ -64,8 +75,7 @@ namespace _Project.Scripts.Application.Memory
             {
                 _playerProfile.AddUnlockedMemory(memoryId);
                 
-                // todo: show notification to player
-                Debug.Log("MemoryManager: Memory unlocked: " + memoryId);
+                ToastNotification.Show("New Memory Unlocked! Check your journal.");
             }
         }
         
@@ -79,7 +89,7 @@ namespace _Project.Scripts.Application.Memory
 
             while (_backgroundLoad.progress < 0.9f)
             {
-                yield return null; // keep loading
+                yield return null;
             }
 
             Debug.Log($"MemoryManager: Scene '{sceneName}' preloaded (waiting for transition end).");

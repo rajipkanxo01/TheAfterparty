@@ -9,6 +9,7 @@ namespace _Project.Scripts.Data.Memory.Actions
         public string actorId;
         public float speed = 2f;
         public bool isLoop = false;
+        
         [Tooltip("Names of the path points this actor will follow (in order).")]
         public List<string> pathPointNames = new List<string>();
     }
