@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: c1c5d3447b18a5e42ad31e3d78547e1f
+guid: 5aa7dc141d3cb5f4db19eab52f9bcf43
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1408437573596956881
-    second: TitleScreen_0
+      213: 7952597297642240959
+    second: tile_0139_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,8 +46,8 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
-  spriteExtrude: 1
+  spriteMode: 1
+  spriteExtrude: 0
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
@@ -109,30 +109,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WindowsStoreApps
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: TitleScreen_0
+      name: tile_0139_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 850
-        height: 850
+        x: 3
+        y: 2
+        width: 10
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f27b0713d79347ce0800000000000000
-      internalID: -1408437573596956881
+      spriteID: fbb72b78b1d4d5e60800000000000000
+      internalID: 7952597297642240959
       vertices: []
       indices: 
       edges: []
@@ -151,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      TitleScreen_0: -1408437573596956881
+      tile_0139_0: 7952597297642240959
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
