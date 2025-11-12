@@ -38,6 +38,18 @@ title: Detective_Memory_Mascot
 ===
 
 
+title: Detective_Corrupted_MogensInterrupts
+---
+<<say memoryCat "Eliot! You still haven’t cleaned the kitchen!">>
+<<say detective "M-Mogens?! What— how did you even get here?!">>
+<<say memoryCat "Excuses, excuses. I swear you’d forget your own tail if you had one.">>
+<<say girl "Wait... your cat can talk?">>
+<<say detective "He’s not supposed to be here! This isn’t even—">>
+<<say girl "He’s cooler than you anyway. Come on, kitty.">>
+
+===
+
+
 title: Detective_Memory_GirlReEntry
 ---
 <<say girl "I'll return it mom! I promise!">>
