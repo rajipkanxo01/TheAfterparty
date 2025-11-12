@@ -85,19 +85,17 @@ namespace _Project.Scripts.Presentation.Memory
             IsPlaying = true;
             _currentFragmentId = fragment.fragmentId;
 
-            Debug.Log($"[MemoryFragmentPresenter] ▶ Playing fragment: {_currentFragmentId}");
             await _executor.PlayFragmentAsync(fragment);
-            Debug.Log($"[MemoryFragmentPresenter] ✅ Finished fragment: {_currentFragmentId}");
 
             _currentFragmentId = null;
             IsPlaying = false;
 
             if (_currentIndex + 1 < _fragmentsToPlay.Count)
             {
-                Debug.Log($"MemoryFragmentPresenter: Press SPACE to play next fragment ({_currentIndex + 1}/{_fragmentsToPlay.Count}).");
+                ToastNotification.Show($"Press SPACE to play next fragment ({_currentIndex + 1}/{_fragmentsToPlay.Count}).");
             } else
             {
-                Debug.Log("MemoryFragmentPresenter: All fragments have been played.");
+                ToastNotification.Show("All memory fragments completed. Going back to real world.");
                 MemoryEvents.RaiseAllFragmentsCompleted();
             }
         }

@@ -66,9 +66,9 @@ namespace _Project.Scripts.Presentation.Clues
         {
             if (discoveredClue.clueId != clueId) return;
             
-            //todo: show notification to player
+
             _clueService.DiscoverClue(discoveredClue.clueId);
-            Debug.Log("$\"Clue '{discoveredClue.clueName}' added to journal.\"");
+            ToastNotification.Show($"Clue '{discoveredClue.clueName}' added to journal.");
 
             // Delay destroy slightly if there's an effect
             Destroy(gameObject, 0f);

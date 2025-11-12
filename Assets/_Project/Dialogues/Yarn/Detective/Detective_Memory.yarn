@@ -47,6 +47,7 @@ title: Detective_Corrupted_MogensInterrupts
 <<say detective "He’s not supposed to be here! This isn’t even—">>
 <<say girl "He’s cooler than you anyway. Come on, kitty.">>
 
+<<set $detective_state = "memory_complete">>
 ===
 
 

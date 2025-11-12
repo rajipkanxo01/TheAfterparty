@@ -56,8 +56,7 @@ namespace _Project.Scripts.Application.Clue
             // prevent spamming of sniff
             if (Time.time - _lastSniffTime < _sniffConfig.SniffCooldown)
             {
-                // todo: show notification to player
-                Debug.Log("You need to wait before sniffing again.");
+                ToastNotification.Show("You need to wait before sniffing again.");
                 return;
             }
 
@@ -65,8 +64,7 @@ namespace _Project.Scripts.Application.Clue
             var nearbyClues = FindNearbyClues(playerPosition, _sniffConfig.SniffRadius);
             if (nearbyClues.Count == 0)
             {
-                // todo: show notification to player
-                Debug.Log("No clues detected nearby.");
+                ToastNotification.Show("No clues detected nearby.");
                 return;
             }
             

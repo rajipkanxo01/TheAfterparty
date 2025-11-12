@@ -5,6 +5,7 @@ using _Project.Scripts.Application.Player;
 using _Project.Scripts.Data.Memory;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.WSA;
 
 namespace _Project.Scripts.Application.Memory
 {
@@ -75,8 +76,7 @@ namespace _Project.Scripts.Application.Memory
             {
                 _playerProfile.AddUnlockedMemory(memoryId);
                 
-                // todo: show notification to player
-                Debug.Log("MemoryManager: Memory unlocked: " + memoryId);
+                ToastNotification.Show("New Memory Unlocked! Check your journal.");
             }
         }
         
