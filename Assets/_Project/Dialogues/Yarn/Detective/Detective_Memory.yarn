@@ -66,8 +66,6 @@ title: Detective_Memory_GirlReEntry
 <<say girl "...">>
 <<say girl "I'll just put it near carousel.">>
 
-<<set $detective_state = "memory_complete">>
-<<set $badge_location_known = true>>
 ===
 
 title: Detective_Memory_AfterKnowingBadgeLocation
@@ -77,6 +75,11 @@ title: Detective_Memory_AfterKnowingBadgeLocation
 <<say cat "She left it near the carousel instead.">>
 <<say cat "Guess pride makes you lose more than just a badge.">>
 <<say cat "I should head back and pick it up.">>
+
+<<set $badge_location_known = true>>
+<<set $detective_state = "memory_complete">>
+
+<<spawn_badge>>
 ===
 
 

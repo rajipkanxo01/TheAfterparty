@@ -28,6 +28,7 @@ title: Detective_Main_ReturnToPresent
 
 title: Detective_Main_BadgeReturned
 ---
+<<say cat "Here is your badge. Do not lose it again.">>
 <<say detective "Thank you! Where did you find it?">>
 <<say cat "Never mind that. Now, come with me - I need you to speak with the other primates you call your peers.">>
 

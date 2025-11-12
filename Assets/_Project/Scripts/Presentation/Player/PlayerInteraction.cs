@@ -12,54 +12,98 @@ namespace _Project.Scripts.Presentation.Player
         private DialogueController _dialogueControl;
         private GameStateService _gameStateService;
 
-        private void Start()
+        private void Awake()
         {
+            _gameStateService = ServiceLocater.GetService<GameStateService>();
+            if (_gameStateService == null)
+            {
+                Debug.LogError("PlayerInteraction: GameStateService not found in ServiceLocator.");
+            }
+
             _dialogueControl = FindAnyObjectByType<DialogueController>();
             if (_dialogueControl == null)
             {
-                Debug.LogError("PlayerInteraction: DialogueController not found in scene.");
+                Debug.LogWarning("PlayerInteraction: DialogueController not found at Awake. It may be created later.");
             }
-            
-            _gameStateService = ServiceLocater.GetService<GameStateService>();
         }
 
         public void OnInteract(InputAction.CallbackContext context)
         {
-            if (!context.performed) return;
-            
-            // todo: commented for vertical slice showcase only
-            // if (!_gameStateService.IsState(GameState.Normal) && !_gameStateService.IsState(GameState.Dialogue)) return;
+            if (!context.performed)
+                return;
 
-            if (_nearestInteractable != null)
+            if (_gameStateService == null)
             {
-                if (_gameStateService.IsState(GameState.Dialogue))
+                Debug.LogError("PlayerInteraction: GameStateService is missing. Interaction aborted.");
+                return;
+            }
+
+            if (_gameStateService.IsState(GameState.Dialogue))
+            {
+                if (_dialogueControl == null)
                 {
-                    _dialogueControl.ContinueDialogue();
-                    return;
+                    _dialogueControl = FindAnyObjectByType<DialogueController>();
+                    if (_dialogueControl == null)
+                    {
+                        Debug.LogWarning("PlayerInteraction: DialogueController not found during dialogue state.");
+                        return;
+                    }
                 }
-                
+
+                _dialogueControl.ContinueDialogue();
+                return;
+            }
+
+            if (_nearestInteractable == null)
+                return;
+
+            if (_nearestInteractable is MonoBehaviour mono && mono == null)
+            {
+                Debug.LogWarning("PlayerInteraction: Interactable reference destroyed.");
+                _nearestInteractable = null;
+                return;
+            }
+
+            try
+            {
                 _nearestInteractable.Interact(gameObject);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"PlayerInteraction: Exception during interaction: {ex.Message}\n{ex.StackTrace}");
             }
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
+            if (other == null)
+                return;
+
             if (other.TryGetComponent<IInteractable>(out var interactable))
             {
-                Debug.Log("PlayerInteraction: Enter interactable trigger" + other.name);
                 _nearestInteractable = interactable;
-                // maybe show prompt like "Press E to interact"
+                Debug.Log($"[PlayerInteraction] Entered interactable trigger: {other.name}");
             }
         }
 
         private void OnTriggerExit2D(Collider2D other)
         {
+            if (other == null)
+                return;
+
             if (other.TryGetComponent<IInteractable>(out var interactable))
             {
-                Debug.Log("PlayerInteraction: Exit interactable trigger" + other.name);
-                _nearestInteractable = null;
-                // hide prompt
+                if (interactable == _nearestInteractable)
+                {
+                    _nearestInteractable = null;
+                    Debug.Log($"[PlayerInteraction] Exited interactable trigger: {other.name}");
+                }
             }
+        }
+
+        private void OnDestroy()
+        {
+            _nearestInteractable = null;
         }
     }
 }
