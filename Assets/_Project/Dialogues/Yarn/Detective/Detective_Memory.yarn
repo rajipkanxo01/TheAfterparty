@@ -50,6 +50,13 @@ title: Detective_Corrupted_MogensInterrupts
 <<set $detective_state = "memory_complete">>
 ===
 
+title: Detective_Corrupted_MogensMonologue
+---
+<<say cat "Hmm... something’s off about this memory.">>
+<<say cat "It doesn’t feel complete... or true.">>
+<<say cat "Maybe I should go back to the real world and look for a clue.">>
+===
+
 
 title: Detective_Memory_GirlReEntry
 ---
@@ -61,6 +68,15 @@ title: Detective_Memory_GirlReEntry
 
 <<set $detective_state = "memory_complete">>
 <<set $badge_location_known = true>>
+===
+
+title: Detective_Memory_AfterKnowingBadgeLocation
+---
+<<say cat "So that’s how it really happened.">>
+<<say cat "The girl tried to give his badge back, but he was too busy talking big to notice.">>
+<<say cat "She left it near the carousel instead.">>
+<<say cat "Guess pride makes you lose more than just a badge.">>
+<<say cat "I should head back and pick it up.">>
 ===
 
 
