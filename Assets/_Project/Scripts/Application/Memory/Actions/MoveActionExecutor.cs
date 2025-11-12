@@ -57,9 +57,6 @@ namespace _Project.Scripts.Application.Memory.Actions
                 {
                     result.Add(obj.transform.position);
                     var go = GameObject.Find("GirlReEntry");
-                    Debug.Log($"Local position: {go.transform.localPosition}, World position: {go.transform.position}");
-                    Debug.Log($"Parent: {(go.transform.parent != null ? go.transform.parent.name : "None")}");
-
                 }
                 else
                 {

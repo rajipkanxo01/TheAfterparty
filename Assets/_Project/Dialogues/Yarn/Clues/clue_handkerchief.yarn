@@ -13,3 +13,15 @@ title: clue_handkerchief_sniff
 <<say cat "The scent leads toward the train tracks.">>
 <<set $clue_handkerchief_sniffed = true>>
 ===
+
+title: memory_repaired_lostBadge
+---
+<<say cat "Hmm... He was too drunk to remember it right.">>
+<<say cat "Now I’ve repaired his memory... but I still don’t know what really happened.">>
+<<say cat "Maybe I should go back and see for myself.">>
+<<set $badge_fragment_repaired = true>>
+
+<<memory visit badgeLost>>
+
+===
+

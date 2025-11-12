@@ -12,6 +12,7 @@ namespace _Project.Scripts.Application.Player
 
         private readonly HashSet<string> _discoveredClues = new();
         private readonly HashSet<string> _unlockedMemories = new();
+        private readonly HashSet<string> _repairedFragments = new();
 
         public PlayerProfile(string displayName, string playerId, Sprite portrait)
         {
@@ -48,8 +49,34 @@ namespace _Project.Scripts.Application.Player
                 // maybe trigger some event here to update memory UI
             }
         }
+        
+        public void AddRepairedFragment(string fragmentId)
+        {
+            if (_repairedFragments.Add(fragmentId))
+            {
+                ToastNotification.Show("Fragment repaired successfully! Go back to see the restored memory.");
+            }
+        }
+        
+        public bool HasRepairedFragment(string fragmentId)
+        {
+            Debug.Log($"PlayerProfile: Checking repaired fragments for '{fragmentId}'. Total repaired fragments: {_repairedFragments.Count}");
+            
+            foreach (var repairedFragment in _repairedFragments)
+            {
+                Debug.Log($"PlayerProfile: Repaired fragment '{repairedFragment}'.");
+            }
+
+            return _repairedFragments.Contains(fragmentId);
+        }
+        
+        public void ClearRepairedFragments()
+        {
+            _repairedFragments.Clear();
+        } 
 
         public IReadOnlyCollection<string> GetDiscoveredClues() => _discoveredClues;
         public IReadOnlyCollection<string> GetUnlockedMemories() => _unlockedMemories;
+        public IReadOnlyCollection<string> GetRequiredFragments() => _repairedFragments;
     }
 }

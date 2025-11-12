@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using _Project.Scripts.Application.Clue;
 using _Project.Scripts.Application.Core;
+using _Project.Scripts.Application.Memory;
+using _Project.Scripts.Application.Player;
 using _Project.Scripts.Data.Clues;
 using UnityEngine;
 
@@ -16,15 +18,17 @@ namespace _Project.Scripts.Presentation.Clues
         [SerializeField] private Color highlightColor = Color.yellow;
         [SerializeField] private float pulseSpeed = 2.5f;
         [SerializeField] private int pulseCount = 2;
-
-        [Header("Effects")]
-        // [SerializeField] private ParticleSystem discoverEffect;
+        
+        [Header("Unlock Condition")]
+        [SerializeField] private string requiredMemoryId;
         
         private SpriteRenderer _renderer;
         private Color _originalColor;
         private Coroutine _highlightRoutine;
         private ClueService _clueService;
         private AudioSource _audioSource;
+        private bool _isUnlocked;
+        private PlayerProfile _playerProfile;
 
         public string ClueId => clueId;
 
@@ -32,22 +36,35 @@ namespace _Project.Scripts.Presentation.Clues
         {
             _renderer = GetComponent<SpriteRenderer>();
             _originalColor = _renderer.color;
-
+            _renderer.enabled = false;
         }
 
         private void Start()
         {
             _clueService = ServiceLocater.GetService<ClueService>();
+            _playerProfile = ServiceLocater.GetService<PlayerProfile>();
+            
             if (_clueService == null)
             {
                 Debug.LogError("ClueObject: ClueService not found in scene.");
             }
             
-            if (_clueService.IsClueDiscovered(clueId))
+            if (_clueService!.IsClueDiscovered(clueId))
             {
                 Debug.Log($"[ClueObject] Clue '{clueId}' already discovered — skipping spawn.");
                 Destroy(gameObject);
             }
+            
+            if (string.IsNullOrEmpty(requiredMemoryId) || _playerProfile.HasUnlockedMemory(requiredMemoryId))
+            {
+                UnlockClue();
+            }
+        }
+        
+        private void UnlockClue()
+        {
+            _isUnlocked = true;
+            _renderer.enabled = true;
         }
 
         private void OnEnable()
@@ -66,19 +83,20 @@ namespace _Project.Scripts.Presentation.Clues
         {
             if (discoveredClue.clueId != clueId) return;
             
-
             _clueService.DiscoverClue(discoveredClue.clueId);
-            ToastNotification.Show($"Clue '{discoveredClue.clueName}' added to journal.");
 
-            // Delay destroy slightly if there's an effect
+            
             Destroy(gameObject, 0f);
-            // Destroy(gameObject, discoverEffect != null ? 0.5f : 0f);
         }
 
         private void HandleHintFound(ClueData clueData)
         {
-            if (clueData.clueId != clueId) return;
-            if (_highlightRoutine != null) StopCoroutine(_highlightRoutine);
+            if (!_isUnlocked || clueData.clueId != clueId) return;
+            if (_highlightRoutine != null)
+            {
+                StopCoroutine(_highlightRoutine);
+            };
+            
             _highlightRoutine = StartCoroutine(PulseHighlight());
         }
 

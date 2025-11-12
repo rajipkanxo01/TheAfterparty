@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using _Project.Scripts.Application.Core;
 using _Project.Scripts.Application.Memory.Actions;
+using _Project.Scripts.Application.Player;
 using _Project.Scripts.Data.Memory.Actions;
 using _Project.Scripts.Data.Memory.Fragments;
 using UnityEngine;
@@ -14,6 +15,7 @@ namespace _Project.Scripts.Application.Memory
     {
         private readonly List<IMemoryActionExecutor> _actionExecutors;
         private readonly MemoryActionContext _context;
+        private readonly PlayerProfile _playerProfile;
 
         public MemoryFragmentExecutor(MemoryActionContext context)
         {
@@ -30,6 +32,8 @@ namespace _Project.Scripts.Application.Memory
 
             ServiceLocater.RegisterService<IMemoryActionExecutor>(dialogueActionExecutor);
             ServiceLocater.RegisterService<IMemoryActionExecutor>(moveActionExecutor);
+            
+            _playerProfile = ServiceLocater.GetService<PlayerProfile>();
         }
 
         public async Task PlayFragmentAsync(FragmentData fragmentData)
@@ -159,22 +163,26 @@ namespace _Project.Scripts.Application.Memory
 
         private List<ActionBaseData> SelectActions(FragmentData fragmentData)
         {
-            if (!fragmentData.isCorrupted)
+            if (fragmentData == null)
+                return null;
+
+            bool repaired = _playerProfile.HasRepairedFragment(fragmentData.fragmentId);
+
+            Debug.Log($"MemoryFragmentExecutor: Fragment '{fragmentData.fragmentId}' repaired={repaired}, assetCorrupted={fragmentData.isCorrupted}");
+
+            if (repaired)
             {
                 return fragmentData.realMemoryActions;
             }
 
-            if (fragmentData.isCorrupted && fragmentData.isRepaired)
-            {
-                return fragmentData.realMemoryActions;
-            }
-
-            if (fragmentData.HasCorruptedVersion)
+            if (fragmentData.isCorrupted && fragmentData.HasCorruptedVersion)
             {
                 return fragmentData.corruptedMemoryActions;
             }
-            
+
             return fragmentData.realMemoryActions;
         }
+
+
     }
 }

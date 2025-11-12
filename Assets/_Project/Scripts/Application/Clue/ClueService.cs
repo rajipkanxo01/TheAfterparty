@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using _Project.Scripts.Application.Core;
+using _Project.Scripts.Application.Memory;
 using _Project.Scripts.Application.Player;
 using _Project.Scripts.Data.Clues;
 using _Project.Scripts.Presentation.Clues;
@@ -44,6 +45,21 @@ namespace _Project.Scripts.Application.Clue
             if (IsClueDiscovered(clueId))
             {
                 return;
+            }
+            
+            var clueData = _clueDatabase.GetClueById(clueId);
+
+            if (clueData == null)
+            {
+                Debug.LogWarning($"ClueService: Clue '{clueId}' not found.");
+                return;
+            }
+
+
+            if (!string.IsNullOrEmpty(clueData.repairsFragmentId))
+            {
+                Debug.Log($"ClueService: Clue '{clueId}' repairs fragment '{clueData.repairsFragmentId}'.");
+                MemoryEvents.RaiseRepairFragment(clueData.repairsFragmentId);
             }
 
             _playerProfile.AddDiscoveredClue(clueId);
