@@ -50,7 +50,7 @@ namespace _Project.Scripts.Application.Player
         
         private void HandleGameStateChanged(GameState newState)
         {
-             _canMove = newState == GameState.Normal || newState == GameState.Cutscene;
+             _canMove = _gameStateService.CanMove();
         }
 
         public void ProcessMoveInput(Vector3Int input)

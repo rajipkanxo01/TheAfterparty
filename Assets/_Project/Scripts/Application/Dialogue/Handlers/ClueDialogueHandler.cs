@@ -10,13 +10,17 @@ namespace _Project.Scripts.Application.Dialogue.Handlers
         private ClueData _currentClue;
         private bool _isClueDialogue;
         private ClueManager _clueManager;
+        
+        private GameStateService _gameStateService;
 
         public ClueDialogueHandler(DialogueController dialogueController)
         {
             _dialogueController = dialogueController;
             
             ClueEvents.OnClueExamined += HandleClueExamined;
+            
             _clueManager = ServiceLocater.GetService<ClueManager>();
+            _gameStateService = ServiceLocater.GetService<GameStateService>();
         }
         
         public void Disable()
@@ -28,7 +32,9 @@ namespace _Project.Scripts.Application.Dialogue.Handlers
         {
             _isClueDialogue = true;
             _currentClue = clue;
+            
             _dialogueController.StartDialogue(clue.dialogueNode, DialogueType.PlayerMonologue);
+            _gameStateService.SetState(GameState.Dialogue);
         }
 
         public void HandleDialogueEnd()

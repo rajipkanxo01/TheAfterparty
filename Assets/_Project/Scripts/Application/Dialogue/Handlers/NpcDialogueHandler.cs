@@ -21,7 +21,7 @@ namespace _Project.Scripts.Application.Dialogue
         
         // todo: maybe this is not needed
         
-        public void StartNpcConversation(string npcId)
+        /*public void StartNpcConversation(string npcId)
         {
             if (string.IsNullOrEmpty(npcId))
             {
@@ -40,7 +40,7 @@ namespace _Project.Scripts.Application.Dialogue
             Debug.Log($"NpcDialogueHandler: Starting conversation with '{npc.npcName}'");
 
             _controller.StartDialogue(npc.yarnRootNode, DialogueType.NpcConversation);
-        }
+        }*/
 
         public void HandleConversationEnd()
         {

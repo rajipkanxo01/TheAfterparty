@@ -11,6 +11,7 @@ namespace _Project.Scripts.Presentation.Npc
         [SerializeField] private Transform headPoint;
 
         private DialogueController _dialogueControl;
+        private GameStateService _gameStateService;
 
         private void Start()
         {
@@ -19,12 +20,15 @@ namespace _Project.Scripts.Presentation.Npc
             {
                 Debug.LogError("NpcDialogueTrigger: DialogueController not found in scene.");
             }
+            
+            _gameStateService = ServiceLocater.GetService<GameStateService>();
         }
 
         public void Interact(GameObject interactor)
         {
             Debug.Log($"NpcDialogueTrigger: Interact with NPC {npcId}");
             _dialogueControl.StartDialogue(yarnRootNode);
+            _gameStateService.SetState(GameState.Dialogue);
         }
 
         public string GetInteractionPrompt()

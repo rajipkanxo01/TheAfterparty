@@ -54,7 +54,7 @@ namespace _Project.Scripts.Presentation.Journal
             foreach (string clue in clues)
             {
                 ClueData clueData = clueDatabase.GetClueById(clue);
-                GameObject clueUI = Instantiate(clueUIPrefab, transform.position + startSpawn + new Vector3(i * 200, 0, 0), Quaternion.identity, transform);
+                GameObject clueUI = Instantiate(clueUIPrefab, transform.position + startSpawn + new Vector3(i * 400, 0, 0), Quaternion.identity, transform);
                 clueUI.GetComponent<JournalClueManager>().SetClueData(clueData);
 
                 ++i;
@@ -62,7 +62,7 @@ namespace _Project.Scripts.Presentation.Journal
 
             foreach(string memory in memories)
             {
-                GameObject memoryUI = Instantiate(memoryUIPrefab, transform.position + startSpawn + new Vector3(i * 200, 0, 0), Quaternion.identity, transform);
+                GameObject memoryUI = Instantiate(memoryUIPrefab, transform.position + startSpawn + new Vector3(i * 400, 0, 0), Quaternion.identity, transform);
                 memoryUI.GetComponent<JournalMemoryManager>().SetMemoryData(memory);
 
                 ++i;

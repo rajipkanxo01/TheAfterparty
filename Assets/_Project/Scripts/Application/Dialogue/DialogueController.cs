@@ -124,7 +124,7 @@ namespace _Project.Scripts.Application.Dialogue
 
         private void OnNodeStart(string nodeName)
         {
-            _gameState?.SetState(GameState.Dialogue);
+            // _gameState?.SetState(GameState.Dialogue);
         }
 
         private void OnDialogueComplete()

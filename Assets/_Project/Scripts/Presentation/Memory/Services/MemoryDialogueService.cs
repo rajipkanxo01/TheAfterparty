@@ -11,16 +11,19 @@ namespace _Project.Scripts.Presentation.Memory.Services
     {
         private DialogueController _dialogueController;
         private TaskCompletionSource<bool> _dialogueFinished = new();
+        private GameStateService _gameStateService;
 
 
         private void Awake()
         {
             ServiceLocater.RegisterService<IMemoryDialogueService>(this);
         }
-
+        
         private void Start()
         {
             _dialogueController = ServiceLocater.GetService<DialogueController>();
+            _gameStateService = ServiceLocater.GetService<GameStateService>();
+            
             if (_dialogueController == null)
             {
                 Debug.LogError("MemoryDialogueService: DialogueController service not found!");
@@ -54,7 +57,9 @@ namespace _Project.Scripts.Presentation.Memory.Services
             _dialogueFinished = new TaskCompletionSource<bool>();
 
             _dialogueController.ChangeAutoModeTo(true);
+            
             _dialogueController.StartDialogue(nodeName);
+            _gameStateService.SetState(GameState.Cutscene);
 
             await _dialogueFinished.Task;
 

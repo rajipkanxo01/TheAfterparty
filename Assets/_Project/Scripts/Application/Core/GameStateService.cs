@@ -34,6 +34,15 @@ namespace _Project.Scripts.Application.Core
         {
             return _currentState == state;
         }
+
+        public bool CanMove()
+        {
+            if (_currentState == GameState.Normal || _currentState == GameState.Cutscene)
+            {
+                return true;
+            }
+            return false;
+        }
         
     }
 }
