@@ -16,6 +16,7 @@ namespace _Project.Scripts.Application.Memory
         private readonly List<IMemoryActionExecutor> _actionExecutors;
         private readonly MemoryActionContext _context;
         private readonly PlayerProfile _playerProfile;
+        private readonly GameStateService _gameStateService;
 
         public MemoryFragmentExecutor(MemoryActionContext context)
         {
@@ -28,6 +29,7 @@ namespace _Project.Scripts.Application.Memory
             };
 
             _playerProfile = ServiceLocater.GetService<PlayerProfile>();
+            _gameStateService = ServiceLocater.GetService<GameStateService>();
 
             FragmentEvents.OnPlayFragmentStarted += HandlePlayFragmentStarted;
         }
@@ -51,6 +53,7 @@ namespace _Project.Scripts.Application.Memory
             }
 
             Debug.Log($"MemoryFragmentExecutor: Finished fragment {fragment.fragmentId}");
+            _gameStateService.SetState(GameState.Normal);
             FragmentEvents.RaiseFragmentCompleted(fragment);
         }
 

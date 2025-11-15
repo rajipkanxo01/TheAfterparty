@@ -8,10 +8,13 @@ namespace _Project.Scripts.Application.Memory.Echo
     public class MemoryEchoService
     {
         private readonly FragmentDatabase _fragmentDatabase;
+        private readonly GameStateService _gameStateService;
+        
         public MemoryEchoService()
         {
             FragmentEvents.OnPlayFragmentRequested += HandlePlayFragmentRequested;
-            
+        
+            _gameStateService = ServiceLocater.GetService<GameStateService>();
             _fragmentDatabase = ServiceLocater.GetService<FragmentDatabase>();
         }
 
@@ -25,6 +28,7 @@ namespace _Project.Scripts.Application.Memory.Echo
             }
             
             FragmentEvents.RaiseFragmentActivated(fragmentData);
+            _gameStateService.SetState(GameState.FragmentPlaying);
         }
     }
 }

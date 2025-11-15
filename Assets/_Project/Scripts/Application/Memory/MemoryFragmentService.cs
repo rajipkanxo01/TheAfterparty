@@ -11,6 +11,7 @@ namespace _Project.Scripts.Application.Memory
     {
         private readonly List<FragmentData> _fragments;
         private int _currentIndex = 0;
+        private bool _isReplay;
 
         public MemoryFragmentService(string memoryId)
         {
@@ -27,18 +28,40 @@ namespace _Project.Scripts.Application.Memory
 
         private void HandleFragmentActivated(FragmentData fragment)
         {
-            if (_fragments[_currentIndex] != fragment)
+            var expected = _fragments[_currentIndex];
+
+            // when replaying earlier fragment
+            if (fragment.orderInMemory < expected.orderInMemory)
             {
-                Debug.Log($"MemoryFragmentService: Wrong fragment activated. Expected {_fragments[_currentIndex].fragmentId}");
+                Debug.Log($"Replay mode: Replaying '{fragment.fragmentId}'");
+                _isReplay = true;
+                FragmentEvents.RaisePlayFragmentStarted(fragment);
                 return;
             }
 
+            if (fragment.orderInMemory > expected.orderInMemory)
+            {
+                Debug.Log($"MemoryFragmentService: Wrong fragment activated. Expected '{expected.fragmentId}'");
+                return;
+            }
+
+            // playing fragment for first time
             Debug.Log($"MemoryFragmentService: Fragment '{fragment.fragmentId}' is correct. Starting...");
+            _isReplay = false;
             FragmentEvents.RaisePlayFragmentStarted(fragment);
         }
 
+
         private void HandleFragmentCompleted(FragmentData fragment)
         {
+            // when replaying, do not advance index
+            if (_isReplay)
+            {
+                Debug.Log($"Replay completed for '{fragment.fragmentId}' — NOT advancing index.");
+                _isReplay = false;
+                return;
+            }
+
             _currentIndex++;
 
             if (_currentIndex >= _fragments.Count)
@@ -48,8 +71,9 @@ namespace _Project.Scripts.Application.Memory
                 return;
             }
 
-            Debug.Log($"MemoryFragmentService: Next fragment: {_fragments[_currentIndex].fragmentId}");
+            Debug.Log($"MemoryFragmentService: Next fragment is '{_fragments[_currentIndex].fragmentId}'");
         }
+
         
         public void Dispose()
         {

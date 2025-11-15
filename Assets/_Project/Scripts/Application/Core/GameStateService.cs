@@ -9,7 +9,8 @@ namespace _Project.Scripts.Application.Core
         Dialogue,
         Cutscene,
         Journal,
-        Paused
+        Paused,
+        FragmentPlaying
     }
 
     public class GameStateService
@@ -37,7 +38,7 @@ namespace _Project.Scripts.Application.Core
 
         public bool CanMove()
         {
-            if (_currentState == GameState.Normal || _currentState == GameState.Cutscene)
+            if (_currentState == GameState.Normal || _currentState == GameState.Cutscene || _currentState == GameState.FragmentPlaying)
             {
                 return true;
             }
