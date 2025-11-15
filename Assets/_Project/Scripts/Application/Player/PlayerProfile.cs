@@ -9,6 +9,7 @@ namespace _Project.Scripts.Application.Player
         public string DisplayName { get; set; }
         public string PlayerId { get; set; }
         public Sprite Portrait { get; set; }
+        public string MainSceneName { get; set; }
 
         private readonly HashSet<string> _discoveredClues = new();
         private readonly HashSet<string> _unlockedMemories = new();
@@ -20,11 +21,12 @@ namespace _Project.Scripts.Application.Player
         
         private readonly HashSet<string> _flags = new();
 
-        public PlayerProfile(string displayName, string playerId, Sprite portrait)
+        public PlayerProfile(string displayName, string playerId, Sprite portrait, string mainSceneName)
         {
             DisplayName = displayName;
             PlayerId = playerId;
             Portrait = portrait;
+            MainSceneName = mainSceneName;
         }
 
         public bool HasDiscoveredClue(string clueId)

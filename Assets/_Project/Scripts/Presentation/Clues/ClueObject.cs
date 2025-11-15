@@ -8,7 +8,6 @@ using UnityEngine;
 
 namespace _Project.Scripts.Presentation.Clues
 {
-    [RequireComponent(typeof(SpriteRenderer))]
     public class ClueObject : MonoBehaviour, IInteractable
     {
         [Header("Clue Info")]

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using _Project.Scripts.Application.Core;
+using _Project.Scripts.Application.Memory.Events;
 using _Project.Scripts.Application.Player;
 using _Project.Scripts.Data.Memory;
 using UnityEngine;
@@ -23,7 +24,7 @@ namespace _Project.Scripts.Application.Memory
         private readonly MemoryDatabase _memoryDatabase;
         
         // todo: instead of hardcoding, get from config or constants
-        private const string MainSceneName = "IsometricTest_Clue";
+        private const string MainSceneName = "SecondLayout";
 
         public MemoryManager()
         {
@@ -40,6 +41,7 @@ namespace _Project.Scripts.Application.Memory
         private void HandleAllFragmentsCompleted()
         {
             MemoryEvents.RaiseMemoryTransitionStart();
+            
             _targetScene = MainSceneName;
             _coroutineRunner.StartCoroutine(PreloadScene(_targetScene));
         }
@@ -83,17 +85,16 @@ namespace _Project.Scripts.Application.Memory
         // todo: move to its own class
         private IEnumerator PreloadScene(string sceneName)
         {
-            Debug.Log($"MemoryManager: Preloading scene '{sceneName}'...");
-            _backgroundLoad = SceneManager.LoadSceneAsync(sceneName);
-            _backgroundLoad.allowSceneActivation = false;
+            yield return null;
+            _backgroundLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
+            _backgroundLoad!.allowSceneActivation = false;
 
             while (_backgroundLoad.progress < 0.9f)
             {
                 yield return null;
             }
-
-            Debug.Log($"MemoryManager: Scene '{sceneName}' preloaded (waiting for transition end).");
         }
+
         
         private void HandleTransitionEnd()
         {

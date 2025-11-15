@@ -14,8 +14,8 @@
 <<say Detective "I am sorry. And thank you.">>
 <<say Cat "Now, think of when you last saw the badge. Recall it as clearly in your mind as you can.">>
 
-<<set $detective_state = "memory_started">>
 <<memory visit badgeLost>>
+<<set $detective_state = "memory_started">>
 ===
 
 
