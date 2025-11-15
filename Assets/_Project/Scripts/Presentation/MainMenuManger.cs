@@ -5,12 +5,14 @@ namespace _Project.Scripts.Presentation
 {
     public class MainMenuManger : MonoBehaviour
     {
-        [SerializeField] private string sceneToLoad = "MainScene";
-        
         public void StartGame()
         {
-            SceneManager.LoadScene(sceneToLoad);
+            var currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+            Debug.Log(SceneManager.GetActiveScene().buildIndex);
+            Debug.Log(SceneManager.GetActiveScene().name);
+            SceneManager.LoadScene(currentSceneIndex+1);
         }
+
 
         public void PauseGame()
         {

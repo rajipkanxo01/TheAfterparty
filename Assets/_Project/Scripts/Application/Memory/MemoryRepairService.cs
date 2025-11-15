@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using _Project.Scripts.Application.Core;
+using _Project.Scripts.Application.Memory.Events;
 using _Project.Scripts.Application.Player;
 using _Project.Scripts.Data.Memory;
 using UnityEngine;

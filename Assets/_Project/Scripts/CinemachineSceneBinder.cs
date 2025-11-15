@@ -8,6 +8,7 @@ namespace _Project.Scripts
     public class CinemachineSceneBinder : MonoBehaviour
     {
         [SerializeField] private CinemachineCamera virtualCamera;
+        
         private void OnEnable()
         {
             SceneManager.sceneLoaded += OnSceneLoaded;
@@ -20,10 +21,10 @@ namespace _Project.Scripts
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            var player = FindFirstObjectByType<PlayerController>();
+            var player = FindFirstObjectByType<PlayerControllerContinuous>();
             if (player == null)
             {
-                Debug.LogWarning($"CinemachineSceneBinder: No PlayerController found in scene '{scene.name}'.");
+                Debug.LogWarning($"CinemachineSceneBinder: No PlayerControllerContinuous found in scene '{scene.name}'.");
                 return;
             }
 

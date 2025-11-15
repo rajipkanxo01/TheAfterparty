@@ -10,8 +10,8 @@ namespace _Project.Scripts.Presentation.Memory.Services
 {
     public class MemoryNpcMoveService : MonoBehaviour, IMemoryNpcMoveService
     {
-        [Tooltip("Parent object under which all npcs will be organized in the hierarchy.")] [SerializeField]
-        private Transform npcsParent;
+        [Tooltip("Parent object under which all npcs will be organized in the hierarchy.")] 
+        [SerializeField] private Transform npcsParent;
 
         private void Awake()
         {

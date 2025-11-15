@@ -8,5 +8,6 @@ namespace _Project.Scripts.Data.Player
         public string displayName = "Detective’s Cat";
         public Sprite portrait;
         public string playerId = "player";
+        public string mainSceneName = "SecondLayout";
     }
 }
