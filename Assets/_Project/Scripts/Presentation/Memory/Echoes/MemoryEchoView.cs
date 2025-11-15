@@ -17,6 +17,8 @@ namespace _Project.Scripts.Presentation.Memory.Echoes
         [SerializeField] private float pulseIntensity = 0.3f;
         [SerializeField] private float bobSpeed = 1f;
         [SerializeField] private float bobAmount = 0.05f;
+        [SerializeField] private bool isUnlocked = false;
+        [SerializeField] private int order;
         
         [Header("Prompt UI")]
         [SerializeField] private TMPro.TextMeshPro mainText;
@@ -27,6 +29,9 @@ namespace _Project.Scripts.Presentation.Memory.Echoes
         private Vector3 _startPos;
         private float _currentAlpha = 0f;
         private bool _playerNear = false;
+        
+        public bool IsUnlocked => isUnlocked;
+        public int Order => order;
 
         private void Awake()
         {
@@ -47,6 +52,27 @@ namespace _Project.Scripts.Presentation.Memory.Echoes
                 glowText.color = c;
             }
         }
+        
+        public void SetUnlocked(bool value)
+        {
+            isUnlocked = value;
+
+            knotSprite.enabled = value;
+            glowSprite.enabled = value;
+            mainText.gameObject.SetActive(value);
+            glowText.gameObject.SetActive(value);
+
+            _playerNear = false;
+            _currentAlpha = 0;
+        }
+
+        /*private void UpdateVisualState()
+        {
+            knotSprite.enabled = isUnlocked;
+            glowSprite.enabled = isUnlocked;
+            mainText.gameObject.SetActive(isUnlocked);
+            glowText.gameObject.SetActive(isUnlocked);
+        }*/
 
         
         private void Update()
