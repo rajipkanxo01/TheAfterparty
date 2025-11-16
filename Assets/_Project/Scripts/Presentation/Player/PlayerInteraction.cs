@@ -55,7 +55,9 @@ namespace _Project.Scripts.Presentation.Player
             }
 
             if (_nearestInteractable == null)
+            {
                 return;
+            }
 
             if (_nearestInteractable is MonoBehaviour mono && mono == null)
             {
@@ -77,7 +79,10 @@ namespace _Project.Scripts.Presentation.Player
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (other == null)
+            {
+                Debug.LogWarning("PlayerInteraction: OnTriggerEnter2D received null collider.");
                 return;
+            }
 
             if (other.TryGetComponent<IInteractable>(out var interactable))
             {

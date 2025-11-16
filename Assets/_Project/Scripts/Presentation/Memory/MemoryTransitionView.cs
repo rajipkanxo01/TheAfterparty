@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using _Project.Scripts.Application.Core;
 using _Project.Scripts.Application.Memory;
+using _Project.Scripts.Application.Memory.Events;
 using UnityEngine;
 using UnityEngine.UI;
 

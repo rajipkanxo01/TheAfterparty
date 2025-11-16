@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using _Project.Scripts.Application.Memory;
+using _Project.Scripts.Application.Memory.Events;
 using UnityEngine;
 
 namespace _Project.Scripts.Application.Dialogue.Commands

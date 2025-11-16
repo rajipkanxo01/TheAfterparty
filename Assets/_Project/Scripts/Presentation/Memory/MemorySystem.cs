@@ -1,15 +1,16 @@
-﻿using System;
-
-using _Project.Scripts.Application.Core;
+﻿using _Project.Scripts.Application.Core;
 using _Project.Scripts.Application.Memory;
+using _Project.Scripts.Application.Memory.Events;
+using _Project.Scripts.Application.Memory.Fragments;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace _Project.Scripts.Presentation.Memory
 {
     public class MemorySystem : MonoBehaviour
     {
         [SerializeField] private MemoryTransitionView transitionView;
+        
+        private MemoryFragmentService _fragmentService;
 
         private void Awake()
         {
@@ -25,6 +26,7 @@ namespace _Project.Scripts.Presentation.Memory
             
             MemoryEvents.OnMemoryTransitionStart += HandleMemoryTransitionStart;
             MemoryEvents.OnMemoryTransitionEnd += HandleMemoryTransitionEnd;
+            MemoryEvents.OnVisitMemory += HandleVisitMemory;
         }
         
         private void HandleMemoryTransitionStart()
@@ -35,6 +37,22 @@ namespace _Project.Scripts.Presentation.Memory
         private void HandleMemoryTransitionEnd()
         {
             Debug.Log("Memory transition end");
+        }
+        
+        private void HandleVisitMemory(string memoryId)
+        {
+            Debug.Log($"MemorySystem: Visiting memory '{memoryId}'");
+
+            // Clean old service if exists
+            if (_fragmentService != null)
+            {
+                Debug.Log("MemorySystem: Destroying previous MemoryFragmentService");
+                _fragmentService.Dispose();
+                _fragmentService = null;
+            }
+
+            // Create new service for this memory
+            _fragmentService = new MemoryFragmentService(memoryId);
         }
 
         private void OnDestroy()

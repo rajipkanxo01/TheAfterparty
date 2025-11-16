@@ -2,6 +2,7 @@
 using _Project.Scripts.Application.Core;
 using _Project.Scripts.Application.Dialogue;
 using _Project.Scripts.Application.Memory;
+using _Project.Scripts.Application.Memory.Echo;
 using _Project.Scripts.Application.Memory.Services;
 using _Project.Scripts.Application.Player;
 using _Project.Scripts.Data.Clues;
@@ -21,6 +22,7 @@ namespace _Project.Scripts.Application
         [SerializeField] private ClueDatabase clueDatabase;
         [SerializeField] private NpcDatabase npcDatabase;
         [SerializeField] private MemoryDatabase memoryDatabase;
+        [SerializeField] private FragmentDatabase fragmentDatabase;
 
         [Header("Configs")]
         [SerializeField] private SniffConfig sniffConfig;
@@ -49,10 +51,11 @@ namespace _Project.Scripts.Application
             ServiceLocater.RegisterService(clueDatabase);
             ServiceLocater.RegisterService(npcDatabase);
             ServiceLocater.RegisterService(memoryDatabase);
+            ServiceLocater.RegisterService(fragmentDatabase);
             
             ServiceLocater.RegisterService(StaticCoroutine.Instance);
 
-            var profile = new PlayerProfile(playerProfile.displayName, playerProfile.playerId, playerProfile.portrait);
+            var profile = new PlayerProfile(playerProfile.displayName, playerProfile.playerId, playerProfile.portrait, playerProfile.mainSceneName);
             ServiceLocater.RegisterService(profile);
 
             var gameStateService = new GameStateService();
@@ -69,6 +72,10 @@ namespace _Project.Scripts.Application
 
             var memoryRepairService = new MemoryRepairService(memoryDatabase);
             ServiceLocater.RegisterService(memoryRepairService);
+
+            var memoryEchoService = new MemoryEchoService();
+            ServiceLocater.RegisterService(memoryEchoService);
+            
 
             var dialogueController = FindAnyObjectByType<DialogueController>();
             if (dialogueController != null)

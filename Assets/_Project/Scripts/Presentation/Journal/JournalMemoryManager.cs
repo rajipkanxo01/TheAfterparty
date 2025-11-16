@@ -1,5 +1,6 @@
 using _Project.Scripts.Application.Core;
 using _Project.Scripts.Application.Memory;
+using _Project.Scripts.Application.Memory.Events;
 using _Project.Scripts.Presentation.Memory;
 using UnityEngine;
 using UnityEngine.UI;
