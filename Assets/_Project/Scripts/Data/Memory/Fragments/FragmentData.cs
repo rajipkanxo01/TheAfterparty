@@ -23,6 +23,6 @@ namespace _Project.Scripts.Data.Memory.Fragments
         [Tooltip("If true, this fragment starts corrupted and shows the corrupted version until repaired.")]
         public bool isCorrupted;
         
-        public bool HasCorruptedVersion => corruptedMemoryActions != null && corruptedMemoryActions.Count > 0;
+        public bool HasCorruptedVersion => corruptedMemoryActions is { Count: > 0 };
     }
 }

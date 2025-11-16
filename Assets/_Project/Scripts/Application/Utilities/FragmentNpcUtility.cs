@@ -1,4 +1,6 @@
 ﻿using System.Linq;
+using _Project.Scripts.Application.Core;
+using _Project.Scripts.Application.Player;
 using _Project.Scripts.Data.Memory.Actions;
 using _Project.Scripts.Data.Memory.Fragments;
 using UnityEngine;
@@ -7,6 +9,12 @@ namespace _Project.Scripts.Application.Utilities
 {
     public static class FragmentNpcUtility
     {
+        private static readonly PlayerProfile PlayerProfile;
+        static FragmentNpcUtility()
+        {
+            PlayerProfile = ServiceLocater.GetService<PlayerProfile>();
+        }
+
         public static bool ContainsNpc(FragmentData fragment, string npcId)
         {
             if (fragment == null || string.IsNullOrEmpty(npcId))
@@ -14,8 +22,21 @@ namespace _Project.Scripts.Application.Utilities
                 return false;
             }
 
-            return fragment.realMemoryActions.Any(a => a.GetNpcId().Equals(npcId))
-                   || fragment.corruptedMemoryActions.Any(a => a.GetNpcId().Equals(npcId));
+            bool isRepaired = PlayerProfile.HasRepairedFragment(fragment.fragmentId);
+
+            // if repaired → use REAL actions ONLY
+            if (isRepaired)
+            {
+                return fragment.realMemoryActions.Any(a => a.GetNpcId() != null && a.GetNpcId() == npcId);
+            }
+
+            // if corrupted → use corrupted actions if available
+            if (fragment.isCorrupted && fragment.HasCorruptedVersion)
+            {
+                return fragment.corruptedMemoryActions.Any(a => a.GetNpcId() != null && a.GetNpcId() == npcId);
+            }
+
+            return fragment.realMemoryActions.Any(a => a.GetNpcId() != null && a.GetNpcId() == npcId);
         }
 
         
