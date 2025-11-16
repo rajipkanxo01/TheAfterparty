@@ -10,6 +10,7 @@ namespace _Project.Scripts.Presentation.Dialogue
         [SerializeField] private CanvasGroup canvasGroup;
         [SerializeField] private SpriteRenderer backgroundImage;
         [SerializeField] private TextMeshPro dialogueText;
+        [SerializeField] private TextMeshPro speakerText;
 
         [Header("Typing Settings")]
         [SerializeField] private float charactersPerSecond = 40f;
@@ -33,8 +34,12 @@ namespace _Project.Scripts.Presentation.Dialogue
             if (_resizeCoroutine != null)
                 StopCoroutine(_resizeCoroutine);
 
+            speakerText.text = speakerName;
+            speakerText.alpha = 1f;
+
             _resizeCoroutine = StartCoroutine(ResizeAndType(lineText));
         }
+
 
         private IEnumerator ResizeAndType(string text)
         {
@@ -45,7 +50,7 @@ namespace _Project.Scripts.Presentation.Dialogue
             dialogueText.text = text;
             dialogueText.ForceMeshUpdate();
 
-            Vector2 targetSize = GetTextSizeWithPadding();
+            Vector2 targetSize = GetTotalTextSize(); ;
             Vector2 initialSize = backgroundImage.size;
             float fixedHeight = initialSize.y;
 
@@ -72,6 +77,25 @@ namespace _Project.Scripts.Presentation.Dialogue
 
             _typingCoroutine = StartCoroutine(TypeText(text));
         }
+        
+        private Vector2 GetTotalTextSize()
+        {
+            // Measure dialogue
+            dialogueText.ForceMeshUpdate();
+            Vector2 dialogueSize = dialogueText.textBounds.size;
+
+            // Measure speaker name
+            speakerText.ForceMeshUpdate();
+            Vector2 speakerSize = speakerText.textBounds.size;
+
+            float finalWidth = Mathf.Max(dialogueSize.x, speakerSize.x) + padding.x;
+
+            // Height = speaker + small spacing + dialogue
+            float finalHeight = speakerSize.y + dialogueSize.y + padding.y;
+
+            return new Vector2(finalWidth, finalHeight);
+        }
+
 
         private void UpdateTextBoxSize(Vector2 backgroundSize)
         {
