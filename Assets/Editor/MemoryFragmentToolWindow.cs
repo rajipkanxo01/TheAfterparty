@@ -124,14 +124,14 @@ namespace Editor
 
                     if (move != null)
                     {
-                        move.actorId = EditorGUI.TextField(new Rect(rect.x, y, halfWidth, line), "Actor ID",
-                            move.actorId);
+                        move.npcId = EditorGUI.TextField(new Rect(rect.x, y, halfWidth, line), "Actor ID",
+                            move.npcId);
                         y += line;
                     }
                     else if (dialogue != null)
                     {
-                        dialogue.actorId = EditorGUI.TextField(new Rect(rect.x, y, halfWidth, line), "Actor ID",
-                            dialogue.actorId);
+                        dialogue.npcId = EditorGUI.TextField(new Rect(rect.x, y, halfWidth, line), "Actor ID",
+                            dialogue.npcId);
                         dialogue.yarnNodeName =
                             EditorGUI.TextField(new Rect(rect.x + halfWidth + 10f, y, halfWidth - 10f, line),
                                 "Yarn Node", dialogue.yarnNodeName);

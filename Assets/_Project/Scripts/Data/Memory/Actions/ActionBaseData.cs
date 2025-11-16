@@ -17,5 +17,7 @@ namespace _Project.Scripts.Data.Memory.Actions
         public ActionPlayMode playMode  = ActionPlayMode.Sequential;
         public float startOffset = 0f;
         public float startDelaySeconds;
+        
+        public virtual string GetNpcId() => null;
     }
 }
