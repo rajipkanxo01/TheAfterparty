@@ -50,7 +50,6 @@ namespace _Project.Scripts.Presentation.Player
                     }
                 }
 
-                Debug.Log("PlayerInteraction: Continuing dialogue.");
                 _dialogueControl.ContinueDialogue();
                 return;
             }

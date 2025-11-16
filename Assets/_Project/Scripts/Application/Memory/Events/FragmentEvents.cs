@@ -1,5 +1,6 @@
 ﻿using System;
 using _Project.Scripts.Data.Memory.Fragments;
+using UnityEngine;
 
 namespace _Project.Scripts.Application.Memory.Events
 {
@@ -24,5 +25,11 @@ namespace _Project.Scripts.Application.Memory.Events
         public static event Action<FragmentData> OnFragmentCompleted;
         public static void RaiseFragmentCompleted(FragmentData fragment)
             => OnFragmentCompleted?.Invoke(fragment);
+        
+        
+        // set active fragment point
+        public static event Action<Transform> OnSetActiveFragmentPoint;
+        public static void RaiseSetActiveFragmentPoint(Transform fragmentPoint) 
+            => OnSetActiveFragmentPoint?.Invoke(fragmentPoint);
     }
 }

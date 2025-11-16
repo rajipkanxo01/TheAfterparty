@@ -38,7 +38,6 @@ namespace _Project.Scripts.Presentation.Npc
                 Debug.Log($"{LogPrefix} SpriteRenderer assigned from children: {(spriteRenderer != null)}");
             }
 
-            Debug.Log($"{LogPrefix} Awake - initialising. fadeDuration={fadeDuration}, freezeBeforeFadeOut={freezeBeforeFadeOut}");
             SetVisibleInstant(false);
         }
 
@@ -46,14 +45,12 @@ namespace _Project.Scripts.Presentation.Npc
         {
             FragmentEvents.OnPlayFragmentStarted += HandleFragmentStart;
             FragmentEvents.OnFragmentCompleted += HandleFragmentEnd;
-            Debug.Log($"{LogPrefix} OnEnable - subscribed to fragment events");
         }
 
         private void OnDisable()
         {
             FragmentEvents.OnPlayFragmentStarted -= HandleFragmentStart;
             FragmentEvents.OnFragmentCompleted -= HandleFragmentEnd;
-            Debug.Log($"{LogPrefix} OnDisable - unsubscribed from fragment events");
         }
 
 
@@ -69,7 +66,6 @@ namespace _Project.Scripts.Presentation.Npc
 
             Vector3 startPos = FragmentNpcUtility.GetStartingPosition(fragment, npcId);
             transform.position = startPos;
-            Debug.Log($"{LogPrefix} HandleFragmentStart - starting at position {startPos}");
 
             FadeIn();
         }
@@ -82,7 +78,6 @@ namespace _Project.Scripts.Presentation.Npc
                 return;
             }
 
-            Debug.Log($"{LogPrefix} HandleFragmentEnd - fading out");
             FadeOut();
         }
 
@@ -97,7 +92,6 @@ namespace _Project.Scripts.Presentation.Npc
                 StopCoroutine(_fadeRoutine);
             }
 
-            Debug.Log($"{LogPrefix} FadeIn - starting fade in");
             _fadeRoutine = StartCoroutine(FadeRoutine(0f, 1f));
             _isVisible = true;
         }
@@ -123,14 +117,12 @@ namespace _Project.Scripts.Presentation.Npc
                 Debug.Log($"{LogPrefix} FadeOut - played fadeOutParticles at {transform.position}");
             }
 
-            Debug.Log($"{LogPrefix} FadeOut - starting fade out");
             _fadeRoutine = StartCoroutine(FadeRoutine(1f, 0f, () => SetVisibleInstant(false)));
             _isVisible = false;
         }
 
         private IEnumerator FadeRoutine(float from, float to, System.Action onFinish = null)
         {
-            Debug.Log($"{LogPrefix} FadeRoutine - start from={from} to={to} duration={fadeDuration}");
             SetVisibleInstant(true);
 
             float t = 0f;
@@ -149,7 +141,6 @@ namespace _Project.Scripts.Presentation.Npc
                 yield return null;
             }
 
-            Debug.Log($"{LogPrefix} FadeRoutine - finished to={to}");
             onFinish?.Invoke();
         }
 
@@ -166,7 +157,6 @@ namespace _Project.Scripts.Presentation.Npc
             spriteRenderer.color = c;
 
             gameObject.SetActive(true);
-            Debug.Log($"{LogPrefix} SetVisibleInstant - visible={visible}");
         }
     }
 }
