@@ -151,7 +151,7 @@ namespace _Project.Scripts.Presentation.Dialogue
 
             _lastSpeakerId = e.SpeakerId;
             
-            if (_dialogueController != null && _dialogueController.IsAutoModeEnabled)
+            /*if (_dialogueController != null && _dialogueController.IsAutoModeEnabled)
             {
                 var bubbleUI = bubble.GameObject.GetComponent<SpeechBubbleUI>();
                 if (bubbleUI != null)
@@ -162,7 +162,7 @@ namespace _Project.Scripts.Presentation.Dialogue
                     float bufferTime = _dialogueController.AutoAdvanceDelay;
                     StartCoroutine(AutoContinueAfterDelay(typingTime + bufferTime));
                 }
-            }
+            }*/
         }
         
         private IEnumerator AutoContinueAfterDelay(float delay)
