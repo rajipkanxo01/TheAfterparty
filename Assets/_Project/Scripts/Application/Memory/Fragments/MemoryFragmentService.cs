@@ -5,7 +5,7 @@ using _Project.Scripts.Data.Memory;
 using _Project.Scripts.Data.Memory.Fragments;
 using UnityEngine;
 
-namespace _Project.Scripts.Application.Memory
+namespace _Project.Scripts.Application.Memory.Fragments
 {
     public class MemoryFragmentService
     {
@@ -17,6 +17,11 @@ namespace _Project.Scripts.Application.Memory
         {
             var memoryDb = ServiceLocater.GetService<MemoryDatabase>();
             var memory = memoryDb.GetById(memoryId);
+            if (memory == null)
+            {
+                Debug.LogError($"MemoryFragmentService: Memory with ID '{memoryId}' not found in database.");
+                return;
+            }
 
             _fragments = memory.fragments;
 
