@@ -3,6 +3,7 @@ using _Project.Scripts.Application.Core;
 using _Project.Scripts.Application.Memory.Events;
 using _Project.Scripts.Data.Memory;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace _Project.Scripts.Presentation.Memory.Echoes
 {
@@ -13,6 +14,8 @@ namespace _Project.Scripts.Presentation.Memory.Echoes
         [Header("Visuals")]
         [SerializeField] private SpriteRenderer knotSprite;
         [SerializeField] private SpriteRenderer glowSprite;
+        [SerializeField] private Volume glitchVolume;
+        [SerializeField] private ParticleSystem pSystem;
 
         [Header("Settings")]
         [SerializeField] private float pulseSpeed = 3f;
@@ -75,6 +78,8 @@ namespace _Project.Scripts.Presentation.Memory.Echoes
                 return;
             }
 
+            if (glitchVolume) glitchVolume.enabled = true;
+            if (pSystem) pSystem.Play();
             _fadeRoutine = StartCoroutine(FadeEcho(1f, echoFadeDuration));
         }
 
@@ -218,6 +223,8 @@ namespace _Project.Scripts.Presentation.Memory.Echoes
             if (!_gameStateService.IsState(GameState.Normal)) return;
 
             FragmentEvents.RaisePlayFragmentRequested(echoData.fragmentId);
+            if(glitchVolume) glitchVolume.enabled = false;
+            if (pSystem) pSystem.Stop();
         }
 
         public string GetInteractionPrompt()
