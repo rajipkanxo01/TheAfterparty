@@ -66,18 +66,19 @@ title: Detective_Corrupted_MogensMonologue
 
 title: Detective_Memory_GirlReEntry
 ---
-<<say girl "I'll return it mom! I promise!">>
-
 <<set_active_point F2Real_GirlBackPoint>>
 
+<<say girl "I'll return it, mom! I promise!">>
 <<say girl "Mister Detective!">>
 <<say girl "Mister detective?">>
 <<say girl "...">>
-<<say girl "I'll just put it near carousel.">>
+<<say girl "You're not listening again...">>
+<<say girl "Okay… I'll just put it inside the chest near the carousel.">>
+<<say girl "The code is 2-9-4.">>
+<<say girl "…I hope you hear it this time.">>
 
+<<raise_event 294>>
 ===
-
-
 
 title: Detective_Memory_AfterKnowingBadgeLocation
 ---
@@ -89,8 +90,6 @@ title: Detective_Memory_AfterKnowingBadgeLocation
 
 <<set $badge_location_known = true>>
 <<set $detective_state = "memory_complete">>
-
-<<spawn_badge>>
 ===
 
 

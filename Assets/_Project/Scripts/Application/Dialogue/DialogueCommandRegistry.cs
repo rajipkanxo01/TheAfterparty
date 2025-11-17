@@ -15,13 +15,14 @@ namespace _Project.Scripts.Application.Dialogue
         {
             _runner = runner;
         }
-        
+
         public void RegisterBuiltInCommands()
         {
             RegisterCommand(new SayCommandHandler());
             RegisterCommand(new MemoryCommandHandler());
             RegisterCommand(new BadgeCommandHandler());
             RegisterCommand(new SetHighlightAreaCommandHandler());
+            RegisterCommand(new RaiseEventCommandHandler());
         }
 
         private void RegisterCommand(IDialogueCommandHandler handler)
@@ -34,42 +35,33 @@ namespace _Project.Scripts.Application.Dialogue
             switch (handler.CommandName)
             {
                 case "say":
-                    _runner.AddCommandHandler<string, string>(handler.CommandName, async (speaker, line) =>
-                    {
-                        await handler.ExecuteAsync(speaker, line);
-                    });
+                    _runner.AddCommandHandler<string, string>(handler.CommandName,
+                        async (speaker, line) => { await handler.ExecuteAsync(speaker, line); });
                     break;
-                
+
                 case "memory":
-                    _runner.AddCommandHandler<string, string>(handler.CommandName, async (mode, sceneId) =>
-                    {
-                        await handler.ExecuteAsync(mode, sceneId);
-                    });
+                    _runner.AddCommandHandler<string, string>(handler.CommandName,
+                        async (mode, sceneId) => { await handler.ExecuteAsync(mode, sceneId); });
                     break;
-                
+
                 case "spawn_badge":
-                    _runner.AddCommandHandler(handler.CommandName, async () =>
-                    {
-                        await handler.ExecuteAsync();
-                    });
+                    _runner.AddCommandHandler(handler.CommandName, async () => { await handler.ExecuteAsync(); });
                     break;
-                
+
                 case "set_active_point":
-                    _runner.AddCommandHandler<string>(handler.CommandName, async (activePoint) =>
-                    {
-                        await handler.ExecuteAsync(activePoint);
-                    });
+                    _runner.AddCommandHandler<string>(handler.CommandName,
+                        async (activePoint) => { await handler.ExecuteAsync(activePoint); });
+                    break;
+
+                case "raise_event":
+                    _runner.AddCommandHandler<string>(handler.CommandName,
+                        async (code) => { await handler.ExecuteAsync(code); });
                     break;
 
                 default:
-                    _runner.AddCommandHandler(handler.CommandName, async () =>
-                    {
-                        await handler.ExecuteAsync();
-                    });
+                    _runner.AddCommandHandler(handler.CommandName, async () => { await handler.ExecuteAsync(); });
                     break;
             }
         }
-        
-       
     }
 }
