@@ -21,6 +21,7 @@ namespace _Project.Scripts.Application.Dialogue
             RegisterCommand(new SayCommandHandler());
             RegisterCommand(new MemoryCommandHandler());
             RegisterCommand(new BadgeCommandHandler());
+            RegisterCommand(new SetHighlightAreaCommandHandler());
         }
 
         private void RegisterCommand(IDialogueCommandHandler handler)
@@ -50,6 +51,13 @@ namespace _Project.Scripts.Application.Dialogue
                     _runner.AddCommandHandler(handler.CommandName, async () =>
                     {
                         await handler.ExecuteAsync();
+                    });
+                    break;
+                
+                case "set_active_point":
+                    _runner.AddCommandHandler<string>(handler.CommandName, async (activePoint) =>
+                    {
+                        await handler.ExecuteAsync(activePoint);
                     });
                     break;
 

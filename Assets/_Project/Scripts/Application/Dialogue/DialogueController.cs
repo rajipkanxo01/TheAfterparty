@@ -20,7 +20,6 @@ namespace _Project.Scripts.Application.Dialogue
     {
         [Header("Dialogue Settings")] 
         [SerializeField] private DialogueRunner runner;
-        [SerializeField] private float autoAdvanceDelay = 1.5f;
         [SerializeField] private InMemoryVariableStorage variableStorage;
 
         private DialogueCommandRegistry _commandRegistry;
@@ -36,8 +35,6 @@ namespace _Project.Scripts.Application.Dialogue
         private bool _autoModeEnabled = false;
         public DialogueType CurrentType => _currentType;
         public NpcDialogueHandler NpcHandler => _npcHandler;
-        public bool IsAutoModeEnabled => _autoModeEnabled;
-        public float AutoAdvanceDelay => autoAdvanceDelay;
         
         private void OnDestroy()
         {
@@ -70,7 +67,6 @@ namespace _Project.Scripts.Application.Dialogue
             _clueHandler = new ClueDialogueHandler(this);
             _npcHandler = new NpcDialogueHandler(this, _npcDatabase);
 
-            // ServiceLocater.RegisterService(this);
             ServiceLocater.RegisterService(_speakerResolver);
 
             _commandRegistry.RegisterBuiltInCommands();
@@ -94,7 +90,7 @@ namespace _Project.Scripts.Application.Dialogue
 
         private async void HandleNodeComplete(string nodeName)
         {
-            if (_autoModeEnabled)
+            /*if (_autoModeEnabled)
             {
                 await Task.Delay((int)(autoAdvanceDelay * 1000f));
 
@@ -104,7 +100,7 @@ namespace _Project.Scripts.Application.Dialogue
                 }
 
                 _autoModeEnabled = false;
-            }
+            }*/
         }
 
         public void StartDialogue(string nodeName, DialogueType type = DialogueType.NpcConversation)

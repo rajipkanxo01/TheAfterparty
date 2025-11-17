@@ -54,7 +54,9 @@ namespace _Project.Scripts.Application.Memory
 
             Debug.Log($"MemoryFragmentExecutor: Finished fragment {fragment.fragmentId}");
             _gameStateService.SetState(GameState.Normal);
+
             FragmentEvents.RaiseFragmentCompleted(fragment);
+            FragmentEvents.RaiseSetActiveFragmentPoint(null);
         }
 
         private List<ActionBaseData> SelectActions(FragmentData fragment)

@@ -38,7 +38,7 @@ namespace _Project.Scripts.Presentation.Player
                 return;
             }
 
-            if (_gameStateService.IsState(GameState.Dialogue))
+            if (_gameStateService.IsState(GameState.Dialogue) || _gameStateService.IsState(GameState.Cutscene))
             {
                 if (_dialogueControl == null)
                 {
