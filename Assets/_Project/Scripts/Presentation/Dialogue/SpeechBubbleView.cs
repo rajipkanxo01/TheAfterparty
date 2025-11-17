@@ -66,6 +66,7 @@ namespace _Project.Scripts.Presentation.Dialogue
             DialogueEvents.OnDialogueLineStarted += HandleDialogueLineStarted;
             DialogueEvents.OnDialogueEnded += HandleDialogueEnded;
             DialogueEvents.OnDialogueContinued += HandleDialogueContinued;
+            DialogueController.OnTrySkipTyping += TrySkipTyping;
         }
 
         private void OnDisable()
@@ -73,6 +74,7 @@ namespace _Project.Scripts.Presentation.Dialogue
             DialogueEvents.OnDialogueLineStarted -= HandleDialogueLineStarted;
             DialogueEvents.OnDialogueEnded -= HandleDialogueEnded;
             DialogueEvents.OnDialogueContinued -= HandleDialogueContinued;
+            DialogueController.OnTrySkipTyping -= TrySkipTyping;
         }
 
         private void HandleDialogueLineStarted(object sender, DialogueLineEventArgs e)
@@ -150,25 +152,6 @@ namespace _Project.Scripts.Presentation.Dialogue
             }
 
             _lastSpeakerId = e.SpeakerId;
-            
-            /*if (_dialogueController != null && _dialogueController.IsAutoModeEnabled)
-            {
-                var bubbleUI = bubble.GameObject.GetComponent<SpeechBubbleUI>();
-                if (bubbleUI != null)
-                {
-                    float typingSpeed = bubbleUI.CharactersPerSecond;
-                    int textLength = e.LineText.Length;
-                    float typingTime = textLength / typingSpeed;
-                    float bufferTime = _dialogueController.AutoAdvanceDelay;
-                    StartCoroutine(AutoContinueAfterDelay(typingTime + bufferTime));
-                }
-            }*/
-        }
-        
-        private IEnumerator AutoContinueAfterDelay(float delay)
-        {
-            yield return new WaitForSeconds(delay);
-            _dialogueController?.ContinueDialogue();
         }
         
         
@@ -290,6 +273,24 @@ namespace _Project.Scripts.Presentation.Dialogue
                 bubble.GameObject.SetActive(false);
             }
         }
+        
+        public bool TrySkipTyping()
+        {
+            foreach (var b in _activeBubbles.Values)
+            {
+                var ui = b.GameObject.GetComponent<SpeechBubbleUI>();
+                if (ui != null && ui.IsTyping)
+                {
+                    // Instantly reveal all text
+                    ui.SkipTyping();
+                    return true; // we consumed the continue press
+                }
+            }
+
+            // No bubble needed skipping
+            return false;
+        }
+
 
         
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)

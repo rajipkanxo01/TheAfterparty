@@ -8,12 +8,13 @@ namespace _Project.Scripts.Application.Core
         Normal,
         Dialogue,
         Cutscene,
+        Transition,
         Journal,
         Paused,
         FragmentPlaying
     }
 
-    public class GameStateService
+    public  class GameStateService
     {
         private GameState _currentState = GameState.Normal;
         public GameState CurrentState => _currentState;

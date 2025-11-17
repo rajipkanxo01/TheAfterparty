@@ -11,8 +11,6 @@
 <<say detective "Look here, I have proof!">>
 <<say girl "A badge! So cool!">>
     
-<<set $detective_state = "girl_ran_away">>
-
 <<say girl "Mom look! A real police badge!">>
 <<say detective "W-Wait!">>
 ===
