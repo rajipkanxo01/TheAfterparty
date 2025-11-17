@@ -52,7 +52,9 @@ namespace _Project.Scripts.Application.Memory.Fragments
 
             // playing fragment for first time
             Debug.Log($"MemoryFragmentService: Fragment '{fragment.fragmentId}' is correct. Starting...");
+            
             _isReplay = false;
+            
             FragmentEvents.RaisePlayFragmentStarted(fragment);
         }
 
@@ -76,6 +78,7 @@ namespace _Project.Scripts.Application.Memory.Fragments
                 return;
             }
 
+            ToastNotification.Show("New memory fragment available! Look around to find it.", 4f);
             Debug.Log($"MemoryFragmentService: Next fragment is '{_fragments[_currentIndex].fragmentId}'");
         }
 
