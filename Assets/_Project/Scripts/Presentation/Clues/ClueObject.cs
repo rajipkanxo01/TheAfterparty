@@ -5,6 +5,7 @@ using _Project.Scripts.Application.Memory;
 using _Project.Scripts.Application.Player;
 using _Project.Scripts.Data.Clues;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace _Project.Scripts.Presentation.Clues
 {
@@ -31,11 +32,17 @@ namespace _Project.Scripts.Presentation.Clues
 
         public string ClueId => clueId;
 
+        [SerializeField] private GameObject puzzleObj;
+        private GameStateService _gameStateService;
+        [SerializeField] private Volume glitchVolume;
+
         private void Awake()
         {
             _renderer = GetComponent<SpriteRenderer>();
             _originalColor = _renderer.color;
             _renderer.enabled = false;
+
+            _gameStateService = ServiceLocater.GetService<GameStateService>();
         }
 
         private void Start()
@@ -121,6 +128,15 @@ namespace _Project.Scripts.Presentation.Clues
         public void Interact(GameObject interactor)
         {
             if (!interactor.CompareTag("Player")) return;
+
+            _gameStateService.SetState(GameState.Paused);
+            puzzleObj.SetActive(true);
+        }
+
+        public void FinishedPuzzle()
+        {
+            _gameStateService.SetState(GameState.Normal);
+            glitchVolume.enabled = false;
             _clueService.Examine(clueId);
         }
 
