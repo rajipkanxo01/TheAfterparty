@@ -32,9 +32,11 @@ namespace _Project.Scripts.Application.Dialogue
 
         private DialogueType _currentType = DialogueType.NpcConversation;
         private TaskCompletionSource<bool> _waitForContinue;
-        private bool _autoModeEnabled = false;
         public DialogueType CurrentType => _currentType;
         public NpcDialogueHandler NpcHandler => _npcHandler;
+
+        
+        public static event Func<bool> OnTrySkipTyping;
         
         private void OnDestroy()
         {
@@ -90,17 +92,7 @@ namespace _Project.Scripts.Application.Dialogue
 
         private async void HandleNodeComplete(string nodeName)
         {
-            /*if (_autoModeEnabled)
-            {
-                await Task.Delay((int)(autoAdvanceDelay * 1000f));
-
-                if (runner != null && runner.Dialogue.IsActive)
-                {
-                    runner.Dialogue.Continue();
-                }
-
-                _autoModeEnabled = false;
-            }*/
+          
         }
 
         public void StartDialogue(string nodeName, DialogueType type = DialogueType.NpcConversation)
@@ -111,12 +103,14 @@ namespace _Project.Scripts.Application.Dialogue
                 return;
             }
 
+            
             _currentType = type;
             DialogueEvents.RaiseDialogueStarted();
             runner.StartDialogue(nodeName);
             
             Debug.Log($"DialogueController: StartDialogue node '{nodeName}'.");
         }
+
 
         private void OnNodeStart(string nodeName)
         {
@@ -136,13 +130,15 @@ namespace _Project.Scripts.Application.Dialogue
 
         public void ContinueDialogue()
         {
+            if (OnTrySkipTyping != null && OnTrySkipTyping.Invoke())
+            {
+                // Someone consumed the skip event. do NOT continue the dialogue
+                return;
+            }
+
             DialogueEvents.RaiseDialogueContinueRequested();
         }
         
-        public void ChangeAutoModeTo(bool mode)
-        {
-            _autoModeEnabled = mode;
-        }
         
         public int GetNpcProgress(string npcId)
         {

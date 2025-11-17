@@ -55,8 +55,6 @@ namespace _Project.Scripts.Presentation.Memory.Services
             Debug.Log($"MemoryDialogueService: Starting Yarn node '{nodeName}'");
 
             _dialogueFinished = new TaskCompletionSource<bool>();
-
-            _dialogueController.ChangeAutoModeTo(true);
             
             _dialogueController.StartDialogue(nodeName);
             _gameStateService.SetState(GameState.Cutscene);
