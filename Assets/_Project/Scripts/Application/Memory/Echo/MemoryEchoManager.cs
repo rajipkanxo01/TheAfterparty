@@ -4,6 +4,9 @@ using _Project.Scripts.Application.Memory.Events;
 using _Project.Scripts.Presentation.Memory.Echoes;
 using _Project.Scripts.Data.Memory.Fragments;
 using UnityEngine;
+using URPGlitch;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.Rendering;
 
 namespace _Project.Scripts.Application.Memory.Echo
 {
@@ -11,6 +14,8 @@ namespace _Project.Scripts.Application.Memory.Echo
     {
         private List<MemoryEchoView> _echoes;
         private MemoryEchoView _lastUsedEcho;
+        [SerializeField] private Volume globalVolume;
+        
 
         private void Awake()
         {
@@ -43,6 +48,8 @@ namespace _Project.Scripts.Application.Memory.Echo
             {
                 _lastUsedEcho.HideDuringPlayback();
             }
+
+            globalVolume.enabled = false;
         }
 
         private void HandleFragmentCompleted(FragmentData fragment)
@@ -50,6 +57,8 @@ namespace _Project.Scripts.Application.Memory.Echo
             // show the used echo again (allow replay)
             if (_lastUsedEcho != null)
                 _lastUsedEcho.ShowAfterPlayback();
+
+            globalVolume.enabled = true;
 
             // unlock next echo
             int index = _echoes.FindIndex(e => e.Order == fragment.orderInMemory);
