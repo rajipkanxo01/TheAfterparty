@@ -182,6 +182,8 @@ namespace _Project.Scripts.Presentation.Dialogue
                 }
             }
 
+            
+            Debug.Log("Clearing all bubbles....");
             _activeBubbles.Clear();
         }
 

@@ -40,14 +40,13 @@ namespace _Project.Scripts.Application.Badge
 
             BadgeEvents.OnSpawnBadge += HandleSpawnBadge;
             BadgeEvents.OnBadgePicked += HandleBadgePicked;
-            
         }
 
         private void HandleSpawnBadge()
         {
             if (_isSpawned || _playerProfile.HasFlag(BadgePickedKey))
             {
-                Debug.Log($"[BadgeManager] Spawn skipped. _isSpawned={_isSpawned}, BadgePicked={_playerProfile.HasFlag(BadgePickedKey)}");
+                Debug.Log($"BadgeManager: Spawn skipped. _isSpawned={_isSpawned}, AlreadyPicked={_playerProfile.HasFlag(BadgePickedKey)}");
                 return;
             }
 
@@ -55,7 +54,7 @@ namespace _Project.Scripts.Application.Badge
             {
                 return;
             }
-
+            
             var instance = Object.Instantiate(_badgePrefab, _spawnPosition, _spawnRotation);
             if (instance == null)
             {
@@ -71,7 +70,6 @@ namespace _Project.Scripts.Application.Badge
             {
                 _playerProfile.SetFlag(BadgePickedKey, true);
                 ToastNotification.Show("Badge picked up!!!");
-                Debug.Log("BadgeManager: Badge collected and saved to PlayerProfile.");
             }
         }
 

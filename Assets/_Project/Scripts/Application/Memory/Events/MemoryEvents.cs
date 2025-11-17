@@ -25,14 +25,17 @@ namespace _Project.Scripts.Application.Memory.Events
         public static event Action OnMemoryTransitionEnd;
         
         
+        // when mogens learns chest code
+        public static event Action<string> OnChestCodeLearned;
+        public static void RaiseChestCodeLearned(string code) => OnChestCodeLearned?.Invoke(code);
+        
+        
         // when all fragments completed
         public static event Action OnAllFragmentsCompleted;
         
         
         // when repairing a fragment
         public static event Action<string> OnRepairFragment;
-        
-        
        
         
         public static void RaiseMemoryTransitionStart()
