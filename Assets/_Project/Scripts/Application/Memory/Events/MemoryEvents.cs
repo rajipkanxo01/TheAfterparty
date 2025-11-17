@@ -37,6 +37,7 @@ namespace _Project.Scripts.Application.Memory.Events
         
         public static void RaiseMemoryTransitionStart()
         {
+            
             OnMemoryTransitionStart?.Invoke();
         }
         

@@ -20,6 +20,7 @@ namespace _Project.Scripts.Presentation.Memory
         [SerializeField] private bool useScaleEffect = true;
         
         private RectTransform _overlayRect;
+        private GameStateService _gameStateService;
 
         private void Awake()
         {
@@ -30,6 +31,11 @@ namespace _Project.Scripts.Presentation.Memory
             }
             
             ServiceLocater.RegisterService(this);
+        }
+
+        private void Start()
+        {
+            _gameStateService = ServiceLocater.GetService<GameStateService>();
         }
 
         public void Play()
@@ -62,6 +68,8 @@ namespace _Project.Scripts.Presentation.Memory
             yield return new WaitForSeconds(blackHoldDuration);
             
             // 4. Transition complete (scene load trigger)
+            
+            _gameStateService.SetState(GameState.Normal);
             MemoryEvents.RaiseMemoryTransitionEnd();
 
             // 3. Bright flash

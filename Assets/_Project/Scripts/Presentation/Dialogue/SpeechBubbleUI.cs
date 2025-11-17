@@ -22,24 +22,29 @@ namespace _Project.Scripts.Presentation.Dialogue
 
         private Coroutine _typingCoroutine;
         private Coroutine _resizeCoroutine;
-
+        private bool _isTyping;
+        private string _fullText;
+        
+        public bool IsTyping => _isTyping;
         public CanvasGroup CanvasGroup => canvasGroup;
         public float CharactersPerSecond => charactersPerSecond;
 
         public void Show(string speakerName, string lineText, Sprite portrait)
         {
+            // stop any current animations
             if (_typingCoroutine != null)
                 StopCoroutine(_typingCoroutine);
 
             if (_resizeCoroutine != null)
                 StopCoroutine(_resizeCoroutine);
 
+            _isTyping = false;
+
             speakerText.text = speakerName;
             speakerText.alpha = 1f;
 
             _resizeCoroutine = StartCoroutine(ResizeAndType(lineText));
         }
-
 
         private IEnumerator ResizeAndType(string text)
         {
@@ -50,7 +55,7 @@ namespace _Project.Scripts.Presentation.Dialogue
             dialogueText.text = text;
             dialogueText.ForceMeshUpdate();
 
-            Vector2 targetSize = GetTotalTextSize(); ;
+            Vector2 targetSize = GetTotalTextSize();
             Vector2 initialSize = backgroundImage.size;
             float fixedHeight = initialSize.y;
 
@@ -75,27 +80,40 @@ namespace _Project.Scripts.Presentation.Dialogue
             dialogueText.text = "";
             dialogueText.alpha = 1f;
 
+            _fullText = text;
+            _isTyping = true;               
             _typingCoroutine = StartCoroutine(TypeText(text));
         }
         
         private Vector2 GetTotalTextSize()
         {
-            // Measure dialogue
             dialogueText.ForceMeshUpdate();
             Vector2 dialogueSize = dialogueText.textBounds.size;
 
-            // Measure speaker name
             speakerText.ForceMeshUpdate();
             Vector2 speakerSize = speakerText.textBounds.size;
 
             float finalWidth = Mathf.Max(dialogueSize.x, speakerSize.x) + padding.x;
 
-            // Height = speaker + small spacing + dialogue
             float finalHeight = speakerSize.y + dialogueSize.y + padding.y;
 
             return new Vector2(finalWidth, finalHeight);
         }
+        
+        public void SkipTyping()
+        {
+            if (!_isTyping) return;
 
+            _isTyping = false;
+
+            if (_typingCoroutine != null)
+            {
+                StopCoroutine(_typingCoroutine);
+                _typingCoroutine = null;
+            }
+
+            dialogueText.text = _fullText;
+        }
 
         private void UpdateTextBoxSize(Vector2 backgroundSize)
         {
@@ -109,9 +127,15 @@ namespace _Project.Scripts.Presentation.Dialogue
 
             for (int i = 0; i < text.Length; i++)
             {
+                if (!_isTyping)
+                    yield break;
+
                 dialogueText.text = text.Substring(0, i + 1);
                 yield return new WaitForSeconds(1f / charactersPerSecond);
             }
+
+            _isTyping = false;
+            _typingCoroutine = null;
         }
 
         private Vector2 GetTextSizeWithPadding()

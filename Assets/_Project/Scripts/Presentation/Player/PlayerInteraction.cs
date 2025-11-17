@@ -37,6 +37,8 @@ namespace _Project.Scripts.Presentation.Player
                 Debug.LogError("PlayerInteraction: GameStateService is missing. Interaction aborted.");
                 return;
             }
+            
+            if (_gameStateService.IsState(GameState.Transition)) return;
 
             if (_gameStateService.IsState(GameState.Dialogue) || _gameStateService.IsState(GameState.Cutscene))
             {

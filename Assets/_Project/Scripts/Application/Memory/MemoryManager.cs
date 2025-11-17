@@ -25,6 +25,7 @@ namespace _Project.Scripts.Application.Memory
         
         // todo: instead of hardcoding, get from config or constants
         private const string MainSceneName = "SecondLayout";
+        private GameStateService _gameStateService;
 
         public MemoryManager()
         {
@@ -36,10 +37,12 @@ namespace _Project.Scripts.Application.Memory
             _memoryDatabase = ServiceLocater.GetService<MemoryDatabase>();
             _playerProfile = ServiceLocater.GetService<PlayerProfile>();
             _coroutineRunner = ServiceLocater.GetService<StaticCoroutine>();
+            _gameStateService = ServiceLocater.GetService<GameStateService>();
         }
 
         private void HandleAllFragmentsCompleted()
         {
+            _gameStateService.SetState(GameState.Transition);
             MemoryEvents.RaiseMemoryTransitionStart();
             
             _targetScene = MainSceneName;
@@ -66,6 +69,7 @@ namespace _Project.Scripts.Application.Memory
 
             _targetScene = sceneName;
             
+            _gameStateService.SetState(GameState.Transition);
             MemoryEvents.RaiseMemoryTransitionStart();
             
             _coroutineRunner.StartCoroutine(PreloadScene(_targetScene));
