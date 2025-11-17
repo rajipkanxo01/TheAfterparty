@@ -49,7 +49,7 @@ namespace _Project.Scripts.Application.Memory.Echo
                 _lastUsedEcho.HideDuringPlayback();
             }
 
-            globalVolume.enabled = false;
+            if(globalVolume) globalVolume.enabled = false;
         }
 
         private void HandleFragmentCompleted(FragmentData fragment)
@@ -58,7 +58,7 @@ namespace _Project.Scripts.Application.Memory.Echo
             if (_lastUsedEcho != null)
                 _lastUsedEcho.ShowAfterPlayback();
 
-            globalVolume.enabled = true;
+            if (globalVolume) globalVolume.enabled = true;
 
             // unlock next echo
             int index = _echoes.FindIndex(e => e.Order == fragment.orderInMemory);
