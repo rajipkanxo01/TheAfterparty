@@ -47,7 +47,8 @@ public class BadgePuzzleController : MonoBehaviour
         if (!done)
         {
             // Adjacency check for the clicked block
-            if ((Mathf.Abs(emptySpot.x - currentSpots[blockID].x) == 1) != (Mathf.Abs(emptySpot.y - currentSpots[blockID].y) == 1))
+            if ((Mathf.Abs(emptySpot.x - currentSpots[blockID].x) == 1 && emptySpot.y == currentSpots[blockID].y) 
+                || (Mathf.Abs(emptySpot.y - currentSpots[blockID].y) == 1 && emptySpot.x == currentSpots[blockID].x))
             {
                 Vector2Int t = currentSpots[blockID];
                 currentSpots[blockID] = emptySpot;
