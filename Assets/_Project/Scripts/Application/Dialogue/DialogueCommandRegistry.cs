@@ -19,8 +19,7 @@ namespace _Project.Scripts.Application.Dialogue
         public void RegisterBuiltInCommands()
         {
             RegisterCommand(new SayCommandHandler());
-            RegisterCommand(new MemoryCommandHandler());
-            RegisterCommand(new BadgeCommandHandler());
+            RegisterCommand(new MemoryCommandHandler());            RegisterCommand(new BadgeCommandHandler());
             RegisterCommand(new SetHighlightAreaCommandHandler());
             RegisterCommand(new RaiseEventCommandHandler());
         }
