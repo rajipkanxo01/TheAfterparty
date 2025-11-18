@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using _Project.Scripts.Application.Core;
 using _Project.Scripts.Application.Memory.Events;
+using _Project.Scripts.Application.Player;
 using _Project.Scripts.Data.Memory;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -38,6 +39,7 @@ namespace _Project.Scripts.Presentation.Memory.Echoes
 
         private GameStateService _gameStateService;
         private Coroutine _fadeRoutine;
+        private PlayerProfile _playerProfile;
 
         public int Order => order;
         public MemoryEchoData EchoData => echoData;
@@ -53,6 +55,8 @@ namespace _Project.Scripts.Presentation.Memory.Echoes
         private void Start()
         {
             _gameStateService = ServiceLocater.GetService<GameStateService>();
+            _playerProfile = ServiceLocater.GetService<PlayerProfile>();
+            
             ApplyUnlockVisualState();
         }
 
