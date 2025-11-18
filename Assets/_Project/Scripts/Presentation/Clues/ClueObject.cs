@@ -41,6 +41,7 @@ namespace _Project.Scripts.Presentation.Clues
             _renderer = GetComponent<SpriteRenderer>();
             _originalColor = _renderer.color;
             _renderer.enabled = false;
+            glitchVolume.enabled = false;
 
             _gameStateService = ServiceLocater.GetService<GameStateService>();
         }
@@ -71,6 +72,7 @@ namespace _Project.Scripts.Presentation.Clues
         {
             _isUnlocked = true;
             _renderer.enabled = true;
+            glitchVolume.enabled = true;
         }
 
         private void OnEnable()
