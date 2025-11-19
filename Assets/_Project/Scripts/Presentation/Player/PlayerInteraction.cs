@@ -19,11 +19,14 @@ namespace _Project.Scripts.Presentation.Player
             {
                 Debug.LogError("PlayerInteraction: GameStateService not found in ServiceLocator.");
             }
+        }
 
-            _dialogueControl = FindAnyObjectByType<DialogueController>();
+        private void Start()
+        {
+            _dialogueControl = ServiceLocater.GetService<DialogueController>();
             if (_dialogueControl == null)
             {
-                Debug.LogWarning("PlayerInteraction: DialogueController not found at Awake. It may be created later.");
+                Debug.LogWarning("PlayerInteraction: DialogueController not found.");
             }
         }
 
@@ -32,26 +35,13 @@ namespace _Project.Scripts.Presentation.Player
             if (!context.performed)
                 return;
 
-            if (_gameStateService == null)
-            {
-                Debug.LogError("PlayerInteraction: GameStateService is missing. Interaction aborted.");
-                return;
-            }
+            Debug.Log("PlayerInteraction: Interact input received.");
             
             if (_gameStateService.IsState(GameState.Transition)) return;
 
             if (_gameStateService.IsState(GameState.Dialogue) || _gameStateService.IsState(GameState.Cutscene))
             {
-                if (_dialogueControl == null)
-                {
-                    _dialogueControl = FindAnyObjectByType<DialogueController>();
-                    if (_dialogueControl == null)
-                    {
-                        Debug.LogWarning("PlayerInteraction: DialogueController not found during dialogue state.");
-                        return;
-                    }
-                }
-
+                Debug.Log("PlayerInteraction: Continuing dialogue.");
                 _dialogueControl.ContinueDialogue();
                 return;
             }

@@ -80,6 +80,8 @@ namespace _Project.Scripts.Presentation.Dialogue
         private void HandleDialogueLineStarted(object sender, DialogueLineEventArgs e)
         {
             bool isSameSpeaker = e.SpeakerId == _lastSpeakerId;
+            
+            Debug.Log($"SpeechBubbleView: Showing speech bubble for '{e.SpeakerName}' and displaying line: {e.LineText}");
 
             if (!isSameSpeaker)
             {

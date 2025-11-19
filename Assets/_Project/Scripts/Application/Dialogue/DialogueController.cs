@@ -105,10 +105,12 @@ namespace _Project.Scripts.Application.Dialogue
 
             
             _currentType = type;
+            
+            Debug.Log($"DialogueController: StartDialogue node '{nodeName}'.");
+            
             DialogueEvents.RaiseDialogueStarted();
             runner.StartDialogue(nodeName);
             
-            Debug.Log($"DialogueController: StartDialogue node '{nodeName}'.");
         }
 
 
@@ -121,6 +123,7 @@ namespace _Project.Scripts.Application.Dialogue
         {
             _gameState?.SetState(GameState.Normal);
             _currentType = DialogueType.NpcConversation;
+            
             DialogueEvents.RaiseDialogueEnded();
 
             _clueHandler.HandleDialogueEnd();

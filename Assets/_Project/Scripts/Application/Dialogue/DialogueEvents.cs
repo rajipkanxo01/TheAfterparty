@@ -49,6 +49,7 @@ namespace _Project.Scripts.Application.Dialogue
         
         public static void RaiseDialogueContinueRequested()
         {
+            Debug.Log("DialogueEvents: Raising OnDialogueContinueRequested event.");
             OnDialogueContinueRequested?.Invoke();
         }
     }

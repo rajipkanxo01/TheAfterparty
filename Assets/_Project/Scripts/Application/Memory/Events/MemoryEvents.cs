@@ -19,11 +19,18 @@ namespace _Project.Scripts.Application.Memory.Events
         
         // when transitioning into memory
         public static event Action OnMemoryTransitionStart;
-        
+        public static void RaiseMemoryTransitionStart()
+        {
+            Debug.Log($"Raising OnMemoryTransitionStart event.");
+            OnMemoryTransitionStart?.Invoke();
+        }
         
         // when transitioning out of memory
         public static event Action OnMemoryTransitionEnd;
-        
+        public static void RaiseMemoryTransitionEnd()
+        {
+            OnMemoryTransitionEnd?.Invoke();
+        }
         
         // when mogens learns chest code
         public static event Action<string> OnChestCodeLearned;
@@ -36,18 +43,7 @@ namespace _Project.Scripts.Application.Memory.Events
         
         // when repairing a fragment
         public static event Action<string> OnRepairFragment;
-       
         
-        public static void RaiseMemoryTransitionStart()
-        {
-            
-            OnMemoryTransitionStart?.Invoke();
-        }
-        
-        public static void RaiseMemoryTransitionEnd()
-        {
-            OnMemoryTransitionEnd?.Invoke();
-        }
         
         public static void RaiseAllFragmentsCompleted()
         {

@@ -23,6 +23,8 @@ namespace _Project.Scripts.Application.Dialogue.Commands
             _playerProfile = ServiceLocater.GetService<PlayerProfile>();
             _npcDatabase = ServiceLocater.GetService<NpcDatabase>();
             _speakerResolver = ServiceLocater.GetService<DialogueSpeakerResolver>();
+            
+            DialogueEvents.OnDialogueContinueRequested += HandleContinue;
         }
 
         public async Task ExecuteAsync(string[] parameters)
@@ -38,16 +40,20 @@ namespace _Project.Scripts.Application.Dialogue.Commands
 
             var (displayName, portrait) = _speakerResolver.Resolve(speakerId, _playerProfile, _dialogueController.CurrentType);
 
+            Debug.Log($"SayCommandHandler: Speaker '{speakerId}' says: {line}");
             DialogueEvents.RaiseDialogueLineStarted(_dialogueController, new DialogueLineEventArgs(displayName, line, portrait, speakerId));
 
             // Wait until the player continues
+            
+            
             _waitForContinue = new TaskCompletionSource<bool>();
-            DialogueEvents.OnDialogueContinueRequested += HandleContinue;
 
+            
+            Debug.Log("SayCommandHandler: Waiting for player to continue...");
             await _waitForContinue.Task;
 
-            DialogueEvents.OnDialogueContinueRequested -= HandleContinue;
             DialogueEvents.RaiseDialogueContinued();
+            Debug.Log("SayCommandHandler: Player requested to continue dialogue...");
         }
         
         private void HandleContinue()

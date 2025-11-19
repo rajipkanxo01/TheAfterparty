@@ -22,6 +22,8 @@ namespace _Project.Scripts.Application.Memory
         private AsyncOperation _backgroundLoad;
         private readonly StaticCoroutine _coroutineRunner;
         private readonly MemoryDatabase _memoryDatabase;
+
+        private bool _isLoadingScene = false;
         
         // todo: instead of hardcoding, get from config or constants
         private const string MainSceneName = "SecondLayout";
@@ -33,6 +35,9 @@ namespace _Project.Scripts.Application.Memory
             MemoryEvents.OnVisitMemory += VisitMemory;
             MemoryEvents.OnMemoryTransitionEnd += HandleTransitionEnd;
             MemoryEvents.OnAllFragmentsCompleted += HandleAllFragmentsCompleted;
+            
+            
+            Debug.Log("MemoryManager: Initialized.");
 
             _memoryDatabase = ServiceLocater.GetService<MemoryDatabase>();
             _playerProfile = ServiceLocater.GetService<PlayerProfile>();
@@ -51,6 +56,8 @@ namespace _Project.Scripts.Application.Memory
 
         private void VisitMemory(string memoryId)
         {
+            if (_isLoadingScene) return;
+
             if (string.IsNullOrEmpty(memoryId))
             {
                 Debug.LogWarning("MemoryManager: Invalid memoryId for VisitMemory.");
@@ -64,9 +71,9 @@ namespace _Project.Scripts.Application.Memory
                 return;
             }
 
-            // Unlock if not already unlocked
-            UnlockMemory(memoryId);
+            _isLoadingScene = true;
 
+            UnlockMemory(memoryId);
             _targetScene = sceneName;
             
             _gameStateService.SetState(GameState.Transition);
@@ -74,6 +81,7 @@ namespace _Project.Scripts.Application.Memory
             
             _coroutineRunner.StartCoroutine(PreloadScene(_targetScene));
         }
+
         
         private void UnlockMemory(string memoryId)
         {
@@ -100,17 +108,22 @@ namespace _Project.Scripts.Application.Memory
         }
 
         
-        private void HandleTransitionEnd()
+        private async void HandleTransitionEnd()
         {
             if (_backgroundLoad == null)
             {
                 Debug.LogWarning("MemoryManager: No background load operation to activate.");
+                _isLoadingScene = false;
                 return;
             }
 
             Debug.Log($"MemoryManager: Activating scene '{_targetScene}'.");
+
             _backgroundLoad.allowSceneActivation = true;
+
+            _isLoadingScene = false;
         }
+
 
         public void RevisitMemory(string sceneName)
         {
