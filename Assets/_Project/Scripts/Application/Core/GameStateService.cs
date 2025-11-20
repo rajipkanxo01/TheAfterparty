@@ -28,6 +28,8 @@ namespace _Project.Scripts.Application.Core
                 return;
             }
             
+            Debug.Log("GameStateService: Changing state from " + _currentState + " to " + newState);
+            
             _currentState = newState;
             OnStateChanged?.Invoke(_currentState);
         }

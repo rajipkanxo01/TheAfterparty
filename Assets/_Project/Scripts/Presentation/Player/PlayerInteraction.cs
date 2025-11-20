@@ -32,25 +32,26 @@ namespace _Project.Scripts.Presentation.Player
 
         public void OnInteract(InputAction.CallbackContext context)
         {
-            if (!context.performed)
-                return;
-
-            Debug.Log("PlayerInteraction: Interact input received.");
+            if (!context.performed) return;
             
-            if (_gameStateService.IsState(GameState.Transition)) return;
+            // block interaction during transitions
+            if (_gameStateService.IsState(GameState.Transition))
+            {
+                Debug.Log("PlayerInteraction: Interaction blocked during transition.");
+                return;
+            }
 
+            // if in dialogue or cutscene, only advance dialogue
             if (_gameStateService.IsState(GameState.Dialogue) || _gameStateService.IsState(GameState.Cutscene))
             {
-                Debug.Log("PlayerInteraction: Continuing dialogue.");
                 _dialogueControl.ContinueDialogue();
                 return;
             }
 
             if (_nearestInteractable == null)
-            {
                 return;
-            }
 
+            // detect destroyed interactables correctly
             if (_nearestInteractable is MonoBehaviour mono && mono == null)
             {
                 Debug.LogWarning("PlayerInteraction: Interactable reference destroyed.");
@@ -58,15 +59,19 @@ namespace _Project.Scripts.Presentation.Player
                 return;
             }
 
+            // safe interact call
             try
             {
                 _nearestInteractable.Interact(gameObject);
             }
             catch (Exception ex)
             {
-                Debug.LogError($"PlayerInteraction: Exception during interaction: {ex.Message}\n{ex.StackTrace}");
+                Debug.LogError(
+                    $"PlayerInteraction: Exception during interaction: {ex.Message}\n{ex.StackTrace}"
+                );
             }
         }
+        
 
         private void OnTriggerEnter2D(Collider2D other)
         {

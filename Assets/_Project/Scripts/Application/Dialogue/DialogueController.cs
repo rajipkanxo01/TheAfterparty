@@ -121,7 +121,8 @@ namespace _Project.Scripts.Application.Dialogue
 
         private void OnDialogueComplete()
         {
-            _gameState?.SetState(GameState.Normal);
+            _gameState?.SetState(GameState.Normal); 
+            
             _currentType = DialogueType.NpcConversation;
             
             DialogueEvents.RaiseDialogueEnded();
