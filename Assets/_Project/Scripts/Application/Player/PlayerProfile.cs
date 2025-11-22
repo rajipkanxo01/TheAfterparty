@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using _Project.Scripts.Application.Clue;
 using UnityEngine;
 
 namespace _Project.Scripts.Application.Player
@@ -27,6 +26,8 @@ namespace _Project.Scripts.Application.Player
             PlayerId = playerId;
             Portrait = portrait;
             MainSceneName = mainSceneName;
+
+            _unlockedMemories.Add("realWorld");
         }
 
         public bool HasDiscoveredClue(string clueId)
@@ -36,6 +37,7 @@ namespace _Project.Scripts.Application.Player
 
         public bool HasUnlockedMemory(string memoryId)
         {
+            Debug.Log($"PlayerProfile: Checking unlocked memories for '{memoryId}'. Total unlocked memories: {_unlockedMemories.Count}");
             return _unlockedMemories.Contains(memoryId);
         }
         
