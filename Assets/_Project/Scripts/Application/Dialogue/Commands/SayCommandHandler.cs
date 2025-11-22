@@ -39,21 +39,15 @@ namespace _Project.Scripts.Application.Dialogue.Commands
             string line = parameters[1];
 
             var (displayName, portrait) = _speakerResolver.Resolve(speakerId, _playerProfile, _dialogueController.CurrentType);
-
-            Debug.Log($"SayCommandHandler: Speaker '{speakerId}' says: {line}");
             DialogueEvents.RaiseDialogueLineStarted(_dialogueController, new DialogueLineEventArgs(displayName, line, portrait, speakerId));
 
             // Wait until the player continues
-            
-            
             _waitForContinue = new TaskCompletionSource<bool>();
 
             
-            Debug.Log("SayCommandHandler: Waiting for player to continue...");
             await _waitForContinue.Task;
 
             DialogueEvents.RaiseDialogueContinued();
-            Debug.Log("SayCommandHandler: Player requested to continue dialogue...");
         }
         
         private void HandleContinue()

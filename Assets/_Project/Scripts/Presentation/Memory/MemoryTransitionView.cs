@@ -40,7 +40,6 @@ namespace _Project.Scripts.Presentation.Memory
 
         public void Play()
         {
-            Debug.Log($"TransitionCanvas activeSelf={gameObject.activeSelf}, inHierarchy={gameObject.activeInHierarchy}");
             StartCoroutine(PlayTransition());
         }
 
@@ -68,9 +67,9 @@ namespace _Project.Scripts.Presentation.Memory
             yield return new WaitForSeconds(blackHoldDuration);
             
             // 4. Transition complete (scene load trigger)
-            
-            _gameStateService.SetState(GameState.Normal);
+
             MemoryEvents.RaiseMemoryTransitionEnd();
+            _gameStateService.SetState(GameState.Normal);
 
             // 3. Bright flash
             yield return StartCoroutine(FadeToColor(Color.white, whiteFlashDuration, false));
