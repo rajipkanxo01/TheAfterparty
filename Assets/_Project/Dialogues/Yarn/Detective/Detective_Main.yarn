@@ -14,7 +14,7 @@
 <<say Detective "I am sorry. And thank you.">>
 <<say Cat "Now, think of when you last saw the badge. Recall it as clearly in your mind as you can.">>
 
-<<memory visit badgeLost>>
+<<memory unlock badgeLost>>
 ===
 
 
