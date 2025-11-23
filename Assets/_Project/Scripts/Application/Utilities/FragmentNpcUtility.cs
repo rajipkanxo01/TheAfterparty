@@ -44,10 +44,10 @@ namespace _Project.Scripts.Application.Utilities
         {
             var move = GetMoveAction(fragment, npcId);
 
-            if (move != null && move.pathPointNames.Count > 0)
+            if (move != null && move.paths.Length > 0)
             {
-                var positions = MemoryPathUtility.ResolvePathPositions(move.pathPointNames);
-                if (positions.Count > 0)
+                var positions = move.paths;
+                if (positions.Length > 0)
                 {
                     return positions[0];
                 }

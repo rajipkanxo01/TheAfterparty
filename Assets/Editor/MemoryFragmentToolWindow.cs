@@ -88,7 +88,7 @@ namespace Editor
 
                     EditorGUI.LabelField(new Rect(rect.x, y, labelWidthRename, line), $"{index + 1}.", headerStyle);
 
-                    string newName = EditorGUI.TextField(
+                    string newName = EditorGUI.DelayedTextField(
                         new Rect(rect.x + labelWidthRename + 5f, y, nameFieldWidth, line),
                         action.name
                     );

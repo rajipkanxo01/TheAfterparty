@@ -30,8 +30,8 @@ namespace _Project.Scripts.Application.Memory.Actions
                 return;
             }
 
-            List<Vector3> positions = MemoryPathUtility.ResolvePathPositions(data.pathPointNames);
-            if (positions.Count == 0)
+            Vector3[] positions = data.paths;
+            if (positions.Length == 0)
             {
                 Debug.LogWarning("MoveActionExecutor: No valid path positions found.");
                 return;
