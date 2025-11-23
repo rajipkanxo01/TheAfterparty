@@ -43,6 +43,7 @@ namespace _Project.Scripts.Presentation.Memory.Echoes
 
         public int Order => order;
         public MemoryEchoData EchoData => echoData;
+        public bool IsUnlocked => isUnlocked;
 
         private void Awake()
         {
@@ -93,16 +94,26 @@ namespace _Project.Scripts.Presentation.Memory.Echoes
 
         public void HideDuringPlayback()
         {
-            if (_fadeRoutine != null) StopCoroutine(_fadeRoutine);
+            /*if (_fadeRoutine != null) StopCoroutine(_fadeRoutine);
             _fadeRoutine = StartCoroutine(FadeEcho(0f, echoFadeDuration));
-            _playerNear = false;
+            _playerNear = false;*/
+            
+            knotSprite.enabled = false;
+            glowSprite.enabled = false;
+            mainText.enabled = false;
+            glowText.enabled = false;
+            
+            GetComponentInChildren<CircleCollider2D>().enabled = false;
         }
 
         public void ShowAfterPlayback()
         {
-            if (!isUnlocked) return;
-            if (_fadeRoutine != null) StopCoroutine(_fadeRoutine);
-            _fadeRoutine = StartCoroutine(FadeEcho(1f, echoFadeDuration));
+            knotSprite.enabled = true;
+            glowSprite.enabled = true;
+            mainText.enabled = true;
+            glowText.enabled = true;
+            
+            GetComponentInChildren<CircleCollider2D>().enabled = true;
         }
 
         private IEnumerator FadeEcho(float targetAlpha, float duration)
