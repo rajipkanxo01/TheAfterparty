@@ -52,16 +52,16 @@ namespace _Project.Scripts.Presentation.Memory.Services
                 return;
             }
 
-            Debug.Log($"MemoryDialogueService: Starting Yarn node '{nodeName}'");
 
             _dialogueFinished = new TaskCompletionSource<bool>();
             
+            
+            Debug.Log("MemoryDialogueService: Playing node: " + nodeName);
             _dialogueController.StartDialogue(nodeName);
             _gameStateService.SetState(GameState.Cutscene);
 
             await _dialogueFinished.Task;
 
-            Debug.Log($"MemoryDialogueService:  Node '{nodeName}' finished.");
         }
         
         private void HandleDialogueEnded()

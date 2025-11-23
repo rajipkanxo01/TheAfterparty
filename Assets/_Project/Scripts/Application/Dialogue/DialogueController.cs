@@ -107,10 +107,8 @@ namespace _Project.Scripts.Application.Dialogue
             _currentType = type;
             
             Debug.Log($"DialogueController: StartDialogue node '{nodeName}'.");
-            
             DialogueEvents.RaiseDialogueStarted();
             runner.StartDialogue(nodeName);
-            
         }
 
 

@@ -34,7 +34,7 @@ namespace _Project.Scripts.Application.Memory
             MemoryEvents.OnMemoryUnlocked += UnlockMemory;
             MemoryEvents.OnVisitMemory += VisitMemory;
             MemoryEvents.OnMemoryTransitionEnd += HandleTransitionEnd;
-            MemoryEvents.OnAllFragmentsCompleted += HandleAllFragmentsCompleted;
+            // MemoryEvents.OnAllFragmentsCompleted += HandleAllFragmentsCompleted;
             
             
             Debug.Log("MemoryManager: Initialized.");
