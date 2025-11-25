@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using _Project.Scripts.Application.Core;
 using _Project.Scripts.Application.Events;
 using _Project.Scripts.Application.Player;
 using UnityEngine;
 
-namespace _Project.Scripts.Presentation.Journal
+namespace _Project.Scripts.Presentation.Journal.MemoryTab
 {
     public class MemoryPageController : MonoBehaviour
     {

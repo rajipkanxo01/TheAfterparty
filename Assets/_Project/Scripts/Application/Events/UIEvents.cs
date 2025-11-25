@@ -11,5 +11,9 @@ namespace _Project.Scripts.Application.Events
         // when journal is closed
         public static event Action OnJournalClose;
         public static void RaiseJournalClose() => OnJournalClose?.Invoke();
+        
+        // when tab index changes
+        public static event Action<int> OnJournalTabChanged;
+        public static void RaiseJournalTabChanged(int index) => OnJournalTabChanged?.Invoke(index);
     }
 }

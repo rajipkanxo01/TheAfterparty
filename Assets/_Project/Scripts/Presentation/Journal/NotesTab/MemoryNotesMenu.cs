@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
-namespace _Project.Scripts.Presentation.Journal
+namespace _Project.Scripts.Presentation.Journal.NotesTab
 {
     [Serializable]
     public class MemoryNotePage
@@ -82,13 +82,5 @@ namespace _Project.Scripts.Presentation.Journal
             onMemorySelected?.Invoke(currentIndex);
         }
 
-        /// <summary>
-        /// Call this if you want to programmatically switch memory.
-        /// </summary>
-        public void JumpToMemory(int index)
-        {
-            index = Mathf.Clamp(index, 0, pages.Count - 1);
-            pages[index].button.isOn = true;
-        }
     }
 }

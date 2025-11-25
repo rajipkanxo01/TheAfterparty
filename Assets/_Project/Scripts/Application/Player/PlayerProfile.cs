@@ -71,6 +71,8 @@ namespace _Project.Scripts.Application.Player
                 existingList = new List<string>();
                 _allMemoryNotes[memoryId] = existingList;
             }
+            
+            Debug.Log($"PlayerProfile: Adding memory note '{memoryId}'.");
 
             foreach (var note in notes.Where(note => !existingList.Contains(note)))
             {
