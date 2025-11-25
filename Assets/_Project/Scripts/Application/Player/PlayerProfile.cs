@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using _Project.Scripts.Data.Memory;
 using UnityEngine;
 
 namespace _Project.Scripts.Application.Player
@@ -15,12 +16,12 @@ namespace _Project.Scripts.Application.Player
         private readonly HashSet<string> _unlockedMemories = new();
         private readonly HashSet<string> _repairedFragments = new();
         private readonly HashSet<string> _flags = new();
-        private readonly Dictionary<string, List<string>> _allMemoryNotes = new Dictionary<string, List<string>>();
+        private readonly Dictionary<string, List<MemoryObservation>> _allMemoryNotes = new Dictionary<string, List<MemoryObservation>>();
         
         public IReadOnlyCollection<string> GetDiscoveredClues() => _discoveredClues;
         public IReadOnlyCollection<string> GetUnlockedMemories() => _unlockedMemories;
         public IReadOnlyCollection<string> GetRequiredFragments() => _repairedFragments;
-        public IReadOnlyDictionary<string, List<string>> GetAllMemoryNotes => _allMemoryNotes;        
+        public IReadOnlyDictionary<string, List<MemoryObservation>> GetAllMemoryNotes => _allMemoryNotes;        
 
         public PlayerProfile(string displayName, string playerId, Sprite portrait, string mainSceneName)
         {
@@ -61,14 +62,14 @@ namespace _Project.Scripts.Application.Player
             }
         }
         
-        public void AddMemoryNotes(string memoryId, List<string> notes)
+        public void AddMemoryNotes(string memoryId, List<MemoryObservation> notes)
         {
             if (string.IsNullOrEmpty(memoryId) || notes == null)
                 return;
 
             if (!_allMemoryNotes.TryGetValue(memoryId, out var existingList))
             {
-                existingList = new List<string>();
+                existingList = new List<MemoryObservation>();
                 _allMemoryNotes[memoryId] = existingList;
             }
             

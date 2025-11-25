@@ -31,7 +31,6 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
 
         private void OnPageChanged(int index)
         {
-            Debug.Log($"NotesPageController: Page changed to index {index}. Expecting {NotesTabIndex} for Notes tab.");
             if (index != NotesTabIndex)
             {
                 return;
@@ -55,7 +54,6 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
             {
                 btn.SelectWithoutNotify();
                 btn.ShowNotesFor();
-                Debug.Log("NotesPageController: Selected first unlocked memory note.");
                 return;
             }
         }

@@ -13,6 +13,8 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
     {
         [SerializeField] private string memoryID;
         [SerializeField] private Toggle toggle;
+        [SerializeField] private Transform observationContainer;
+        [SerializeField] private GameObject observationPrefab;
 
         [Header("Lock State")]
         [SerializeField] private GameObject lockedOverlay;
@@ -80,6 +82,11 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
 
         public void ShowNotesFor()
         {
+            foreach (Transform child in observationContainer)
+            {
+                Destroy(child.gameObject);
+            }
+            
             if (_playerProfile == null)
                 return;
 
@@ -93,9 +100,29 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
 
             titleText.text = memoryID;
 
-            notesText.text = memoryNotes.Count == 0
+            /*notesText.text = memoryNotes.Count == 0
                 ? "<i>No notes found yet...</i>"
-                : "• " + string.Join("\n\n• ", memoryNotes);
+                : "• " + string.Join("\n\n• ", memoryNotes);*/
+
+
+            foreach (var observation in memoryNotes)
+            {
+                GameObject entry = Instantiate(observationPrefab, observationContainer);
+                var text = entry.GetComponentInChildren<TextMeshProUGUI>();
+                
+                Debug.Log($"MemoryNoteButton: Adding observation: {observation.observationText}");
+                text.text = observation.observationText;
+
+                
+                // bool contradicted = _playerProfile.IsContradicted(memoryID, observation.observationId);
+    
+                /*if (contradicted)
+                    text.text = $"<s>{observation.observationText}</s>";
+                else
+                    text.text = observation.observationText;*/
+
+                // entry.GetComponent<ContradictionIcon>().SetActive(false);
+            }
         }
         
         private void ClearUI()

@@ -61,7 +61,7 @@ namespace _Project.Scripts.Application.Memory
             var allObservations = memory.memoryObservations; 
 
             // store in PlayerProfile
-            _playerProfile.AddMemoryNotes(_currentMemoryId, allObservations);
+            // _playerProfile.AddMemoryNotes(_currentMemoryId, allObservations);
 
             // notify UI
             ToastNotification.Show("New Memory Notes Added! Check your journal.", 5f);
