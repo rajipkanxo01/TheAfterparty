@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace _Project.Scripts.Data.Memory.Actions
 {
@@ -10,8 +9,8 @@ namespace _Project.Scripts.Data.Memory.Actions
         public float speed = 2f;
         public bool isLoop = false;
         
-        [Tooltip("Names of the path points this actor will follow (in order).")]
-        public List<string> pathPointNames = new List<string>();
+        [Tooltip("Vector3 positions in world space that the NPC will move to in order.")]
+        public Vector3[] paths = new Vector3[] { };
         
         public override string GetNpcId() => npcId;
     }

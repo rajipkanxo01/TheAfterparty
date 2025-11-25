@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace _Project.Scripts.Application.Player
@@ -13,12 +14,13 @@ namespace _Project.Scripts.Application.Player
         private readonly HashSet<string> _discoveredClues = new();
         private readonly HashSet<string> _unlockedMemories = new();
         private readonly HashSet<string> _repairedFragments = new();
+        private readonly HashSet<string> _flags = new();
+        private readonly Dictionary<string, List<string>> _memoryNotes = new Dictionary<string, List<string>>();
         
         public IReadOnlyCollection<string> GetDiscoveredClues() => _discoveredClues;
         public IReadOnlyCollection<string> GetUnlockedMemories() => _unlockedMemories;
         public IReadOnlyCollection<string> GetRequiredFragments() => _repairedFragments;
-        
-        private readonly HashSet<string> _flags = new();
+        public IReadOnlyDictionary<string, List<string>> GetMemoryNotes => _memoryNotes;        
 
         public PlayerProfile(string displayName, string playerId, Sprite portrait, string mainSceneName)
         {
@@ -56,6 +58,23 @@ namespace _Project.Scripts.Application.Player
             {
                 Debug.Log($"PlayerProfile: Unlocked memory '{memoryId}'.");
                 // maybe trigger some event here to update memory UI
+            }
+        }
+        
+        public void AddMemoryNotes(string memoryId, List<string> notes)
+        {
+            if (string.IsNullOrEmpty(memoryId) || notes == null)
+                return;
+
+            if (!_memoryNotes.TryGetValue(memoryId, out var existingList))
+            {
+                existingList = new List<string>();
+                _memoryNotes[memoryId] = existingList;
+            }
+
+            foreach (var note in notes.Where(note => !existingList.Contains(note)))
+            {
+                existingList.Add(note);
             }
         }
         

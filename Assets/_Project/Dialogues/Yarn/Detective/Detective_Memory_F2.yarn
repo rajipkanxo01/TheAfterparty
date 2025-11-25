@@ -1,0 +1,14 @@
+﻿title: Memory_F2_MascotArrives
+---
+<<say girl "Your badge? Can I see it? Please!">>
+<<say mascot "Sorry about her, officer. She gets excited easily.">>
+<<say detective "Oh, it's all right. She was just curious.">>
+<<say detective "She wanted to see my badge, actually.">>
+<<say detective "Let me just grab it…">>
+===
+
+title: Memory_F2_GirlGetsExcitedSeeingMouse
+---
+<<say girl "A mouse! Yay!">>
+===
+

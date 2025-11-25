@@ -54,7 +54,6 @@ namespace _Project.Scripts.Presentation.Player
             // detect destroyed interactables correctly
             if (_nearestInteractable is MonoBehaviour mono && mono == null)
             {
-                Debug.LogWarning("PlayerInteraction: Interactable reference destroyed.");
                 _nearestInteractable = null;
                 return;
             }
@@ -66,8 +65,7 @@ namespace _Project.Scripts.Presentation.Player
             }
             catch (Exception ex)
             {
-                Debug.LogError(
-                    $"PlayerInteraction: Exception during interaction: {ex.Message}\n{ex.StackTrace}"
+                Debug.LogError($"PlayerInteraction: Exception during interaction: {ex.Message}\n{ex.StackTrace}"
                 );
             }
         }
@@ -84,7 +82,6 @@ namespace _Project.Scripts.Presentation.Player
             if (other.TryGetComponent<IInteractable>(out var interactable))
             {
                 _nearestInteractable = interactable;
-                Debug.Log($"[PlayerInteraction] Entered interactable trigger: {other.name}");
             }
         }
 
@@ -98,7 +95,6 @@ namespace _Project.Scripts.Presentation.Player
                 if (interactable == _nearestInteractable)
                 {
                     _nearestInteractable = null;
-                    Debug.Log($"[PlayerInteraction] Exited interactable trigger: {other.name}");
                 }
             }
         }

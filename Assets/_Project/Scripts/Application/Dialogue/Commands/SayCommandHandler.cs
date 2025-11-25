@@ -38,6 +38,9 @@ namespace _Project.Scripts.Application.Dialogue.Commands
             string speakerId = parameters[0];
             string line = parameters[1];
 
+            
+            Debug.Log($"SayCommandHandler: Speaker '{speakerId}' says: {line}");
+            
             var (displayName, portrait) = _speakerResolver.Resolve(speakerId, _playerProfile, _dialogueController.CurrentType);
             DialogueEvents.RaiseDialogueLineStarted(_dialogueController, new DialogueLineEventArgs(displayName, line, portrait, speakerId));
 

@@ -1,0 +1,17 @@
+﻿title: Memory_F1_ElliotTalkingAboutWeather
+---
+<<say detective "Phew… it’s way too hot in this thing.">>
+<<say detective "I’ll just take this off for a moment.">>
+===
+
+title: Memory_F1_ElliotRemovingJacket
+---
+<<say detective "This bench should do nicely.">>
+===
+
+
+title: Memory_F1_GirlTalkWithDetective
+---
+<<say girl "Excuse me… are you dressed like the Chief from Cardamom Town?">>
+<<say detective "Ah—yes, I suppose I am.">>
+===

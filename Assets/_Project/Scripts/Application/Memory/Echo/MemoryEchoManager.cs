@@ -44,9 +44,14 @@ namespace _Project.Scripts.Application.Memory.Echo
         {
             _lastUsedEcho = _echoes.FirstOrDefault(e => e.EchoData.fragmentId == fragment.fragmentId);
 
-            if (_lastUsedEcho != null)
+            /*if (_lastUsedEcho != null)
             {
                 _lastUsedEcho.HideDuringPlayback();
+            }*/
+            
+            foreach (var echo in _echoes.Where(echo => echo.IsUnlocked))
+            {
+                echo.HideDuringPlayback();
             }
 
             if(globalVolume) globalVolume.enabled = false;
@@ -55,8 +60,10 @@ namespace _Project.Scripts.Application.Memory.Echo
         private void HandleFragmentCompleted(FragmentData fragment)
         {
             // show the used echo again (allow replay)
-            if (_lastUsedEcho != null)
-                _lastUsedEcho.ShowAfterPlayback();
+            foreach (var echo in _echoes.Where(echo => echo.IsUnlocked))
+            {
+                echo.ShowAfterPlayback();
+            }
 
             if (globalVolume) globalVolume.enabled = true;
 
