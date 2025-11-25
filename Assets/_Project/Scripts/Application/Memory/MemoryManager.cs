@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using _Project.Scripts.Application.Core;
+using _Project.Scripts.Application.Events;
 using _Project.Scripts.Application.Memory.Events;
 using _Project.Scripts.Application.Player;
 using _Project.Scripts.Data.Memory;
@@ -28,13 +29,16 @@ namespace _Project.Scripts.Application.Memory
         // todo: instead of hardcoding, get from config or constants
         private const string MainSceneName = "SecondLayout";
         private GameStateService _gameStateService;
-
+        private string _currentMemoryId;
+        
+        public string CurrentMemoryId => _currentMemoryId;
+        
         public MemoryManager()
         {
             MemoryEvents.OnMemoryUnlocked += UnlockMemory;
             MemoryEvents.OnVisitMemory += VisitMemory;
             MemoryEvents.OnMemoryTransitionEnd += HandleTransitionEnd;
-            // MemoryEvents.OnAllFragmentsCompleted += HandleAllFragmentsCompleted;
+            MemoryEvents.OnAllFragmentsCompleted += HandleAllFragmentsCompleted;
             
             
             Debug.Log("MemoryManager: Initialized.");
@@ -47,11 +51,21 @@ namespace _Project.Scripts.Application.Memory
 
         private void HandleAllFragmentsCompleted()
         {
-            _gameStateService.SetState(GameState.Transition);
-            MemoryEvents.RaiseMemoryTransitionStart();
-            
-            _targetScene = MainSceneName;
-            _coroutineRunner.StartCoroutine(PreloadScene(_targetScene));
+            var memory = _memoryDatabase.GetById(_currentMemoryId);
+            if (memory == null)
+            {
+                Debug.LogWarning($"MemoryManager: Cannot add journal entry. Memory '{_currentMemoryId}' not found.");
+                return;
+            }
+
+            var allObservations = memory.memoryObservations; 
+
+            // store in PlayerProfile
+            _playerProfile.AddMemoryNotes(_currentMemoryId, allObservations);
+
+            // notify UI
+            ToastNotification.Show("New Memory Notes Added! Check your journal.", 5f);
+            // UIEvents.RaiseMemoryNotesAdded(allObservations);
         }
 
         private void VisitMemory(string memoryId)
@@ -74,6 +88,8 @@ namespace _Project.Scripts.Application.Memory
             _isLoadingScene = true;
 
             UnlockMemory(memoryId);
+            
+            _currentMemoryId = memoryId;
             _targetScene = sceneName;
             
             _gameStateService.SetState(GameState.Transition);

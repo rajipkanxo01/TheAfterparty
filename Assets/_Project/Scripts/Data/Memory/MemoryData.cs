@@ -11,7 +11,10 @@ namespace _Project.Scripts.Data.Memory
         public string memoryId;
         public string sceneName;
         public string belongsToNpcId;
-        
+
+        [TextArea(2, 5)]
+        public List<string> memoryObservations;
+
         [Header("Fragments")] // Each memory will contain list of fragments
         public List<FragmentData> fragments;
     }
