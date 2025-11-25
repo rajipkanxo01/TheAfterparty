@@ -15,12 +15,12 @@ namespace _Project.Scripts.Application.Player
         private readonly HashSet<string> _unlockedMemories = new();
         private readonly HashSet<string> _repairedFragments = new();
         private readonly HashSet<string> _flags = new();
-        private readonly Dictionary<string, List<string>> _memoryNotes = new Dictionary<string, List<string>>();
+        private readonly Dictionary<string, List<string>> _allMemoryNotes = new Dictionary<string, List<string>>();
         
         public IReadOnlyCollection<string> GetDiscoveredClues() => _discoveredClues;
         public IReadOnlyCollection<string> GetUnlockedMemories() => _unlockedMemories;
         public IReadOnlyCollection<string> GetRequiredFragments() => _repairedFragments;
-        public IReadOnlyDictionary<string, List<string>> GetMemoryNotes => _memoryNotes;        
+        public IReadOnlyDictionary<string, List<string>> GetAllMemoryNotes => _allMemoryNotes;        
 
         public PlayerProfile(string displayName, string playerId, Sprite portrait, string mainSceneName)
         {
@@ -66,10 +66,10 @@ namespace _Project.Scripts.Application.Player
             if (string.IsNullOrEmpty(memoryId) || notes == null)
                 return;
 
-            if (!_memoryNotes.TryGetValue(memoryId, out var existingList))
+            if (!_allMemoryNotes.TryGetValue(memoryId, out var existingList))
             {
                 existingList = new List<string>();
-                _memoryNotes[memoryId] = existingList;
+                _allMemoryNotes[memoryId] = existingList;
             }
 
             foreach (var note in notes.Where(note => !existingList.Contains(note)))
