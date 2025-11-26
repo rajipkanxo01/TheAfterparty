@@ -1,6 +1,7 @@
 ﻿title: MogensContradiction_Jacket_Root
 ---
-<<if $jacket_talked>>
+
+<<if $contradiction_elliotJacket>>
     <<jump MogensContradiction_Jacket_Repeat>>
 <<else>>
     <<jump MogensContradiction_Jacket_Main>>
@@ -14,7 +15,6 @@ title: MogensContradiction_Jacket_Main
 <<say cat "Yet in his memory, he insisted he put his own jacket here.">>
 
 <<contradiction found elliotJacket>>
-<<set $jacket_talked = true>>
 ===
 
 title: MogensContradiction_Jacket_Repeat

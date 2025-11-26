@@ -8,9 +8,5 @@
 <<declare $contradiction_elliotJacket = false as bool>>
 <<declare $contradiction_girlSeeMouse = false as bool>>
 
-// Interaction guards (prevent repeating full dialogue)
-<<declare $mouse_talked = false as bool>>
-<<declare $jacket_talked = false as bool>>
-
 <<stop>>
 ===

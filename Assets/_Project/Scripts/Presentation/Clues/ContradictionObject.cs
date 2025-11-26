@@ -9,6 +9,8 @@ namespace _Project.Scripts.Presentation.Clues
     {
         [SerializeField] private string memoryId;
         [SerializeField] private string observationId;
+        [SerializeField] private string lockedYarnNode;
+        [SerializeField] private string unlockedYarnNode;
         
         private PlayerProfile _playerProfile;
 
@@ -24,7 +26,7 @@ namespace _Project.Scripts.Presentation.Clues
         public void Interact(GameObject interactor)
         {
             var completedMemory = _playerProfile.HasFragmentCompletedMemory(memoryId);
-            DialogueEvents.RaiseDialogueStart(!completedMemory ? "Jacket_Locked" : "MogensContradiction_Jacket_Root", DialogueType.PlayerMonologue);
+            DialogueEvents.RaiseDialogueStart(!completedMemory ? lockedYarnNode : unlockedYarnNode, DialogueType.PlayerMonologue);
         }
 
         public string GetInteractionPrompt()
