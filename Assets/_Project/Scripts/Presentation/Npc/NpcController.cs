@@ -10,6 +10,10 @@ namespace _Project.Scripts.Presentation.Npc
         [SerializeField] private string npcId;
         [SerializeField] private float defaultSpeed = 2f;
         
+        // NOTE: currently needs to be serialized as NPC sprite is not on this game object
+        // and I'm not sure FindInChildren will return one spritecomponent forever
+        [SerializeField] private Animator animator;
+
         public string NpcId => npcId;
         
         public Task MoveAlongPathAsync(IReadOnlyList<Vector3> positions, float speed)
@@ -52,7 +56,11 @@ namespace _Project.Scripts.Presentation.Npc
             float duration = distance / speed;
             float elapsed = 0f;
 
-            // todo: add walk animation trigger here
+            if (animator)
+            {
+                animator.SetFloat("moveX", target.x - start.x);
+                animator.SetFloat("moveY", target.y - start.y);
+            }
 
             while (elapsed < duration)
             {
