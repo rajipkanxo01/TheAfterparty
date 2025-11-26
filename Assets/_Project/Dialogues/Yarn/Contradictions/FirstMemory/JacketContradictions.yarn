@@ -1,0 +1,30 @@
+﻿title: MogensContradiction_Jacket_Root
+---
+<<if $jacket_talked>>
+    <<jump MogensContradiction_Jacket_Repeat>>
+<<else>>
+    <<jump MogensContradiction_Jacket_Main>>
+<<endif>>
+===
+
+title: MogensContradiction_Jacket_Main
+---
+<<say cat "Hmm… this jacket isn’t Elliot’s at all.">>
+<<say cat "Wrong size, wrong fabric, wrong smell.">>
+<<say cat "Yet in his memory, he insisted he put his own jacket here.">>
+
+<<contradiction found elliotJacket>>
+<<set $jacket_talked = true>>
+===
+
+title: MogensContradiction_Jacket_Repeat
+---
+<<say cat "We already checked this jacket. It’s not Elliot’s — that part is settled.">>
+===
+
+
+title: Jacket_Locked
+---
+<<say cat "Hmm.. This jacket might be important. Maybe we should check it out after visiting Elliot's memory.">>
+===
+

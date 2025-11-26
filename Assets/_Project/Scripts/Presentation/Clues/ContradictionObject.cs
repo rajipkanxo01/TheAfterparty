@@ -1,4 +1,6 @@
-﻿using _Project.Scripts.Application.Clue;
+﻿using _Project.Scripts.Application.Core;
+using _Project.Scripts.Application.Dialogue;
+using _Project.Scripts.Application.Player;
 using UnityEngine;
 
 namespace _Project.Scripts.Presentation.Clues
@@ -8,13 +10,21 @@ namespace _Project.Scripts.Presentation.Clues
         [SerializeField] private string memoryId;
         [SerializeField] private string observationId;
         
+        private PlayerProfile _playerProfile;
 
+        private void Start()
+        {
+            _playerProfile = ServiceLocater.GetService<PlayerProfile>();
+            if (_playerProfile == null)
+            {
+                Debug.LogError("ContradictionObject: PlayerProfile not found.");
+            }
+        }
+        
         public void Interact(GameObject interactor)
         {
-            if (interactor.CompareTag("Player"))
-            {
-                ContradictionEvents.RaiseContradictionFound(observationId);
-            }
+            var completedMemory = _playerProfile.HasFragmentCompletedMemory(memoryId);
+            DialogueEvents.RaiseDialogueStart(!completedMemory ? "Jacket_Locked" : "MogensContradiction_Jacket_Root", DialogueType.PlayerMonologue);
         }
 
         public string GetInteractionPrompt()

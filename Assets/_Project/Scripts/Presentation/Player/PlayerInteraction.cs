@@ -65,8 +65,7 @@ namespace _Project.Scripts.Presentation.Player
             }
             catch (Exception ex)
             {
-                Debug.LogError($"PlayerInteraction: Exception during interaction: {ex.Message}\n{ex.StackTrace}"
-                );
+                Debug.LogError($"PlayerInteraction: Exception during interaction: {ex.Message}\n{ex.StackTrace}");
             }
         }
         

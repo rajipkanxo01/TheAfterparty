@@ -34,6 +34,8 @@ namespace _Project.Scripts.Application.Dialogue
         private TaskCompletionSource<bool> _waitForContinue;
         public DialogueType CurrentType => _currentType;
         public NpcDialogueHandler NpcHandler => _npcHandler;
+        
+        public DialogueRunner Runner => runner;
 
         
         public static event Func<bool> OnTrySkipTyping;
@@ -110,6 +112,7 @@ namespace _Project.Scripts.Application.Dialogue
             
             _currentType = type;
             _gameState.SetState(GameState.Dialogue);
+            
             runner.StartDialogue(nodeName);
         }
 
