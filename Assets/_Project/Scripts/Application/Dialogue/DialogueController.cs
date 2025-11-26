@@ -43,10 +43,15 @@ namespace _Project.Scripts.Application.Dialogue
             SceneManager.sceneLoaded -= HandleSceneLoaded;
         }
 
+        private void Awake()
+        {
+            _ = this.destroyCancellationToken;
+        }
 
         private void Start()
         {
             SceneManager.sceneLoaded += HandleSceneLoaded;
+            DialogueEvents.OnDialogueStart += StartDialogue;
             
             if (!runner)
             {
@@ -73,6 +78,7 @@ namespace _Project.Scripts.Application.Dialogue
 
             _commandRegistry.RegisterBuiltInCommands();
         }
+        
 
         private void HandleSceneLoaded(Scene scene, LoadSceneMode mode)
         {
@@ -107,7 +113,8 @@ namespace _Project.Scripts.Application.Dialogue
             _currentType = type;
             
             Debug.Log($"DialogueController: StartDialogue node '{nodeName}'.");
-            DialogueEvents.RaiseDialogueStarted();
+            
+            _gameState.SetState(GameState.Dialogue);
             runner.StartDialogue(nodeName);
         }
 

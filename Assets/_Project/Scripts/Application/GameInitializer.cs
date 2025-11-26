@@ -5,6 +5,7 @@ using _Project.Scripts.Application.Memory;
 using _Project.Scripts.Application.Memory.Echo;
 using _Project.Scripts.Application.Memory.Services;
 using _Project.Scripts.Application.Player;
+using _Project.Scripts.Data;
 using _Project.Scripts.Data.Clues;
 using _Project.Scripts.Data.Memory;
 using _Project.Scripts.Data.Npc;
@@ -23,6 +24,7 @@ namespace _Project.Scripts.Application
         [SerializeField] private NpcDatabase npcDatabase;
         [SerializeField] private MemoryDatabase memoryDatabase;
         [SerializeField] private FragmentDatabase fragmentDatabase;
+        [SerializeField] private ContradictionDialogueMap contradictionDialogueMap;
 
         [Header("Configs")]
         [SerializeField] private SniffConfig sniffConfig;
@@ -76,13 +78,14 @@ namespace _Project.Scripts.Application
             var memoryEchoService = new MemoryEchoService();
             ServiceLocater.RegisterService(memoryEchoService);
             
-
             var dialogueController = FindAnyObjectByType<DialogueController>();
             if (dialogueController != null)
             {
                 ServiceLocater.RegisterService(dialogueController);
             }
             
+            var contradictionService = new ContradictionService(profile, contradictionDialogueMap);
+            ServiceLocater.RegisterService(contradictionService);
         }
     }
 }

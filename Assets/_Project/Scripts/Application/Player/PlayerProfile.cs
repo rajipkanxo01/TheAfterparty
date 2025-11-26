@@ -1,10 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using _Project.Scripts.Data.Memory;
 using UnityEngine;
 
 namespace _Project.Scripts.Application.Player
 {
+    [Serializable]
+    public class ObservationState
+    {
+        public bool contradicted;
+        public bool confirmed;
+        public bool evidenceFound;
+    }
+
     public class PlayerProfile
     {
         public string DisplayName { get; set; }
@@ -16,12 +25,15 @@ namespace _Project.Scripts.Application.Player
         private readonly HashSet<string> _unlockedMemories = new();
         private readonly HashSet<string> _repairedFragments = new();
         private readonly HashSet<string> _flags = new();
+        private readonly Dictionary<string, ObservationState> _observationStates = new();
         private readonly Dictionary<string, List<MemoryObservation>> _allMemoryNotes = new Dictionary<string, List<MemoryObservation>>();
         
         public IReadOnlyCollection<string> GetDiscoveredClues() => _discoveredClues;
         public IReadOnlyCollection<string> GetUnlockedMemories() => _unlockedMemories;
         public IReadOnlyCollection<string> GetRequiredFragments() => _repairedFragments;
-        public IReadOnlyDictionary<string, List<MemoryObservation>> GetAllMemoryNotes => _allMemoryNotes;        
+        public IReadOnlyDictionary<string, List<MemoryObservation>> GetAllMemoryNotes => _allMemoryNotes;       
+        public IReadOnlyCollection<string> GetFlags() => _flags;
+        public IReadOnlyDictionary<string, ObservationState> GetObservationStates() => _observationStates;
 
         public PlayerProfile(string displayName, string playerId, Sprite portrait, string mainSceneName)
         {
@@ -117,6 +129,22 @@ namespace _Project.Scripts.Application.Player
                 _flags.Remove(key);
             }
         }
+        
+        public bool IsContradicted(string observationId)
+        {
+            return _observationStates.TryGetValue(observationId, out var state) && state.contradicted;
+        }
+
+        public void SetContradicted(string observationId)
+        {
+            if (!_observationStates.ContainsKey(observationId))
+            {
+                _observationStates[observationId] = new ObservationState();
+            }
+
+            _observationStates[observationId].contradicted = true;
+        }
+
 
         
         public void ClearRepairedFragments()

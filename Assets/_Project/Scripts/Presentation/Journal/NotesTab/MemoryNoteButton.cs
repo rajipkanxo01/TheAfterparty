@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using _Project.Scripts.Application.Core;
+﻿using _Project.Scripts.Application.Core;
 using _Project.Scripts.Application.Events;
 using _Project.Scripts.Application.Player;
 using TMPro;
@@ -33,10 +31,8 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
         {
             toggle.onValueChanged.AddListener(isOn =>
             {
-                if (isOn)
-                {
-                    ShowNotesFor();
-                }
+                Debug.Log("MemoryNoteButton: Toggle is on, showing notes for " + memoryID);
+                ShowNotesFor();
             });
             
             UIEvents.OnJournalOpen += UpdateLockState;
@@ -80,7 +76,7 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
             }
         }
 
-        public void ShowNotesFor()
+        private void ShowNotesFor()
         {
             foreach (Transform child in observationContainer)
             {
@@ -99,11 +95,7 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
             }
 
             titleText.text = memoryID;
-
-            /*notesText.text = memoryNotes.Count == 0
-                ? "<i>No notes found yet...</i>"
-                : "• " + string.Join("\n\n• ", memoryNotes);*/
-
+            
 
             foreach (var observation in memoryNotes)
             {
@@ -112,14 +104,12 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
                 
                 Debug.Log($"MemoryNoteButton: Adding observation: {observation.observationText}");
                 text.text = observation.observationText;
-
                 
-                // bool contradicted = _playerProfile.IsContradicted(memoryID, observation.observationId);
-    
-                /*if (contradicted)
-                    text.text = $"<s>{observation.observationText}</s>";
-                else
-                    text.text = observation.observationText;*/
+                bool contradicted = _playerProfile.IsContradicted(observation.observationId);
+                
+                Debug.Log($"MemoryNoteButton: Observation '{observation.observationId}' contradicted state: {contradicted}");
+                
+                text.text = contradicted ? $"<color=#FF4444><u>{observation.observationText}</u></color>" : observation.observationText;
 
                 // entry.GetComponent<ContradictionIcon>().SetActive(false);
             }
@@ -129,12 +119,6 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
         {
             titleText.text = "";
             notesText.text = "";
-        }
-        
-        public void SelectWithoutNotify()
-        {
-            toggle.SetIsOnWithoutNotify(true);
-            ShowNotesFor();
         }
     }
 }

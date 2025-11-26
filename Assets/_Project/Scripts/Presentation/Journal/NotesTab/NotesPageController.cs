@@ -37,7 +37,6 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
             }
 
             RefreshButtonStates();
-            SelectFirstUnlocked();
         }
 
         private void RefreshButtonStates()
@@ -45,16 +44,6 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
             foreach (var btn in noteButtons)
             {
                 btn.UpdateLockState();
-            }
-        }
-
-        private void SelectFirstUnlocked()
-        {
-            foreach (var btn in noteButtons.Where(b => b.IsUnlocked))
-            {
-                btn.SelectWithoutNotify();
-                btn.ShowNotesFor();
-                return;
             }
         }
     }
