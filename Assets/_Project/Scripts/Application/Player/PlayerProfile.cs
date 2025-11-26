@@ -23,6 +23,7 @@ namespace _Project.Scripts.Application.Player
 
         private readonly HashSet<string> _discoveredClues = new();
         private readonly HashSet<string> _unlockedMemories = new();
+        private readonly HashSet<string> _fragmentCompletedMemories = new();
         private readonly HashSet<string> _repairedFragments = new();
         private readonly HashSet<string> _flags = new();
         private readonly Dictionary<string, ObservationState> _observationStates = new();
@@ -33,6 +34,7 @@ namespace _Project.Scripts.Application.Player
         public IReadOnlyCollection<string> GetRequiredFragments() => _repairedFragments;
         public IReadOnlyDictionary<string, List<MemoryObservation>> GetAllMemoryNotes => _allMemoryNotes;       
         public IReadOnlyCollection<string> GetFlags() => _flags;
+        public IReadOnlyCollection<string> GetRepairedFragments() => _repairedFragments;
         public IReadOnlyDictionary<string, ObservationState> GetObservationStates() => _observationStates;
 
         public PlayerProfile(string displayName, string playerId, Sprite portrait, string mainSceneName)
@@ -85,8 +87,6 @@ namespace _Project.Scripts.Application.Player
                 _allMemoryNotes[memoryId] = existingList;
             }
             
-            Debug.Log($"PlayerProfile: Adding memory note '{memoryId}'.");
-
             foreach (var note in notes.Where(note => !existingList.Contains(note)))
             {
                 existingList.Add(note);
@@ -145,11 +145,25 @@ namespace _Project.Scripts.Application.Player
             _observationStates[observationId].contradicted = true;
         }
 
-
+        public void AddFragmentCompletedMemory(string currentMemoryId)
+        {
+            if (_fragmentCompletedMemories.Add(currentMemoryId))
+            {
+                Debug.Log($"PlayerProfile: Added fragment completed memory '{currentMemoryId}'.");
+            }
+        }
+        
+        public bool HasFragmentCompletedMemory(string memoryId)
+        {
+            Debug.Log($"PlayerProfile: Checking fragment completed memories for '{memoryId}'. Total completed memories: {_fragmentCompletedMemories.Count}");
+            return _fragmentCompletedMemories.Contains(memoryId);
+        }
         
         public void ClearRepairedFragments()
         {
             _repairedFragments.Clear();
-        } 
+        }
+
+        
     }
 }

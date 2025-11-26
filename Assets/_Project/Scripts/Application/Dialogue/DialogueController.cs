@@ -45,7 +45,6 @@ namespace _Project.Scripts.Application.Dialogue
 
         private void Awake()
         {
-            _ = this.destroyCancellationToken;
         }
 
         private void Start()
@@ -108,12 +107,8 @@ namespace _Project.Scripts.Application.Dialogue
                 Debug.LogWarning("DialogueController: Yarn node name missing.");
                 return;
             }
-
             
             _currentType = type;
-            
-            Debug.Log($"DialogueController: StartDialogue node '{nodeName}'.");
-            
             _gameState.SetState(GameState.Dialogue);
             runner.StartDialogue(nodeName);
         }

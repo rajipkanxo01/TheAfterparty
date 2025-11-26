@@ -13,7 +13,7 @@ namespace _Project.Scripts.Presentation.Clues
         {
             if (interactor.CompareTag("Player"))
             {
-                ContradictionEvents.RaiseContradictionFound(memoryId, observationId);
+                ContradictionEvents.RaiseContradictionFound(observationId);
             }
         }
 

@@ -26,12 +26,15 @@ namespace _Project.Scripts.Application.Clue
             ContradictionEvents.OnContradictionFound += HandleContradictionFound;
         }
         
-        private void HandleContradictionFound(string memoryId, string observationId)
+        private void HandleContradictionFound(string observationId)
         {
             string nodeName = _dialogueMap.GetNode(observationId);
             
             _playerProfile.SetContradicted(observationId);
             _dialogueController.StartDialogue(nodeName, DialogueType.PlayerMonologue);
+            
+            ToastNotification.Show("New Contradiction Recorded! Check your Journal.");
+            
             // DialogueEvents.RaiseDialogueStart(nodeName, DialogueType.PlayerMonologue);
         }
         

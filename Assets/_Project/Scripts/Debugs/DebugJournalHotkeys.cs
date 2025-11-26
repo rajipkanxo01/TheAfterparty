@@ -24,6 +24,7 @@ namespace _Project.Scripts.Debugs
                 {
                     _profile.AddUnlockedMemory(memory.memoryId);
                     _profile.AddMemoryNotes(memory.memoryId, memory.memoryObservations);
+                    _profile.AddFragmentCompletedMemory(memory.memoryId);
                 }
 
                 Debug.Log("<color=yellow>[DEBUG] Notes populated from MemoryDatabase. </color>");
