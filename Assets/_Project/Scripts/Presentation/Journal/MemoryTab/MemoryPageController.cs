@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using _Project.Scripts.Application.Core;
 using _Project.Scripts.Application.Events;
@@ -16,7 +17,16 @@ namespace _Project.Scripts.Presentation.Journal.MemoryTab
 
         private void Start()
         {
+           
+        }
+
+        private void OnEnable()
+        {
             _menu = GetComponentInParent<JournalMenu>();
+            if (_menu is null)
+            {
+                Debug.LogWarning("PageController: JournalMenu not found in Start.");
+            }
             
             _playerProfile = ServiceLocater.GetService<PlayerProfile>();
             if (_playerProfile == null)
@@ -24,48 +34,46 @@ namespace _Project.Scripts.Presentation.Journal.MemoryTab
                 Debug.LogWarning("PageController: PlayerProfile not found in Awake.");
             }
             
-            if (_menu != null)
+            RefreshSlots();
+
+            if (_menu is not null)
             {
-                _menu.onPageIndexChanged.AddListener(OnPageActivated);
+                _menu.onPageIndexChanged.AddListener(OnTabChanged);
             }
-            
-            UIEvents.OnJournalOpen += RefreshSlots;
         }
 
         private void OnDisable()
         {
             if (_menu != null)
             {
-                _menu.onPageIndexChanged.RemoveListener(OnPageActivated);
+                _menu.onPageIndexChanged.RemoveListener(OnTabChanged);
             }
         }
 
-        private void OnDestroy()
+        private void OnTabChanged(int index)
         {
-            UIEvents.OnJournalOpen -= RefreshSlots;
-        }
-        
-        private void OnPageActivated(int index)
-        {
-            RefreshSlots();
+            if (gameObject.activeInHierarchy)
+            {
+                RefreshSlots();
+            }
         }
         
         private void RefreshSlots()
         {
-            Debug.Log("PageController: Refreshing memory slots...");
-
-            if (_playerProfile == null)
+            /*if (_playerProfile == null)
             {
-                Debug.LogError("PageController: Cannot refresh; playerProfile is NULL.");
+                Debug.LogError("MemoryPageController: Cannot refresh; playerProfile is NULL.");
                 return;
             }
 
             if (memorySlots == null || memorySlots.Count == 0)
             {
-                Debug.LogWarning("PageController: No memory slots assigned.");
+                Debug.LogWarning("MemoryPageController: No memory slots assigned.");
                 return;
-            }
+            }*/
             
+            
+            Debug.Log("MemoryPageController: Refreshing memory slots...");
             foreach (var slot in memorySlots.Where(s => s != null))
             {
                 bool unlocked = _playerProfile.HasUnlockedMemory(slot.MemoryID);

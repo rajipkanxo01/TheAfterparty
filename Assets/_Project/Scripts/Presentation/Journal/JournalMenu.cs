@@ -89,7 +89,6 @@ namespace _Project.Scripts.Presentation.Journal
 
             }
             
-            Debug.Log($"JournalMenu: Opened page index {currentIndex}.");
             UIEvents.RaiseJournalTabChanged(currentIndex);
             onPageIndexChanged?.Invoke(currentIndex);
         }
