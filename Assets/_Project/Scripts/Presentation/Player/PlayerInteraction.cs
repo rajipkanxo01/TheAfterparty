@@ -42,7 +42,7 @@ namespace _Project.Scripts.Presentation.Player
             }
 
             // if in dialogue or cutscene, only advance dialogue
-            if (_gameStateService.IsState(GameState.Dialogue) || _gameStateService.IsState(GameState.Cutscene))
+            if (_gameStateService.IsState(GameState.Dialogue) || _gameStateService.IsState(GameState.FragmentPlaying) || _gameStateService.IsState(GameState.Cutscene))
             {
                 _dialogueControl.ContinueDialogue();
                 return;

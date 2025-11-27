@@ -10,6 +10,9 @@
 
 <<elseif $detective_state == "badge_memory_complete">>
     <<jump Detective_GenericTalk>>
+    
+<<elseif $detective_state == "truth_memory_unlocked">>
+    <<jump Detective_TruthMemoryUnlocked>>
 
 <<else>>
     <<jump Detective_GenericTalk>>

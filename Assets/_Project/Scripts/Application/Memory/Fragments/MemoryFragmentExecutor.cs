@@ -44,15 +44,22 @@ namespace _Project.Scripts.Application.Memory
         public async Task PlayFragmentAsync(FragmentData fragment)
         {
             var actions = SelectActions(fragment);
+            var executedCount = 0;
 
             foreach (var action in actions)
             {
+                Debug.Log("MemoryFragmentExecutor: Executing action of type " + action.GetType().Name);
                 var executor = _actionExecutors.FirstOrDefault(x => x.CanExecute(action));
+
+
                 if (executor != null)
+                {
                     await executor.ExecuteAsync(action, _context);
+                }
+                
+                executedCount++;
             }
 
-            Debug.Log($"MemoryFragmentExecutor: Finished fragment {fragment.fragmentId}");
             _gameStateService.SetState(GameState.Normal);
 
             FragmentEvents.RaiseFragmentCompleted(fragment);

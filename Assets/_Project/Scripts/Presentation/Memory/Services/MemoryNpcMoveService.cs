@@ -34,9 +34,18 @@ namespace _Project.Scripts.Presentation.Memory.Services
 
             if (npcsParent == null)
             {
-                Debug.LogError("MemoryActorService: NPCs Parent is not assigned!");
-                return;
+                var root = GameObject.Find("MemoryNpcRoot");
+                if (root != null)
+                {
+                    npcsParent = root.transform;
+                    Debug.Log("MemoryActorService: Fallback found NPCs parent at runtime.");
+                }
+                else
+                {
+                    Debug.LogError("MemoryActorService: Could not find NPCs parent by name.");
+                }
             }
+
 
             var npcController = FindNpcController(npcId);
             if (npcController == null)

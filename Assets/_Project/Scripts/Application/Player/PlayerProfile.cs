@@ -54,7 +54,6 @@ namespace _Project.Scripts.Application.Player
 
         public bool HasUnlockedMemory(string memoryId)
         {
-            Debug.Log($"PlayerProfile: Checking unlocked memories for '{memoryId}'. Total unlocked memories: {_unlockedMemories.Count}");
             return _unlockedMemories.Contains(memoryId);
         }
         
@@ -103,8 +102,6 @@ namespace _Project.Scripts.Application.Player
         
         public bool HasRepairedFragment(string fragmentId)
         {
-            Debug.Log($"PlayerProfile: Checking repaired fragments for '{fragmentId}'. Total repaired fragments: {_repairedFragments.Count}");
-            
             foreach (var repairedFragment in _repairedFragments)
             {
                 Debug.Log($"PlayerProfile: Repaired fragment '{repairedFragment}'.");
@@ -155,7 +152,6 @@ namespace _Project.Scripts.Application.Player
         
         public bool HasFragmentCompletedMemory(string memoryId)
         {
-            Debug.Log($"PlayerProfile: Checking fragment completed memories for '{memoryId}'. Total completed memories: {_fragmentCompletedMemories.Count}");
             return _fragmentCompletedMemories.Contains(memoryId);
         }
         

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using _Project.Scripts.Application.Player;
+using _Project.Scripts.Presentation.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;

@@ -23,7 +23,8 @@ namespace _Project.Scripts.Application.Player
             // block during cutscene/dialogue/transition
             if (_gameState.IsState(GameState.Dialogue) ||
                 _gameState.IsState(GameState.Cutscene) ||
-                _gameState.IsState(GameState.Transition))
+                _gameState.IsState(GameState.Transition) ||
+                _gameState.IsState(GameState.FragmentPlaying))
             {
                 return;
             }

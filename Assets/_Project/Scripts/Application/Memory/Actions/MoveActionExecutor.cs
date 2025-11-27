@@ -16,6 +16,7 @@ namespace _Project.Scripts.Application.Memory.Actions
 
         public async Task ExecuteAsync(ActionBaseData actionData, MemoryActionContext context)
         {
+            Debug.Log("MoveActionExecutor: Executing move action.");
             var data = actionData as MoveActionBaseData;
             if (data == null || string.IsNullOrEmpty(data.npcId))
             {
@@ -36,7 +37,6 @@ namespace _Project.Scripts.Application.Memory.Actions
                 Debug.LogWarning("MoveActionExecutor: No valid path positions found.");
                 return;
             }
-
             
             Debug.Log("MoveActionExecutor: Starting movement for actor " + data.npcId);
             await npcMoveService.MoveAlongPathAsync(data.npcId, positions, data.speed);

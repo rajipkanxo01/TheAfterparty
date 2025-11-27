@@ -1,33 +1,36 @@
 using _Project.Scripts.Application.Core;
 using UnityEngine;
 
-public class PauseMenu : MonoBehaviour
+namespace _Project.Scripts.Presentation.UI
 {
-    [SerializeField] private GameObject pausePanel;
-    private GameStateService _gameStateService;
-    private GameState prevState = GameState.Normal;
-
-    private void Start()
+    public class PauseMenu : MonoBehaviour
     {
-        _gameStateService = ServiceLocater.GetService<GameStateService>();
-        _gameStateService.OnStateChanged += HandleGameStateChanged;
-    }
+        [SerializeField] private GameObject pausePanel;
+        private GameStateService _gameStateService;
+        private GameState prevState = GameState.Normal;
 
-    private void HandleGameStateChanged(GameState state)
-    {
-        if (state != GameState.Paused) prevState = state;
-    }
+        private void Start()
+        {
+            _gameStateService = ServiceLocater.GetService<GameStateService>();
+            _gameStateService.OnStateChanged += HandleGameStateChanged;
+        }
 
-    public void SetPause(bool pause)
-    {
-        if (pause) _gameStateService.SetState(GameState.Paused);
-        else _gameStateService.SetState(prevState);
-        pausePanel.SetActive(pause);
-    }
+        private void HandleGameStateChanged(GameState state)
+        {
+            if (state != GameState.Paused) prevState = state;
+        }
 
-    public void TogglePause()
-    {
-        bool pause = !pausePanel.activeSelf;
-        SetPause(pause);
+        public void SetPause(bool pause)
+        {
+            if (pause) _gameStateService.SetState(GameState.Paused);
+            else _gameStateService.SetState(prevState);
+            pausePanel.SetActive(pause);
+        }
+
+        public void TogglePause()
+        {
+            bool pause = !pausePanel.activeSelf;
+            SetPause(pause);
+        }
     }
 }
