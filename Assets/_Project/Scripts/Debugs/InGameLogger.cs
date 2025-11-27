@@ -21,7 +21,7 @@ namespace _Project.Scripts.Debugs
         private Vector2 scroll;
 
         // Toggle visibility
-        private bool visible = true;
+        private bool visible = false;
         public KeyCode toggleKey = KeyCode.F1;
 
         private void Update()
