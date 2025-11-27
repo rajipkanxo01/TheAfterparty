@@ -1,9 +1,12 @@
 ﻿using System;
 using _Project.Scripts.Application.Clue;
 using _Project.Scripts.Application.Core;
+using _Project.Scripts.Application.Dialogue;
+using _Project.Scripts.Application.Player;
 using _Project.Scripts.Data.Clues;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 namespace _Project.Scripts.Presentation.Player
 {
@@ -12,12 +15,17 @@ namespace _Project.Scripts.Presentation.Player
         [SerializeField] private SniffConfig sniffConfig;
         [SerializeField] private bool showDebugRadius = true;
         [SerializeField] private Transform playerTransform;
+        [SerializeField] private string sniffDialogueNode;
         
         private ClueService _clueService;
+        private DialogueController _dialogueController;
+        private PlayerProfile _playerProfile;
         
         private void Start()
         {
             _clueService = ServiceLocater.GetService<ClueService>();
+            _dialogueController = ServiceLocater.GetService<DialogueController>();
+            _playerProfile = ServiceLocater.GetService<PlayerProfile>();
         }
 
         private void OnEnable()
@@ -29,13 +37,20 @@ namespace _Project.Scripts.Presentation.Player
         {
             ClueEvents.OnHintFound -= HandleHintFound;
         }
-        
+
         public void OnSniffPerformed(InputAction.CallbackContext context)
         {
             if (!context.performed) return;
-            
-            _clueService.PerformSniff(playerTransform.position);
-            
+
+            var completedMemory = _playerProfile.HasFragmentCompletedMemory("badgeLost");
+            if (completedMemory && !string.IsNullOrEmpty(sniffDialogueNode))
+            {
+                _dialogueController.StartDialogue(sniffDialogueNode);
+            }
+            else
+            {
+                ToastNotification.Show("Nothing to discover right now.");
+            }
         }
         
         private void HandleHintFound(ClueData clueData)
