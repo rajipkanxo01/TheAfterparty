@@ -66,7 +66,7 @@ title: Detective_PresentContradictions
 title: Detective_TruthMemoryUnlocked
 ---
 <<say detective "I… think I understand now.">>
-<<say cat "Good. Memories can be tricky things. Sometimes they lie to us.">
+<<say cat "Good. Memories can be tricky things. Sometimes they lie to us.">>
 <<say detective "But with your help, I can sort out what’s real and what’s not.">>
 <<say cat "That’s the spirit. Now, let’s get to the bottom of this mystery.">>
 ===

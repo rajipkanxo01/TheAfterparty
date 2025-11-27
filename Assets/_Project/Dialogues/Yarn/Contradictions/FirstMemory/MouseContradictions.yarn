@@ -20,6 +20,7 @@ title: MogensContradiction_Mouse_Main
 <<say mouse "She screamed! Nearly fainted!">>
 <<say cat "So she was afraid of you. Not excited.">>
 <<say mouse "Terrified! She ran off. Kind of rude, honestly…">>
+<<say cat "Interesting, seems like Elliot's memory is a bit off. I should tell him what actually happened.">>
 
 <<contradiction found girlSeeMouse>>
 <<set $mouse_talked = true>>
