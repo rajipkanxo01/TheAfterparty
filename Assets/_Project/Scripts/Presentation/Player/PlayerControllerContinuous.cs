@@ -14,6 +14,7 @@ namespace _Project.Scripts.Presentation.Player
         [SerializeField] private float crawlSpeed;
         [SerializeField] private SpriteRenderer spriteRenderer;
         [SerializeField] private Rigidbody2D rb;
+        private Animator _animator;
 
         private bool canMove = true;
         private bool isCrawling;
@@ -31,6 +32,8 @@ namespace _Project.Scripts.Presentation.Player
 
             _gameStateService = ServiceLocater.GetService<GameStateService>();
             _gameStateService.OnStateChanged += HandleGameStateChanged;
+
+            _animator = GetComponent<Animator>();
         }
 
         private void HandleGameStateChanged(GameState newState)
@@ -63,6 +66,12 @@ namespace _Project.Scripts.Presentation.Player
                 moveInput = new Vector2(Mathf.Sign(input.x) * 1f, Mathf.Sign(input.y) * 0.5f).normalized;
             }
             else moveInput = input;
+
+            if (_animator)
+            {
+                _animator.SetFloat("moveX", moveInput.x);
+                _animator.SetFloat("moveY", moveInput.y);
+            }
         }
 
         public void CrawlInput(InputAction.CallbackContext context)
