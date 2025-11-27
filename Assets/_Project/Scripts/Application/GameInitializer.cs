@@ -3,13 +3,12 @@ using _Project.Scripts.Application.Core;
 using _Project.Scripts.Application.Dialogue;
 using _Project.Scripts.Application.Memory;
 using _Project.Scripts.Application.Memory.Echo;
-using _Project.Scripts.Application.Memory.Services;
 using _Project.Scripts.Application.Player;
+using _Project.Scripts.Data;
 using _Project.Scripts.Data.Clues;
 using _Project.Scripts.Data.Memory;
 using _Project.Scripts.Data.Npc;
 using _Project.Scripts.Data.Player;
-using _Project.Scripts.Presentation.Memory.Services;
 using UnityEngine;
 
 namespace _Project.Scripts.Application
@@ -17,12 +16,14 @@ namespace _Project.Scripts.Application
     public class GameInitializer : MonoBehaviour
     {
         [SerializeField] private PlayerProfileSo playerProfile;
+        [SerializeField] private DialogueController dialogueController;
 
         [Header("Databases")]
         [SerializeField] private ClueDatabase clueDatabase;
         [SerializeField] private NpcDatabase npcDatabase;
         [SerializeField] private MemoryDatabase memoryDatabase;
         [SerializeField] private FragmentDatabase fragmentDatabase;
+        [SerializeField] private ContradictionDialogueMap contradictionDialogueMap;
 
         [Header("Configs")]
         [SerializeField] private SniffConfig sniffConfig;
@@ -52,6 +53,7 @@ namespace _Project.Scripts.Application
             ServiceLocater.RegisterService(npcDatabase);
             ServiceLocater.RegisterService(memoryDatabase);
             ServiceLocater.RegisterService(fragmentDatabase);
+            ServiceLocater.RegisterService(contradictionDialogueMap);
             
             ServiceLocater.RegisterService(StaticCoroutine.Instance);
 
@@ -76,13 +78,15 @@ namespace _Project.Scripts.Application
             var memoryEchoService = new MemoryEchoService();
             ServiceLocater.RegisterService(memoryEchoService);
             
+            ServiceLocater.RegisterService(dialogueController);
 
-            var dialogueController = FindAnyObjectByType<DialogueController>();
-            if (dialogueController != null)
-            {
-                ServiceLocater.RegisterService(dialogueController);
-            }
-            
+            var contradictionService = new ContradictionService(profile, contradictionDialogueMap);
+            ServiceLocater.RegisterService(contradictionService);
+        }
+
+        private void Start()
+        {
+            dialogueController.Runner.StartDialogue("Init");
         }
     }
 }

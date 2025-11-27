@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using _Project.Scripts.Application.Events;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -46,7 +47,6 @@ namespace _Project.Scripts.Presentation.Journal
                     {
                         OpenPage(capturedIndex);
                     }
-                      
                 });
             }
         }
@@ -89,6 +89,7 @@ namespace _Project.Scripts.Presentation.Journal
 
             }
             
+            UIEvents.RaiseJournalTabChanged(currentIndex);
             onPageIndexChanged?.Invoke(currentIndex);
         }
 

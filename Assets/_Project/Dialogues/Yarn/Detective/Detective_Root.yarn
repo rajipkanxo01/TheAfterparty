@@ -1,30 +1,17 @@
 ﻿title: detective_root
 ---
 <<declare $detective_state = "badge_lost" as string>>
-<<declare $badge_lost = false as bool>>
-<<declare $badge_returned = false as bool>>
-<<declare $badge_location_known = false as bool>>
-<<declare $first_memory_started = false as bool>>
 
-<<if $detective_state == "badge_lost">>
+<<if $contradictions_found >= $contradictions_needed>>
+    <<jump Detective_PresentContradictions>>
+
+<<elseif $detective_state == "badge_lost">>
     <<jump Detective_Main_BadgeMissing>>
 
-<<elseif $detective_state == "memory_started">>
-    <<jump Detective_Memory_Entry>>
-
-<<elseif $detective_state == "girl_ran_away">>
-    <<jump Detective_Memory_Mascot>>
-
-<<elseif $detective_state == "girl_reentry">>
-    <<jump Detective_Memory_GirlReEntry>>
-
-<<elseif $detective_state == "memory_complete">>
-    <<jump Detective_Main_ReturnToPresent>>
-
-<<elseif $detective_state == "badge_returned">>
-    <<jump Detective_Main_BadgeReturned>>
+<<elseif $detective_state == "badge_memory_complete">>
+    <<jump Detective_GenericTalk>>
 
 <<else>>
-    <<say detective "Hmm... I feel like I’m missing something important.">>
+    <<jump Detective_GenericTalk>>
 <<endif>>
 ===

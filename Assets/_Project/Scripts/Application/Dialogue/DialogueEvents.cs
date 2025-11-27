@@ -22,7 +22,7 @@ namespace _Project.Scripts.Application.Dialogue
     public static class DialogueEvents
     {
         public static event EventHandler<DialogueLineEventArgs> OnDialogueLineStarted;
-        public static event Action OnDialogueStarted;
+        public static event Action<string, DialogueType> OnDialogueStart;
         public static event Action OnDialogueEnded;
         public static event Action OnDialogueContinued;
         public static event Action OnDialogueContinueRequested;
@@ -32,9 +32,9 @@ namespace _Project.Scripts.Application.Dialogue
             OnDialogueLineStarted?.Invoke(sender, args);
         }
         
-        public static void RaiseDialogueStarted()
+        public static void RaiseDialogueStart(string nodeName, DialogueType dialogueType)
         {
-            OnDialogueStarted?.Invoke();
+            OnDialogueStart?.Invoke(nodeName, dialogueType);
         }
         
         public static void RaiseDialogueEnded()

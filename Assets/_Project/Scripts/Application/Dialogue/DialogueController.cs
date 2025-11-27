@@ -34,6 +34,8 @@ namespace _Project.Scripts.Application.Dialogue
         private TaskCompletionSource<bool> _waitForContinue;
         public DialogueType CurrentType => _currentType;
         public NpcDialogueHandler NpcHandler => _npcHandler;
+        
+        public DialogueRunner Runner => runner;
 
         
         public static event Func<bool> OnTrySkipTyping;
@@ -43,10 +45,14 @@ namespace _Project.Scripts.Application.Dialogue
             SceneManager.sceneLoaded -= HandleSceneLoaded;
         }
 
+        private void Awake()
+        {
+        }
 
         private void Start()
         {
             SceneManager.sceneLoaded += HandleSceneLoaded;
+            DialogueEvents.OnDialogueStart += StartDialogue;
             
             if (!runner)
             {
@@ -73,6 +79,7 @@ namespace _Project.Scripts.Application.Dialogue
 
             _commandRegistry.RegisterBuiltInCommands();
         }
+        
 
         private void HandleSceneLoaded(Scene scene, LoadSceneMode mode)
         {
@@ -102,12 +109,10 @@ namespace _Project.Scripts.Application.Dialogue
                 Debug.LogWarning("DialogueController: Yarn node name missing.");
                 return;
             }
-
             
             _currentType = type;
+            _gameState.SetState(GameState.Dialogue);
             
-            Debug.Log($"DialogueController: StartDialogue node '{nodeName}'.");
-            DialogueEvents.RaiseDialogueStarted();
             runner.StartDialogue(nodeName);
         }
 

@@ -1,0 +1,38 @@
+﻿title: MogensContradiction_Mouse_Root
+---
+<<if $contradiction_girlSeeMouse>>
+    <<jump MogensContradiction_Mouse_Repeat>>
+<<else>>
+    <<jump MogensContradiction_Mouse_Main>>
+<<endif>>
+===
+
+title: MogensContradiction_Mouse_Main
+---
+<<say cat "Hey. You there. I need to ask you something.">>
+<<say mouse "W-Who, me? I… I didn’t see anything… promise!">>
+<<say cat "Relax. I’m not here to eat you. Just tell me what happened.">>
+<<say mouse "Are you sure…? You look like the eating type…">>
+<<say cat "If I wanted to eat you, I wouldn’t chat first. Talk.">>
+<<say mouse "O-Okay… okay… fine…">>
+<<say cat "In Elliot’s memory, the girl seemed excited when she saw you. Why?">>
+<<say mouse "Excited? Her? No way!">>
+<<say mouse "She screamed! Nearly fainted!">>
+<<say cat "So she was afraid of you. Not excited.">>
+<<say mouse "Terrified! She ran off. Kind of rude, honestly…">>
+
+<<contradiction found girlSeeMouse>>
+<<set $mouse_talked = true>>
+===
+
+title: MogensContradiction_Mouse_Repeat
+---
+<<say cat "We already talked to him. No need to scare the little guy again.">>
+===
+
+
+title: Mouse_Locked
+---
+<<say cat "Hmm… I should check the memory before bothering this little guy.">>
+===
+

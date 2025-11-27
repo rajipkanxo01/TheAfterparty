@@ -19,9 +19,11 @@ namespace _Project.Scripts.Application.Dialogue
         public void RegisterBuiltInCommands()
         {
             RegisterCommand(new SayCommandHandler());
-            RegisterCommand(new MemoryCommandHandler());            RegisterCommand(new BadgeCommandHandler());
+            RegisterCommand(new MemoryCommandHandler());            
+            RegisterCommand(new BadgeCommandHandler());
             RegisterCommand(new SetHighlightAreaCommandHandler());
             RegisterCommand(new RaiseEventCommandHandler());
+            RegisterCommand(new ContradictionCommandHandler());
         }
 
         private void RegisterCommand(IDialogueCommandHandler handler)
@@ -55,6 +57,11 @@ namespace _Project.Scripts.Application.Dialogue
                 case "raise_event":
                     _runner.AddCommandHandler<string>(handler.CommandName,
                         async (code) => { await handler.ExecuteAsync(code); });
+                    break;
+                
+                case "contradiction":
+                    _runner.AddCommandHandler<string, string>(handler.CommandName,
+                        async (mode, observationId) => { await handler.ExecuteAsync(mode, observationId); });
                     break;
 
                 default:

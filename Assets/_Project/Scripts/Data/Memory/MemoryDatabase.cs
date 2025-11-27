@@ -10,10 +10,17 @@ namespace _Project.Scripts.Data.Memory
     {
         [SerializeField] private List<MemoryData> memories = new();
         
+        public List<MemoryData> GetAllMemories()
+        {
+            return memories;
+        }
+        
         public int GetMemoryCount()
         {
             return memories.Count;
         }
+        
+        
 
         public MemoryData GetById(string memoryId)
         {

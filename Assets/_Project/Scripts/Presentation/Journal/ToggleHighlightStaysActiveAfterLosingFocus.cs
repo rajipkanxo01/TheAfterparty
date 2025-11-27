@@ -1,4 +1,4 @@
-﻿using System;
+﻿using _Project.Scripts.Application.Events;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +8,7 @@ namespace _Project.Scripts.Presentation.Journal
     {
         [SerializeField] private Toggle toggle;
         [SerializeField] private Image imageToKeepFocusActive;
+        [SerializeField] private int tabIndex;
 
         private void Reset()
         {
@@ -16,19 +17,17 @@ namespace _Project.Scripts.Presentation.Journal
 
         private void Awake()
         {
-            toggle.onValueChanged.AddListener(OnToggleValueChanged);
+            UIEvents.OnJournalTabChanged += HandleJournalTabChanged;
         }
         
         private void OnDestroy()
         {
-            toggle.onValueChanged.RemoveListener(OnToggleValueChanged);
+            UIEvents.OnJournalTabChanged -= HandleJournalTabChanged;
         }
         
-        private void OnToggleValueChanged(bool isOn)
+        private void HandleJournalTabChanged(int newTabIndex)
         {
-            if (imageToKeepFocusActive == null) return;
-            
-            imageToKeepFocusActive.color = toggle.isOn ? toggle.colors.highlightedColor : Color.clear;
+            imageToKeepFocusActive.color = newTabIndex == tabIndex ? toggle.colors.selectedColor : toggle.colors.normalColor;
         }
     }
 }

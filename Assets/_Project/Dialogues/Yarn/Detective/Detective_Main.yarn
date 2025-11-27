@@ -2,32 +2,30 @@
 ---
 <<set $first_memory_started = true>>
  
-
 <<say Detective "I am sorry. And thank you.">>
 <<say Cat "Now, think of when you last saw the badge. Recall it as clearly in your mind as you can.">>
 
 <<memory unlock badgeLost>>
-===
-
-
-title: Detective_Main_ReturnToPresent
----
-<<say detective "Did you find it?">>
-<<say cat "Mrrp. Stay - do not move.">>
-===
-
-
-title: Detective_Main_BadgeReturned
----
-<<say cat "Here is your badge. Do not lose it again.">>
-<<say detective "Thank you! Where did you find it?">>
-<<say cat "Never mind that. Now, come with me - I need you to speak with the other primates you call your peers.">>
-
+<<set $detective_state="Detective_StillMissingClues">>
 ===
 
 
 
-title: Chest_NoCode
+
+
+
+
+title: Detective_AfterAllFragmentsCompleted
 ---
-<<say cat "Hmm, this chest is locked. It looks like it needs a code to open it.">>
+<<say cat "Whew! That was a lot of human drama for one night.">>
+<<say cat "My whiskers are tingling and that’s usually a sign something doesn’t add up.">>
+<<say cat "Memories are like yarn balls—fun to bat around, impossible to untangle.">>
+<<say cat "Let’s go to the real world. Maybe there’s a nice, clear clue lying around.">>
+<<say cat "Preferably one that doesn’t scream or chase mice that don’t exist.">>
+===
+
+title: Detective_GenericTalk
+---
+<<say detective "I… feel like there’s more I should remember.">>
+<<say cat "Then I’ll dig until you do.">>
 ===

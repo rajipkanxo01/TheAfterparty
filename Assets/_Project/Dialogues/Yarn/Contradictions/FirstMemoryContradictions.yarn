@@ -1,0 +1,10 @@
+﻿title: MogensContradiction_Jacket
+---
+<<say cat "This jacket doesn’t belong to Elliot at all. He remembered it wrong.">>
+===
+
+title: MogensContradiction_Generic
+---
+<<say cat "That doesn’t match what we saw in the memory… Something’s off.">>
+===
+
