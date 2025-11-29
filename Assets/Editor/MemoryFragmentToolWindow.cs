@@ -119,7 +119,7 @@ namespace Editor
                     y += line;
 
                     // --- Actor / Yarn Info ---
-                    var move = action as MoveActionBaseData;
+                    var move = action as BezierMoveActionBaseData;
                     var dialogue = action as DialogueActionData;
 
                     if (move != null)
@@ -155,7 +155,7 @@ namespace Editor
                 {
                     var action = (ActionBaseData)reorderableList.list[index];
                     float lines = 3; // base lines (header + asset/playmode + delay)
-                    if (action is MoveActionBaseData) lines += 1;
+                    if (action is BezierMoveActionBaseData) lines += 1;
                     if (action is DialogueActionData) lines += 1;
                     return lines * (EditorGUIUtility.singleLineHeight + 3f) + 8f;
                 };
@@ -165,7 +165,7 @@ namespace Editor
                 {
                     GenericMenu menu = new GenericMenu();
                     menu.AddItem(new GUIContent("Add Move Action"), false,
-                        () => CreateAndAddAction<MoveActionBaseData>(actions, "MoveAction_"));
+                        () => CreateAndAddAction<BezierMoveActionBaseData>(actions, "MoveAction_"));
                     menu.AddItem(new GUIContent("Add Dialogue Action"), false,
                         () => CreateAndAddAction<DialogueActionData>(actions, "DialogueAction_"));
                     menu.ShowAsContext();
@@ -200,7 +200,7 @@ namespace Editor
             EditorGUILayout.BeginHorizontal();
             if (GUILayout.Button("Add Move Action"))
             {
-                CreateAndAddAction<MoveActionBaseData>(list, "MoveAction_");
+                CreateAndAddAction<BezierMoveActionBaseData>(list, "MoveAction_");
             }
 
             if (GUILayout.Button("Add Dialogue Action"))

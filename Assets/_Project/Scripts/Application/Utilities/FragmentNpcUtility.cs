@@ -44,30 +44,26 @@ namespace _Project.Scripts.Application.Utilities
         {
             var move = GetMoveAction(fragment, npcId);
 
-            if (move != null && move.paths.Length > 0)
+            if (move != null && move.path != null)
             {
-                var positions = move.paths;
-                if (positions.Length > 0)
-                {
-                    return positions[0];
-                }
+                return move.path.endPoint; // TODO: not sure if this should be the start...?
             }
 
             return default;
         }
 
         
-        private static MoveActionBaseData GetMoveAction(FragmentData fragment, string npcId)
+        private static BezierMoveActionBaseData GetMoveAction(FragmentData fragment, string npcId)
         {
             if (fragment == null || string.IsNullOrEmpty(npcId))
                 return null;
 
             return fragment.realMemoryActions
-                       .OfType<MoveActionBaseData>()
+                       .OfType<BezierMoveActionBaseData>()
                        .FirstOrDefault(a => a.npcId == npcId)
                    ??
                    fragment.corruptedMemoryActions
-                       .OfType<MoveActionBaseData>()
+                       .OfType<BezierMoveActionBaseData>()
                        .FirstOrDefault(a => a.npcId == npcId);
         }
         

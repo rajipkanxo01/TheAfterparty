@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using _Project.Scripts.Application.Core;
 using _Project.Scripts.Application.Memory.Services;
+using _Project.Scripts.Data.Memory.Actions;
 using _Project.Scripts.Presentation.Npc;
 using UnityEngine;
 
@@ -18,7 +19,8 @@ namespace _Project.Scripts.Presentation.Memory.Services
             ServiceLocater.RegisterService<IMemoryNpcMoveService>(this);
         }
 
-        public async Task MoveAlongPathAsync(string npcId, IReadOnlyList<Vector3> positions, float speed)
+
+        public async Task MoveAlongPathAsync(string npcId, BezierPath path, float speed)
         {
             if (string.IsNullOrEmpty(npcId))
             {
@@ -26,7 +28,7 @@ namespace _Project.Scripts.Presentation.Memory.Services
                 return;
             }
 
-            if (positions == null || positions.Count == 0)
+            if (path == null)
             {
                 Debug.Log($"MemoryActorService: No positions provided for NPC '{npcId}'.");
                 return;
@@ -54,7 +56,7 @@ namespace _Project.Scripts.Presentation.Memory.Services
                 return;
             }
             
-            await npcController.MoveAlongPathAsync(positions, speed);
+            await npcController.MoveAlongPathAsync(path, speed);
         }
 
         private NpcController FindNpcController(string npcId)

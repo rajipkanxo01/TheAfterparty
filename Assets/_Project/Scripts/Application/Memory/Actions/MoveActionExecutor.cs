@@ -11,13 +11,13 @@ namespace _Project.Scripts.Application.Memory.Actions
     {
         public bool CanExecute(ActionBaseData actionData)
         {
-            return actionData as MoveActionBaseData;
+            return actionData as BezierMoveActionBaseData;
         }
 
         public async Task ExecuteAsync(ActionBaseData actionData, MemoryActionContext context)
         {
             Debug.Log("MoveActionExecutor: Executing move action.");
-            var data = actionData as MoveActionBaseData;
+            var data = actionData as BezierMoveActionBaseData;
             if (data == null || string.IsNullOrEmpty(data.npcId))
             {
                 Debug.LogError("MoveActionExecutor: Invalid MoveActionBaseData or missing actorId.");
@@ -31,15 +31,15 @@ namespace _Project.Scripts.Application.Memory.Actions
                 return;
             }
 
-            Vector3[] positions = data.paths;
-            if (positions.Length == 0)
+            BezierPath path = data.path;
+            if (path == null)
             {
                 Debug.LogWarning("MoveActionExecutor: No valid path positions found.");
                 return;
             }
             
             Debug.Log("MoveActionExecutor: Starting movement for actor " + data.npcId);
-            await npcMoveService.MoveAlongPathAsync(data.npcId, positions, data.speed);
+            await npcMoveService.MoveAlongPathAsync(data.npcId, path, data.speed);
         }
         
     }
