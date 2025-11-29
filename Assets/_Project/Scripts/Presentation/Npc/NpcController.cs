@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using _Project.Scripts.Data.Memory.Actions;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -16,9 +17,9 @@ namespace _Project.Scripts.Presentation.Npc
 
         public string NpcId => npcId;
         
-        public Task MoveAlongPathAsync(IReadOnlyList<Vector3> positions, float speed)
+        public Task MoveAlongPathAsync(BezierPath path, float speed)
         {
-            if (positions == null || positions.Count == 0)
+            if (path == null)
             {
                 return Task.CompletedTask;
             }
@@ -29,16 +30,17 @@ namespace _Project.Scripts.Presentation.Npc
             }
 
             var tcs = new TaskCompletionSource<bool>();
-            StartCoroutine(MovePathCoroutine(positions, speed, tcs));
+            StartCoroutine(MovePathCoroutine(path, speed, tcs));
             return tcs.Task;
         }
 
-        private IEnumerator MovePathCoroutine(IReadOnlyList<Vector3> positions, float speed, TaskCompletionSource<bool> tcs)
+        private IEnumerator MovePathCoroutine(BezierPath path, float speed, TaskCompletionSource<bool> tcs)
         {
-            foreach (var target in positions)
+            foreach (var target in path.controlPoints)
             {
                 yield return MoveTo(target, speed);
             }
+            yield return MoveTo(path.endPoint, speed);
 
             tcs.TrySetResult(true);
         }

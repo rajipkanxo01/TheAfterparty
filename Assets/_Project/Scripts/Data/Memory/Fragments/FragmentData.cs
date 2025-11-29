@@ -10,10 +10,12 @@ namespace _Project.Scripts.Data.Memory.Fragments
         [Header("Fragment Info")]
         public string fragmentId;
         public int orderInMemory;
-        
+
         [Header("Actions")] // Each fragment will contain list of actions
         [Header("Memory Versions")]
+        public List<BezierMoveActionBaseData> realMemoryStartPosition = new();
         public List<ActionBaseData> realMemoryActions = new();
+        public List<BezierMoveActionBaseData> corruptedMemoryStartPosition = new();
         public List<ActionBaseData> corruptedMemoryActions = new();
         
         [Header("Memory State")]

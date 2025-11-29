@@ -42,32 +42,41 @@ namespace _Project.Scripts.Application.Utilities
         
         public static Vector3 GetStartingPosition(FragmentData fragment, string npcId)
         {
-            var move = GetMoveAction(fragment, npcId);
+            var move = GetStartPositionAction(fragment, npcId);
 
-            if (move != null && move.paths.Length > 0)
+            if (move != null && move.path != null)
             {
-                var positions = move.paths;
-                if (positions.Length > 0)
-                {
-                    return positions[0];
-                }
+                return move.path.endPoint;
             }
 
             return default;
         }
 
+        private static BezierMoveActionBaseData GetStartPositionAction(FragmentData fragment, string npcId)
+        {
+            if (fragment == null || string.IsNullOrEmpty(npcId))
+                return null;
+
+            return fragment.realMemoryStartPosition
+                       .OfType<BezierMoveActionBaseData>()
+                       .FirstOrDefault(a => a.npcId == npcId)
+                   ??
+                   fragment.corruptedMemoryStartPosition
+                       .OfType<BezierMoveActionBaseData>()
+                       .FirstOrDefault(a => a.npcId == npcId);
+        }
         
-        private static MoveActionBaseData GetMoveAction(FragmentData fragment, string npcId)
+        private static BezierMoveActionBaseData GetMoveAction(FragmentData fragment, string npcId)
         {
             if (fragment == null || string.IsNullOrEmpty(npcId))
                 return null;
 
             return fragment.realMemoryActions
-                       .OfType<MoveActionBaseData>()
+                       .OfType<BezierMoveActionBaseData>()
                        .FirstOrDefault(a => a.npcId == npcId)
                    ??
                    fragment.corruptedMemoryActions
-                       .OfType<MoveActionBaseData>()
+                       .OfType<BezierMoveActionBaseData>()
                        .FirstOrDefault(a => a.npcId == npcId);
         }
         
