@@ -42,16 +42,29 @@ namespace _Project.Scripts.Application.Utilities
         
         public static Vector3 GetStartingPosition(FragmentData fragment, string npcId)
         {
-            var move = GetMoveAction(fragment, npcId);
+            var move = GetStartPositionAction(fragment, npcId);
 
             if (move != null && move.path != null)
             {
-                return move.path.endPoint; // TODO: not sure if this should be the start...?
+                return move.path.endPoint;
             }
 
             return default;
         }
 
+        private static BezierMoveActionBaseData GetStartPositionAction(FragmentData fragment, string npcId)
+        {
+            if (fragment == null || string.IsNullOrEmpty(npcId))
+                return null;
+
+            return fragment.realMemoryStartPosition
+                       .OfType<BezierMoveActionBaseData>()
+                       .FirstOrDefault(a => a.npcId == npcId)
+                   ??
+                   fragment.corruptedMemoryStartPosition
+                       .OfType<BezierMoveActionBaseData>()
+                       .FirstOrDefault(a => a.npcId == npcId);
+        }
         
         private static BezierMoveActionBaseData GetMoveAction(FragmentData fragment, string npcId)
         {
