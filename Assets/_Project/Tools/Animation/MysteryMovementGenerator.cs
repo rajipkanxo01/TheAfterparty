@@ -68,7 +68,7 @@ namespace _Project.Tools.Animation
 
                 string assetName = "";
                 if (i == 0) assetName = "START-" + npcID + "_" + fragmentParent.name + ".asset";
-                else assetName = npcID + "-" + i.ToString() + "_" + fragmentParent.name + "_" + path.name + ".asset";
+                else assetName = npcID + "-" + i.ToString() + "_" + path.name + "_" + fragmentParent.name + ".asset";
                 
                 string assetPath = Path.Combine(outputFolder, assetName);
                 AssetDatabase.CreateAsset(moveAction, assetPath);
