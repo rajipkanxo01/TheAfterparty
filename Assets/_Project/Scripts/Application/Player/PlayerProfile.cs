@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using _Project.Scripts.Application.Events;
 using _Project.Scripts.Data.Memory;
 using UnityEngine;
 
@@ -140,6 +141,7 @@ namespace _Project.Scripts.Application.Player
             }
 
             _observationStates[observationId].contradicted = true;
+            UIEvents.RaiseJournalNotesChanged();
         }
 
         public void AddFragmentCompletedMemory(string currentMemoryId)

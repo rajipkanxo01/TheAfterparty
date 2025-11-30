@@ -17,6 +17,8 @@ namespace _Project.Scripts.Presentation.Journal
     
     public class JournalMenu : MonoBehaviour
     {
+        [SerializeField] private GameObject notesNewBadge;
+        
         [Header("Tabs / Pages")]
         [SerializeField] private List<JournalTabPage> tabPages = new();
 
@@ -25,6 +27,7 @@ namespace _Project.Scripts.Presentation.Journal
 
         [Header("Event")]
         public UnityEvent<int> onPageIndexChanged;
+        
 
         private void Awake()
         {
@@ -49,6 +52,8 @@ namespace _Project.Scripts.Presentation.Journal
                     }
                 });
             }
+            
+            UIEvents.OnJournalNotesChanged += HandleNotesChanged;
         }
 
         private void OnEnable()
@@ -60,10 +65,17 @@ namespace _Project.Scripts.Presentation.Journal
 
         private void OnDestroy()
         {
+            UIEvents.OnJournalNotesChanged -= HandleNotesChanged;
+            
             foreach (var entry in tabPages.Where(entry => entry?.tab != null))
             {
                 entry.tab.onValueChanged.RemoveAllListeners();
             }
+        }
+        
+        private void HandleNotesChanged()
+        {
+            notesNewBadge.SetActive(true);
         }
 
         private void OpenPage(int index)
@@ -87,6 +99,11 @@ namespace _Project.Scripts.Presentation.Journal
                 page.interactable = active;
                 page.blocksRaycasts = active;
 
+            }
+            
+            if (currentIndex == 1)
+            {
+                notesNewBadge.SetActive(false);
             }
             
             UIEvents.RaiseJournalTabChanged(currentIndex);

@@ -33,7 +33,7 @@ namespace _Project.Scripts.Application.Clue
             _playerProfile.SetContradicted(observationId);
             _dialogueController.StartDialogue(nodeName, DialogueType.PlayerMonologue);
             
-            ToastNotification.Show("New Contradiction Recorded! Check your Journal.");
+            ToastNotification.Show("New Contradiction Recorded! Check your Notes.");
             
             // DialogueEvents.RaiseDialogueStart(nodeName, DialogueType.PlayerMonologue);
         }

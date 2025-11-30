@@ -67,6 +67,7 @@ namespace _Project.Scripts.Application.Memory
 
             // notify UI
             ToastNotification.Show("New Memory Notes Added! Check your journal.", 5f);
+            UIEvents.RaiseJournalNotesChanged();
             // UIEvents.RaiseMemoryNotesAdded(allObservations);
         }
 

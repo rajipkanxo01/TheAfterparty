@@ -15,5 +15,9 @@ namespace _Project.Scripts.Application.Events
         // when tab index changes
         public static event Action<int> OnJournalTabChanged;
         public static void RaiseJournalTabChanged(int index) => OnJournalTabChanged?.Invoke(index);
+        
+        // when notes have changed
+        public static event Action OnJournalNotesChanged;
+        public static void RaiseJournalNotesChanged() => OnJournalNotesChanged?.Invoke();
     }
 }
