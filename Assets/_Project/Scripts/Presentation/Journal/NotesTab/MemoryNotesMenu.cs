@@ -74,7 +74,7 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
                     entry.button.SetIsOnWithoutNotify(active);
 
                 var panel = entry.content;
-                panel.alpha = active ? 1 : 0;
+                // panel.alpha = active ? 1 : 0;
                 panel.interactable = active;
                 panel.blocksRaycasts = active;
             }

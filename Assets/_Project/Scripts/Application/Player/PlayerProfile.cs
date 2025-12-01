@@ -8,11 +8,11 @@ using UnityEngine;
 namespace _Project.Scripts.Application.Player
 {
     [Serializable]
-    public class ObservationState
+    public enum ObservationState
     {
-        public bool contradicted;
-        public bool confirmed;
-        public bool evidenceFound;
+        Unknown,
+        Verified,
+        Contradicted
     }
 
     public class PlayerProfile
@@ -128,11 +128,11 @@ namespace _Project.Scripts.Application.Player
             }
         }
         
-        public bool IsContradicted(string observationId)
+        public ObservationState GetObservationState(string observationId)
         {
-            return _observationStates.TryGetValue(observationId, out var state) && state.contradicted;
+            return _observationStates.GetValueOrDefault(observationId, ObservationState.Unknown);
         }
-
+        
         public void SetContradicted(string observationId)
         {
             if (!_observationStates.ContainsKey(observationId))
@@ -140,7 +140,7 @@ namespace _Project.Scripts.Application.Player
                 _observationStates[observationId] = new ObservationState();
             }
 
-            _observationStates[observationId].contradicted = true;
+            _observationStates[observationId] = ObservationState.Contradicted;
             UIEvents.RaiseJournalNotesChanged();
         }
 

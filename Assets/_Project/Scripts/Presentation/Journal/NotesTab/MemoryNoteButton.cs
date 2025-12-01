@@ -1,4 +1,5 @@
-﻿using _Project.Scripts.Application.Core;
+﻿using System;
+using _Project.Scripts.Application.Core;
 using _Project.Scripts.Application.Events;
 using _Project.Scripts.Application.Player;
 using TMPro;
@@ -7,9 +8,17 @@ using UnityEngine.UI;
 
 namespace _Project.Scripts.Presentation.Journal.NotesTab
 {
+    [Serializable]
+    public class ObservationIcon
+    {
+        public Sprite iconImage;
+        public Color color;
+    }
+    
     public class MemoryNoteButton : MonoBehaviour
     {
         [SerializeField] private string memoryID;
+        [SerializeField] private string memoryTitle;
         [SerializeField] private Toggle toggle;
         [SerializeField] private Transform observationContainer;
         [SerializeField] private GameObject observationPrefab;
@@ -20,7 +29,14 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
 
         [Header("UI")]
         [SerializeField] private TextMeshProUGUI titleText;
-        [SerializeField] private TextMeshProUGUI notesText;
+        [SerializeField] private TextMeshProUGUI foundContradictionsText;
+        [SerializeField] private TextMeshProUGUI totalNeededContradictionsText;
+        
+        [Header("Icons")]
+        [SerializeField] private ObservationIcon contradictedIcon;
+        [SerializeField] private ObservationIcon verifiedIcon;
+        [SerializeField] private ObservationIcon unknownIcon;
+
         
         private PlayerProfile _playerProfile;
         private bool _isUnlocked;
@@ -94,31 +110,51 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
                 return;
             }
 
-            titleText.text = memoryID;
+            titleText.text = memoryTitle;
             
-
             foreach (var observation in memoryNotes)
             {
+                var observationState = _playerProfile.GetObservationState(observation.observationId);
+    
                 GameObject entry = Instantiate(observationPrefab, observationContainer);
                 var text = entry.GetComponentInChildren<TextMeshProUGUI>();
-                
-                Debug.Log($"MemoryNoteButton: Adding observation: {observation.observationText}");
-                text.text = observation.observationText;
-                
-                bool contradicted = _playerProfile.IsContradicted(observation.observationId);
-                
-                Debug.Log($"MemoryNoteButton: Observation '{observation.observationId}' contradicted state: {contradicted}");
-                
-                text.text = contradicted ? $"<color=#FF4444><u>{observation.observationText}</u></color>" : observation.observationText;
+                var icon = entry.GetComponentInChildren<Image>();
 
-                // entry.GetComponent<ContradictionIcon>().SetActive(false);
+                if (text == null || icon == null)
+                {
+                    Debug.LogWarning("MemoryNoteButton: Observation prefab is missing TextMeshProUGUI or Image component.");
+                    continue;
+                }
+                
+                text.text = observation.observationText;
+    
+                switch (observationState)
+                {
+                    case ObservationState.Verified:
+                        icon.sprite = verifiedIcon.iconImage;
+                        icon.color = verifiedIcon.color;
+                        text.color = verifiedIcon.color;
+                        break;
+        
+                    case ObservationState.Contradicted:
+                        icon.sprite = contradictedIcon.iconImage;
+                        icon.color = contradictedIcon.color;
+                        text.color = contradictedIcon.color;
+                        break;
+        
+                    case ObservationState.Unknown:
+                    default:
+                        icon.sprite = unknownIcon.iconImage;
+                        icon.color = unknownIcon.color;
+                        text.color = unknownIcon.color;
+                        break;
+                }
             }
         }
         
         private void ClearUI()
         {
             titleText.text = "";
-            notesText.text = "";
         }
     }
 }
