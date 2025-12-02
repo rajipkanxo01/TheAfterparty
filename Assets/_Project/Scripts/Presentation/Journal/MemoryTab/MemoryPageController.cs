@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using _Project.Scripts.Application.Core;
-using _Project.Scripts.Application.Events;
 using _Project.Scripts.Application.Player;
+using _Project.Scripts.Data.Memory;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace _Project.Scripts.Presentation.Journal.MemoryTab
 {
@@ -14,11 +15,9 @@ namespace _Project.Scripts.Presentation.Journal.MemoryTab
 
         private PlayerProfile _playerProfile;
         private JournalMenu _menu;
+        private MemoryDatabase _memoryDatabase;
+        public int currentIndex = 0;
 
-        private void Start()
-        {
-           
-        }
 
         private void OnEnable()
         {
@@ -33,8 +32,15 @@ namespace _Project.Scripts.Presentation.Journal.MemoryTab
             {
                 Debug.LogWarning("PageController: PlayerProfile not found in Awake.");
             }
+
+            _memoryDatabase = ServiceLocater.GetService<MemoryDatabase>();
+            if (_memoryDatabase == null)
+            {
+                Debug.LogWarning("PageController: MemoryDatabase not found in OnEnable.");
+            }
             
             RefreshSlots();
+            InitializeSelection();
 
             if (_menu is not null)
             {
@@ -59,20 +65,7 @@ namespace _Project.Scripts.Presentation.Journal.MemoryTab
         }
         
         private void RefreshSlots()
-        {
-            /*if (_playerProfile == null)
-            {
-                Debug.LogError("MemoryPageController: Cannot refresh; playerProfile is NULL.");
-                return;
-            }
-
-            if (memorySlots == null || memorySlots.Count == 0)
-            {
-                Debug.LogWarning("MemoryPageController: No memory slots assigned.");
-                return;
-            }*/
-            
-            
+        { 
             Debug.Log("MemoryPageController: Refreshing memory slots...");
             foreach (var slot in memorySlots.Where(s => s != null))
             {
@@ -88,5 +81,81 @@ namespace _Project.Scripts.Presentation.Journal.MemoryTab
                 }
             }
         }
+
+        private void InitializeSelection()
+        {
+            // Find the first unlocked memory that is not the current scene
+            for (int i = 0; i < memorySlots.Count; i++)
+            {
+                if (IsUnlocked(i) && !IsCurrentScene(i))
+                {
+                    currentIndex = i;
+                    UpdateHighlight();
+                    return;
+                }
+            }
+            
+            // If no selectable memories, set to 0 and don't highlight anything
+            currentIndex = 0;
+            UpdateHighlight();
+        }
+        
+        public void MoveSelection(int dir)
+        {
+            if (memorySlots == null || memorySlots.Count == 0) return;
+            
+            int searchIndex = currentIndex;
+            
+            while (true)
+            {
+                searchIndex += dir;
+                
+                if (searchIndex < 0 || searchIndex >= memorySlots.Count)
+                {
+                    break;
+                }
+                
+                if (IsUnlocked(searchIndex) && !IsCurrentScene(searchIndex))
+                {
+                    currentIndex = searchIndex;
+                    break;
+                }
+            }
+            
+            UpdateHighlight();
+        }
+
+        private void UpdateHighlight()
+        {
+            for (int i = 0; i < memorySlots.Count; i++)
+            {
+                bool highlight = (i == currentIndex) && IsUnlocked(i) && !IsCurrentScene(i);
+                memorySlots[i].SetHighlighted(highlight);
+            }
+        }
+        
+        public void SelectCurrent()
+        {
+            if (IsUnlocked(currentIndex) && !IsCurrentScene(currentIndex))
+            {
+                memorySlots[currentIndex].LoadMemory();
+            }
+        }
+        
+        private bool IsUnlocked(int index)
+        {
+            return _playerProfile.HasUnlockedMemory(memorySlots[index].MemoryID);
+        }
+
+        private bool IsCurrentScene(int index)
+        {
+            if (_memoryDatabase == null) return false;
+            
+            var memory = _memoryDatabase.GetById(memorySlots[index].MemoryID);
+            if (memory == null) return false;
+            
+            return SceneManager.GetActiveScene().name == memory.sceneName;
+        }
+
     }
 }

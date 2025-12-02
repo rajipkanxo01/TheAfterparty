@@ -27,6 +27,9 @@ namespace _Project.Scripts.Presentation.Journal
 
         [Header("Event")]
         public UnityEvent<int> onPageIndexChanged;
+
+        public bool IsMemoryTabActive => currentIndex == 0;
+        public bool IsNotesTabActive => currentIndex == 1;
         
 
         private void Awake()
@@ -116,6 +119,29 @@ namespace _Project.Scripts.Presentation.Journal
             var entry = tabPages[clamped];
             entry.tab.isOn = true;
         }
+        
+        public void SwitchToNextTab()
+        {
+            currentIndex = (currentIndex + 1) % tabPages.Count;
+            SelectTab(currentIndex);
+        }
+
+        public void SwitchToPreviousTab()
+        {
+            currentIndex--;
+            if (currentIndex < 0) currentIndex = tabPages.Count - 1;
+            SelectTab(currentIndex);
+        }
+
+        private void SelectTab(int index)
+        {
+            int clamped = Mathf.Clamp(index, 0, tabPages.Count - 1);
+            if (clamped < tabPages.Count && tabPages[clamped]?.tab != null)
+            {
+                tabPages[clamped].tab.isOn = true;
+            }
+        }
+
     }
 
 }

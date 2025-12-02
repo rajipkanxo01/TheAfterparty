@@ -99,6 +99,5 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
 
             onMemorySelected?.Invoke(currentIndex);
         }
-
     }
 }

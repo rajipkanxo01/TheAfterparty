@@ -8,6 +8,8 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
     public class NotesPageController : MonoBehaviour
     {
         [SerializeField] private List<MemoryNoteButton> noteButtons;
+        
+        private int currentIndex = 0;
 
         private const int NotesTabIndex = 1;
 
@@ -45,6 +47,39 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
             {
                 btn.UpdateLockState();
             }
+        }
+
+        public void MoveSelection(int direction)
+        {
+            /*// Find only unlocked buttons
+            var unlockedButtons = noteButtons.Where(btn => btn != null && btn.IsUnlocked).ToList();
+            
+            if (unlockedButtons.Count == 0)
+                return;
+
+            currentIndex = Mathf.Clamp(currentIndex + direction, 0, unlockedButtons.Count - 1);
+            
+            // You could add visual highlighting here if needed
+            // For now, this just updates the index for selection*/
+        }
+
+        public void SelectCurrent()
+        {
+            /*var unlockedButtons = noteButtons.Where(btn => btn != null && btn.IsUnlocked).ToList();
+            
+            if (unlockedButtons.Count == 0)
+                return;
+
+            if (currentIndex >= 0 && currentIndex < unlockedButtons.Count)
+            {
+                // Simulate clicking the button by setting its toggle to true
+                var targetButton = unlockedButtons[currentIndex];
+                var toggle = targetButton.GetComponent<UnityEngine.UI.Toggle>();
+                if (toggle != null)
+                {
+                    toggle.isOn = true;
+                }
+            }*/
         }
     }
 }
