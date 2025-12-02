@@ -102,7 +102,7 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
             if (_playerProfile == null)
                 return;
 
-            var memoryNotes = _playerProfile.GetAllMemoryNotes[memoryID];
+            var memoryNotes = _playerProfile.AllNotes[memoryID];
             if (memoryNotes == null)
             {
                 Debug.LogWarning($"MemoryNoteButton: No memory found for '{memoryID}'");
@@ -114,7 +114,7 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
             
             foreach (var observation in memoryNotes)
             {
-                var observationState = _playerProfile.GetObservationState(observation.observationId);
+                var observationState = observation.CurrentState;
     
                 GameObject entry = Instantiate(observationPrefab, observationContainer);
                 var text = entry.GetComponentInChildren<TextMeshProUGUI>();
@@ -126,7 +126,7 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
                     continue;
                 }
                 
-                text.text = observation.observationText;
+                text.text = observation.NoteText;
     
                 switch (observationState)
                 {

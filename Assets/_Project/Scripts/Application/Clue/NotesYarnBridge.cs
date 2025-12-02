@@ -1,12 +1,11 @@
-﻿using System;
-using _Project.Scripts.Application.Core;
+﻿using _Project.Scripts.Application.Core;
 using _Project.Scripts.Application.Player;
 using UnityEngine;
 using Yarn.Unity;
 
 namespace _Project.Scripts.Application.Clue
 {
-    public class ContradictionYarnBridge : MonoBehaviour
+    public class NotesYarnBridge : MonoBehaviour
     {
         [SerializeField] private InMemoryVariableStorage variableStorage;
         
@@ -22,15 +21,15 @@ namespace _Project.Scripts.Application.Clue
                 Debug.LogError("ContradictionYarnBridge: PlayerProfile not found.");
             }
             
-            ContradictionEvents.OnContradictionFound += HandleContradictionFound;
+            NotesEvent.OnNotesFound += HandleNotesFound;
         }
 
         private void OnDestroy()
         {
-            ContradictionEvents.OnContradictionFound -= HandleContradictionFound;
+            NotesEvent.OnNotesFound -= HandleNotesFound;
         }
 
-        private void HandleContradictionFound(string observationId)
+        private void HandleNotesFound(ObservationState state, string memoryId, string observationId)
         {
             if (variableStorage is null)
             {
@@ -40,21 +39,23 @@ namespace _Project.Scripts.Application.Clue
             
             string flagVar = $"$contradiction_{observationId}";
             variableStorage.SetValue(flagVar, true);
-
-            var observationStates = _playerProfile.GetObservationStates();
             
             float newCount;
-            if (variableStorage.TryGetValue("$contradictions_found", out float current))
+            if (state.Equals(ObservationState.Contradicted))
             {
-                newCount = current + 1f;
-            }
-            else
-            {
-                // First contradiction ever found
-                newCount = 1f;
+                if (variableStorage.TryGetValue("$contradictions_found", out float current))
+                {
+                    newCount = current + 1f;
+                }
+                else
+                {
+                    // First contradiction ever found
+                    newCount = 1f;
+                }
+                
+                variableStorage.SetValue("$contradictions_found", newCount);
             }
 
-            variableStorage.SetValue("$contradictions_found", newCount);
         }
     }
 }
