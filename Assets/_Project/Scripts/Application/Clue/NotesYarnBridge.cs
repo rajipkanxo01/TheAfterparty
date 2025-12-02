@@ -1,4 +1,5 @@
-﻿using _Project.Scripts.Application.Core;
+﻿using System;
+using _Project.Scripts.Application.Core;
 using _Project.Scripts.Application.Player;
 using UnityEngine;
 using Yarn.Unity;
@@ -10,6 +11,11 @@ namespace _Project.Scripts.Application.Clue
         [SerializeField] private InMemoryVariableStorage variableStorage;
         
         private PlayerProfile _playerProfile;
+
+        private void Awake()
+        {
+            ServiceLocater.RegisterService(this);
+        }
 
         private void Start()
         {
@@ -55,6 +61,40 @@ namespace _Project.Scripts.Application.Clue
 
                 variableStorage.SetValue($"${memoryId}_contradictions_found", newCount);
             }
+        }
+
+        public float GetVariableValue(string variableName, float defaultValue = 0f)
+        {
+            if (variableStorage == null)
+            {
+                Debug.LogError("NotesYarnBridge: VariableStorage not found.");
+                return defaultValue;
+            }
+
+            
+            Debug.Log("NotesYarnBridge: Retrieving variable '" + variableName + "'");
+            if (variableStorage.TryGetValue(variableName, out float value))
+            {
+                return value;
+            }
+
+            return defaultValue;
+        }
+
+        public bool GetVariableValue(string variableName, bool defaultValue = false)
+        {
+            if (variableStorage == null)
+            {
+                Debug.LogError("NotesYarnBridge: VariableStorage not found.");
+                return defaultValue;
+            }
+
+            if (variableStorage.TryGetValue(variableName, out bool value))
+            {
+                return value;
+            }
+
+            return defaultValue;
         }
         
         

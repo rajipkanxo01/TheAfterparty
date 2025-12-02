@@ -1,4 +1,5 @@
 ﻿using System;
+using _Project.Scripts.Application.Clue;
 using _Project.Scripts.Application.Core;
 using _Project.Scripts.Application.Events;
 using _Project.Scripts.Application.Player;
@@ -39,6 +40,7 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
 
         
         private PlayerProfile _playerProfile;
+        private NotesYarnBridge _notesYarnBridge;
         private bool _isUnlocked;
         
         public bool IsUnlocked => _isUnlocked;
@@ -61,6 +63,23 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
             {
                 Debug.LogError("MemoryNoteButton: PlayerProfile not found.");
                 return;
+            }
+
+            _notesYarnBridge = ServiceLocater.GetService<NotesYarnBridge>();
+            
+            if (_notesYarnBridge == null)
+            {
+                Debug.LogWarning("MemoryNoteButton: NotesYarnBridge not found in ServiceLocater, trying FindAnyObjectByType...");
+                _notesYarnBridge = FindAnyObjectByType<NotesYarnBridge>();
+                
+                if (_notesYarnBridge == null)
+                {
+                    Debug.LogWarning("MemoryNoteButton: NotesYarnBridge not found. Contradiction counts will not be displayed.");
+                }
+                else
+                {
+                    Debug.Log("MemoryNoteButton: NotesYarnBridge found via FindAnyObjectByType.");
+                }
             }
 
             UpdateLockState();
@@ -150,11 +169,44 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
                         break;
                 }
             }
+            
+            UpdateContradictionCounts();
         }
         
         private void ClearUI()
         {
             titleText.text = "";
+            if (foundContradictionsText != null)
+            {
+                foundContradictionsText.text = "";
+            }
+            if (totalNeededContradictionsText != null)
+            {
+                totalNeededContradictionsText.text = "";
+            }
+        }
+
+        private void UpdateContradictionCounts()
+        {
+            if (_notesYarnBridge == null)
+            {
+                return;
+            }
+
+            // Read contradiction counts from Yarn variables
+            float foundCount = _notesYarnBridge.GetVariableValue($"${memoryID}_contradictions_found", 0f);
+            float neededCount = _notesYarnBridge.GetVariableValue($"${memoryID}_contradictions_needed", 0f);
+
+            // Update UI text elements if they exist
+            if (foundContradictionsText != null)
+            {
+                foundContradictionsText.text = foundCount.ToString("0") + "/";
+            }
+
+            if (totalNeededContradictionsText != null)
+            {
+                totalNeededContradictionsText.text = neededCount.ToString("0");
+            }
         }
     }
 }
