@@ -1,6 +1,6 @@
 ﻿title: MogensContradiction_Mouse_Root
 ---
-<<if $contradiction_girlSeeMouse>>
+<<if $notes_badgeLost_girlSeeMouse>>
     <<jump MogensContradiction_Mouse_Repeat>>
 <<else>>
     <<jump MogensContradiction_Mouse_Main>>

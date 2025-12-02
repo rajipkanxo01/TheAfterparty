@@ -33,17 +33,17 @@ namespace _Project.Scripts.Application.Clue
         {
             if (variableStorage is null)
             {
-                Debug.LogError("ContradictionYarnBridge: VariableStorage not found.");
+                Debug.LogError("NotesYarnBridge: VariableStorage not found.");
                 return;
             }
             
-            string flagVar = $"$contradiction_{observationId}";
+            string flagVar = $"$notes_{memoryId}_{observationId}";
             variableStorage.SetValue(flagVar, true);
             
             float newCount;
             if (state.Equals(ObservationState.Contradicted))
             {
-                if (variableStorage.TryGetValue("$contradictions_found", out float current))
+                if (variableStorage.TryGetValue($"${memoryId}_contradictions_found", out float current))
                 {
                     newCount = current + 1f;
                 }
@@ -52,10 +52,11 @@ namespace _Project.Scripts.Application.Clue
                     // First contradiction ever found
                     newCount = 1f;
                 }
-                
-                variableStorage.SetValue("$contradictions_found", newCount);
-            }
 
+                variableStorage.SetValue($"${memoryId}_contradictions_found", newCount);
+            }
         }
+        
+        
     }
 }

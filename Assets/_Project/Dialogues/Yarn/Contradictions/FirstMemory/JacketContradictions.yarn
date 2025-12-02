@@ -1,7 +1,7 @@
 ﻿title: MogensContradiction_Jacket_Root
 ---
 
-<<if $contradiction_elliotJacket>>
+<<if $notes_badgeLost_elliotJacket>>
     <<jump MogensContradiction_Jacket_Repeat>>
 <<else>>
     <<jump MogensContradiction_Jacket_Main>>
