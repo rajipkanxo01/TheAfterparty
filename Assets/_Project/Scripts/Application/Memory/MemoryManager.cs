@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using _Project.Scripts.Application.Core;
 using _Project.Scripts.Application.Events;
 using _Project.Scripts.Application.Memory.Events;
@@ -63,10 +64,26 @@ namespace _Project.Scripts.Application.Memory
             var allObservations = memory.memoryObservations; 
 
             // store in PlayerProfile
-            _playerProfile.AddMemoryNotes(_currentMemoryId, allObservations);
+            var notesList = new List<Notes>();
+
+            foreach (var memoryObservation in allObservations)
+            {
+                var notes = new Notes
+                {
+                    ObservationId = memoryObservation.observationId,
+                    MemoryId = _currentMemoryId,
+                    NoteText = memoryObservation.observationText,
+                    CurrentState = ObservationState.Unknown
+                };
+                
+                notesList.Add(notes);
+            }
+            
+            _playerProfile.AddMemoryNotes(_currentMemoryId, notesList);
 
             // notify UI
             ToastNotification.Show("New Memory Notes Added! Check your journal.", 5f);
+            UIEvents.RaiseJournalNotesChanged();
             // UIEvents.RaiseMemoryNotesAdded(allObservations);
         }
 

@@ -2,7 +2,7 @@
 ---
 <<declare $detective_state = "badge_lost" as string>>
 
-<<if $contradictions_found >= $contradictions_needed>>
+<<if $badgeLost_contradictions_found >= $badgeLost_contradictions_needed>>
     <<jump Detective_PresentContradictions>>
 
 <<elseif $detective_state == "badge_lost">>

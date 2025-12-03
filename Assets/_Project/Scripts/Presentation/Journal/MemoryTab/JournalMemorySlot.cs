@@ -27,6 +27,7 @@ namespace _Project.Scripts.Presentation.Journal.MemoryTab
         [SerializeField] private Image portrait;
         [SerializeField] private TextMeshProUGUI nameText;
         [SerializeField] private CanvasGroup canvasGroup;
+        [SerializeField] private GameObject highlightFrame;
 
         private MemoryDatabase _memoryDatabase;
         public string MemoryID => memoryId;
@@ -78,5 +79,11 @@ namespace _Project.Scripts.Presentation.Journal.MemoryTab
             UIEvents.RaiseJournalClose();
             MemoryEvents.RaiseVisitMemory(memoryId);
         }
+        
+        public void SetHighlighted(bool on)
+        {
+            highlightFrame.SetActive(on);
+        }
+
     }
 }

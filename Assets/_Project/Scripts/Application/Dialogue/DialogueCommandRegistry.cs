@@ -23,7 +23,7 @@ namespace _Project.Scripts.Application.Dialogue
             RegisterCommand(new BadgeCommandHandler());
             RegisterCommand(new SetHighlightAreaCommandHandler());
             RegisterCommand(new RaiseEventCommandHandler());
-            RegisterCommand(new ContradictionCommandHandler());
+            RegisterCommand(new NotesCommandHandler());
         }
 
         private void RegisterCommand(IDialogueCommandHandler handler)
@@ -59,9 +59,9 @@ namespace _Project.Scripts.Application.Dialogue
                         async (code) => { await handler.ExecuteAsync(code); });
                     break;
                 
-                case "contradiction":
-                    _runner.AddCommandHandler<string, string>(handler.CommandName,
-                        async (mode, observationId) => { await handler.ExecuteAsync(mode, observationId); });
+                case "note":
+                    _runner.AddCommandHandler<string, string, string>(handler.CommandName,
+                        async (state, memoryId, observationId) => { await handler.ExecuteAsync(state, memoryId, observationId); });
                     break;
 
                 default:

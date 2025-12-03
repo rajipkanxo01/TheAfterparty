@@ -69,9 +69,27 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
                 bool active = (i == currentIndex);
 
                 var entry = pages[i];
+                
+                if (entry == null)
+                {
+                    Debug.LogError($"MemoryNotesMenu: Page entry at index {i} is null!");
+                    continue;
+                }
+
+                if (entry.button == null)
+                {
+                    Debug.LogError($"MemoryNotesMenu: Button at index {i} is null!");
+                    continue;
+                }
 
                 if (entry.button.isOn != active)
                     entry.button.SetIsOnWithoutNotify(active);
+
+                if (entry.content == null)
+                {
+                    Debug.LogError($"MemoryNotesMenu: Content panel at index {i} is null!");
+                    continue;
+                }
 
                 var panel = entry.content;
                 panel.alpha = active ? 1 : 0;
@@ -81,6 +99,5 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
 
             onMemorySelected?.Invoke(currentIndex);
         }
-
     }
 }

@@ -1,12 +1,12 @@
 ﻿title: Init
 ---
 // Contradiction system
-<<declare $contradictions_found = 0 as number>>
-<<declare $contradictions_needed = 2 as number>>
+<<declare $badgeLost_contradictions_found = 0 as number>>
+<<declare $badgeLost_contradictions_needed = 2 as number>>
 
-// Individual contradiction flags (expandable)
-<<declare $contradiction_elliotJacket = false as bool>>
-<<declare $contradiction_girlSeeMouse = false as bool>>
+// Individual contradiction flags
+<<declare $notes_badgeLost_elliotJacket = false as bool>>
+<<declare $notes_badgeLost_girlSeeMouse = false as bool>>
 
 <<stop>>
 ===

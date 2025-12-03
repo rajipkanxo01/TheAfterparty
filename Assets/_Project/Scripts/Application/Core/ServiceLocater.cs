@@ -30,10 +30,10 @@ namespace _Project.Scripts.Application.Core
         
         public static void PrintAllServices()
         {
-            Debug.Log("[ServiceLocator] Registered services:");
+            Debug.Log("<color=red> [ServiceLocator] Registered services: </color>");
             foreach (var service in services)
             {
-                Debug.Log($"- {service.Key.Name}");
+                Debug.Log($"<color=yellow>- {service.Key.Name} \n </color>");
             }
         }
         

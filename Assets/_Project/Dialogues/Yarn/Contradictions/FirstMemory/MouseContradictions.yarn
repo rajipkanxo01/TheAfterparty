@@ -1,6 +1,6 @@
 ﻿title: MogensContradiction_Mouse_Root
 ---
-<<if $contradiction_girlSeeMouse>>
+<<if $notes_badgeLost_girlSeeMouse>>
     <<jump MogensContradiction_Mouse_Repeat>>
 <<else>>
     <<jump MogensContradiction_Mouse_Main>>
@@ -22,7 +22,7 @@ title: MogensContradiction_Mouse_Main
 <<say mouse "Terrified! She ran off. Kind of rude, honestly…">>
 <<say cat "Interesting, seems like Elliot's memory is a bit off. I should tell him what actually happened.">>
 
-<<contradiction found girlSeeMouse>>
+<<note contradiction badgeLost girlSeeMouse>>
 <<set $mouse_talked = true>>
 ===
 

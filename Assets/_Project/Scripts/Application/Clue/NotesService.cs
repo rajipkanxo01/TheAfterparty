@@ -5,13 +5,13 @@ using _Project.Scripts.Data;
 
 namespace _Project.Scripts.Application.Clue
 {
-    public class ContradictionService
+    public class NotesService
     {
         private ContradictionDialogueMap _dialogueMap;
         private readonly DialogueController _dialogueController;
         private readonly PlayerProfile _playerProfile;
 
-        public ContradictionService(PlayerProfile playerProfile, ContradictionDialogueMap contradictionDialogueMap)
+        public NotesService(PlayerProfile playerProfile, ContradictionDialogueMap contradictionDialogueMap)
         {
             _playerProfile = playerProfile;
             _dialogueMap = contradictionDialogueMap;
@@ -23,24 +23,24 @@ namespace _Project.Scripts.Application.Clue
 
         private void Initialize()
         {
-            ContradictionEvents.OnContradictionFound += HandleContradictionFound;
+            NotesEvent.OnNotesFound += HandleNotesFound;
         }
         
-        private void HandleContradictionFound(string observationId)
+        private void HandleNotesFound(ObservationState state, string memoryId, string observationId)
         {
             string nodeName = _dialogueMap.GetNode(observationId);
             
-            _playerProfile.SetContradicted(observationId);
+            _playerProfile.SetObservationState(memoryId, observationId, state);
             _dialogueController.StartDialogue(nodeName, DialogueType.PlayerMonologue);
             
-            ToastNotification.Show("New Contradiction Recorded! Check your Journal.");
+            ToastNotification.Show("New Contradiction Recorded! Check your Notes.");
             
             // DialogueEvents.RaiseDialogueStart(nodeName, DialogueType.PlayerMonologue);
         }
         
         public void Dispose()
         {
-            ContradictionEvents.OnContradictionFound -= HandleContradictionFound;
+            NotesEvent.OnNotesFound -= HandleNotesFound;
         }
     }
 }

@@ -13,14 +13,14 @@ title: Detective_PresentContradictions
 
 
 // JACKET CONTRADICTION
-<<if $contradiction_elliotJacket>>
+<<if $notes_badgeLost_elliotJacket>>
     <<say cat "First: the jacket on the bench wasn’t yours. Wrong style, wrong size—nothing matched.">>
     <<say detective "So… I didn’t put my jacket there at all.">>
 <<endif>>
 
 
 // MOUSE CONTRADICTION
-<<if $contradiction_girlSeeMouse>>
+<<if $notes_badgeLost_girlSeeMouse>>
     <<say cat "Second: the girl wasn’t excited to see the mouse. She was terrified.">>
     <<say detective "But in my memory she… smiled. That’s not right.">>
 <<endif>>
@@ -29,7 +29,7 @@ title: Detective_PresentContradictions
 <<say detective "I'm starting to see the gaps… the errors.">>
 
 // BADGE TRUTH APPEARS ONLY IF BOTH CONTRADICTIONS ARE FOUND
-<<if $contradiction_elliotJacket and $contradiction_girlSeeMouse>>
+<<if $notes_badgeLost_elliotJacket and $notes_badgeLost_girlSeeMouse>>
     <<say detective "…Hold on. If the jacket wasn’t mine… and the girl wasn’t excited about the mouse… then what else did I get wrong?">>
     <<say detective "Then the badge— I didn’t leave it on the bench at all.">>
 

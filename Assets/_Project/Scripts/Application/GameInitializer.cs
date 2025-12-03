@@ -80,7 +80,7 @@ namespace _Project.Scripts.Application
             
             ServiceLocater.RegisterService(dialogueController);
 
-            var contradictionService = new ContradictionService(profile, contradictionDialogueMap);
+            var contradictionService = new NotesService(profile, contradictionDialogueMap);
             ServiceLocater.RegisterService(contradictionService);
         }
 

@@ -1,7 +1,7 @@
 ﻿title: MogensContradiction_Jacket_Root
 ---
 
-<<if $contradiction_elliotJacket>>
+<<if $notes_badgeLost_elliotJacket>>
     <<jump MogensContradiction_Jacket_Repeat>>
 <<else>>
     <<jump MogensContradiction_Jacket_Main>>
@@ -14,7 +14,7 @@ title: MogensContradiction_Jacket_Main
 <<say cat "Wrong size, wrong fabric, wrong smell.">>
 <<say cat "Yet in his memory, he insisted he put his own jacket here.">>
 
-<<contradiction found elliotJacket>>
+<<note contradiction badgeLost elliotJacket>>
 ===
 
 title: MogensContradiction_Jacket_Repeat
