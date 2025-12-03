@@ -25,8 +25,11 @@ namespace _Project.Scripts.Presentation
         {
             if (!_playerProfile.HasFragmentCompletedMemory(requiredMemoryID))
             {
-                DialogueEvents.RaiseDialogueStart("Mouse_Locked", DialogueType.PlayerMonologue);
-                return;
+                if (other.CompareTag("Player"))
+                {
+                    DialogueEvents.RaiseDialogueStart("Mouse_Locked", DialogueType.PlayerMonologue);
+                    return;
+                }
             }
             
             if (other.CompareTag("Player"))
