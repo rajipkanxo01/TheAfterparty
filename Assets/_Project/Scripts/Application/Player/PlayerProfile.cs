@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using _Project.Scripts.Application.Events;
 using UnityEngine;
 
 namespace _Project.Scripts.Application.Player
@@ -35,12 +36,14 @@ namespace _Project.Scripts.Application.Player
         private readonly HashSet<string> _repairedFragments = new();
         private readonly HashSet<string> _flags = new();
         private readonly Dictionary<string, List<Notes>> _notesByMemory = new();
+        private readonly Dictionary<string, bool> _allContradictionsFoundByMemory = new();
         private readonly Dictionary<string, HashSet<string>> _selectedContradictionsByMemory = new();
 
         public IReadOnlyCollection<string> DiscoveredClues => _discoveredClues;
         public IReadOnlyCollection<string> UnlockedMemories => _unlockedMemories;
         public IReadOnlyCollection<string> RepairedFragments => _repairedFragments;
         public IReadOnlyCollection<string> Flags => _flags;
+        public IReadOnlyDictionary<string, bool> AllContradictionsFound => _allContradictionsFoundByMemory;
 
         public IReadOnlyDictionary<string, List<Notes>> AllNotes => _notesByMemory;
 
@@ -54,6 +57,8 @@ namespace _Project.Scripts.Application.Player
 
             // Always unlocked from the start
             _unlockedMemories.Add("realWorld");
+            
+            UIEvents.OnAllContradictionsFound += HandleAllContradictionsFound;
         }
 
         // --------------------------------------
@@ -167,6 +172,19 @@ namespace _Project.Scripts.Application.Player
         // --------------------------------------
         // Selected Contradictions for Presentation
         // --------------------------------------
+        private void HandleAllContradictionsFound(string memoryId)
+        {
+            if (_allContradictionsFoundByMemory.TryAdd(memoryId, true))
+            {
+                Debug.Log($"PlayerProfile: All contradictions found for memory '{memoryId}'.");
+            }
+        }
+        
+        public bool HasFoundAllContradictions(string memoryId)
+        {
+            return _allContradictionsFoundByMemory.ContainsKey(memoryId);
+        }
+            
         public bool IsContradictionSelected(string memoryId, string observationId)
         {
             if (!_selectedContradictionsByMemory.TryGetValue(memoryId, out var selectedSet))

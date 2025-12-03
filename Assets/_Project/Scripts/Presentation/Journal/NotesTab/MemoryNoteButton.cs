@@ -70,17 +70,7 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
             
             if (_notesYarnBridge == null)
             {
-                Debug.LogWarning("MemoryNoteButton: NotesYarnBridge not found in ServiceLocater, trying FindAnyObjectByType...");
                 _notesYarnBridge = FindAnyObjectByType<NotesYarnBridge>();
-                
-                if (_notesYarnBridge == null)
-                {
-                    Debug.LogWarning("MemoryNoteButton: NotesYarnBridge not found. Contradiction counts will not be displayed.");
-                }
-                else
-                {
-                    Debug.Log("MemoryNoteButton: NotesYarnBridge found via FindAnyObjectByType.");
-                }
             }
             
             _contradictionCounter = GetComponentInChildren<ContradictionCounter>();
@@ -88,10 +78,25 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
             UpdateLockState();
         }
 
+        private void OnEnable()
+        {
+            NotesEvent.OnNotesFound += HandleNewNoteFound;
+        }
+
+        private void HandleNewNoteFound(ObservationState arg1, string memoryId, string obsId)
+        {
+            if (memoryId == memoryID && toggle.isOn)
+            {
+                ShowNotesFor();
+            }
+        }
+
         private void OnDestroy()
         {
             toggle.onValueChanged.RemoveAllListeners();
+            
             UIEvents.OnJournalOpen -= UpdateLockState;
+            NotesEvent.OnNotesFound -= HandleNewNoteFound;
         }
 
         public void UpdateLockState()
@@ -116,6 +121,9 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
 
         private void ShowNotesFor()
         {
+            Debug.Log("MemoryNoteButton: Showing notes for memory ID: " + memoryID);
+            
+            
             foreach (Transform child in observationContainer)
             {
                 Destroy(child.gameObject);
@@ -128,7 +136,6 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
             if (memoryNotes == null)
             {
                 Debug.LogWarning($"MemoryNoteButton: No memory found for '{memoryID}'");
-                // ClearUI();
                 _contradictionCounter.ClearUI();
                 return;
             }
