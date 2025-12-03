@@ -2,6 +2,8 @@
 using System.Collections;
 using _Project.Scripts.Application.Clue;
 using _Project.Scripts.Application.Core;
+using _Project.Scripts.Application.Events;
+using _Project.Scripts.Application.Memory.Events;
 using PixeLadder.SimpleTooltip;
 using TMPro;
 using UnityEngine;
@@ -78,9 +80,12 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
             if (isComplete && !_isComplete)
             {
                 // Just became complete - start blinking and show tooltip
+                
+                UIEvents.RaiseAllContradictionsFound(memoryID);
                 _isComplete = true;
                 StartBlinking();
                 SetupTooltip("All contradictions found. Go and present these contradictions to Elliot to restore this memory.");
+                
             }
             else if (!isComplete && _isComplete)
             {

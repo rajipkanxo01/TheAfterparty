@@ -19,5 +19,9 @@ namespace _Project.Scripts.Application.Events
         // when notes have changed
         public static event Action OnJournalNotesChanged;
         public static void RaiseJournalNotesChanged() => OnJournalNotesChanged?.Invoke();
+        
+        // when all contradictions are found
+        public static event Action<string> OnAllContradictionsFound;
+        public static void RaiseAllContradictionsFound(string memoryId) => OnAllContradictionsFound?.Invoke(memoryId);
     }
 }

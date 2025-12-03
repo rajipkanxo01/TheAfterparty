@@ -35,6 +35,7 @@ namespace _Project.Scripts.Application.Player
         private readonly HashSet<string> _repairedFragments = new();
         private readonly HashSet<string> _flags = new();
         private readonly Dictionary<string, List<Notes>> _notesByMemory = new();
+        private readonly Dictionary<string, HashSet<string>> _selectedContradictionsByMemory = new();
 
         public IReadOnlyCollection<string> DiscoveredClues => _discoveredClues;
         public IReadOnlyCollection<string> UnlockedMemories => _unlockedMemories;
@@ -161,6 +162,54 @@ namespace _Project.Scripts.Application.Player
                 _flags.Add(key);
             else
                 _flags.Remove(key);
+        }
+
+        // --------------------------------------
+        // Selected Contradictions for Presentation
+        // --------------------------------------
+        public bool IsContradictionSelected(string memoryId, string observationId)
+        {
+            if (!_selectedContradictionsByMemory.TryGetValue(memoryId, out var selectedSet))
+                return false;
+
+            return selectedSet.Contains(observationId);
+        }
+
+        public void ToggleSelectedContradiction(string memoryId, string observationId)
+        {
+            if (!_selectedContradictionsByMemory.TryGetValue(memoryId, out var selectedSet))
+            {
+                selectedSet = new HashSet<string>();
+                _selectedContradictionsByMemory[memoryId] = selectedSet;
+            }
+
+            if (selectedSet.Contains(observationId))
+            {
+                selectedSet.Remove(observationId);
+                Debug.Log($"PlayerProfile: Removed contradiction '{observationId}' from presentation list for '{memoryId}'.");
+            }
+            else
+            {
+                selectedSet.Add(observationId);
+                Debug.Log($"PlayerProfile: Added contradiction '{observationId}' to presentation list for '{memoryId}'.");
+            }
+        }
+
+        public int GetSelectedContradictionsCount(string memoryId)
+        {
+            if (!_selectedContradictionsByMemory.TryGetValue(memoryId, out var selectedSet))
+                return 0;
+
+            return selectedSet.Count;
+        }
+
+        public void ClearSelectedContradictions(string memoryId)
+        {
+            if (_selectedContradictionsByMemory.ContainsKey(memoryId))
+            {
+                _selectedContradictionsByMemory[memoryId].Clear();
+                Debug.Log($"PlayerProfile: Cleared all selected contradictions for '{memoryId}'.");
+            }
         }
     }
 }

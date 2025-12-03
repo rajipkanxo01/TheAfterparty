@@ -1,5 +1,4 @@
-﻿using System;
-using _Project.Scripts.Application.Core;
+﻿using _Project.Scripts.Application.Core;
 using _Project.Scripts.Application.Player;
 using UnityEngine;
 using Yarn.Unity;
@@ -9,6 +8,7 @@ namespace _Project.Scripts.Application.Clue
     public class NotesYarnBridge : MonoBehaviour
     {
         [SerializeField] private InMemoryVariableStorage variableStorage;
+        [SerializeField] private DialogueRunner dialogueRunner;
         
         private PlayerProfile _playerProfile;
 
@@ -20,6 +20,7 @@ namespace _Project.Scripts.Application.Clue
         private void Start()
         {
             variableStorage ??= FindAnyObjectByType<InMemoryVariableStorage>();
+            dialogueRunner ??= FindAnyObjectByType<DialogueRunner>();
             
             _playerProfile = ServiceLocater.GetService<PlayerProfile>();
             if (_playerProfile == null)
@@ -28,6 +29,13 @@ namespace _Project.Scripts.Application.Clue
             }
             
             NotesEvent.OnNotesFound += HandleNotesFound;
+            
+            // Register Yarn functions
+            if (dialogueRunner != null)
+            {
+                dialogueRunner.AddFunction<string, int>("get_selected_contradictions", (memoryId) => GetSelectedContradictionsCount(memoryId));
+                dialogueRunner.AddFunction<string, string, bool>("is_contradiction_selected", (memoryId, observationId) => IsContradictionSelected(memoryId, observationId));
+            }
         }
 
         private void OnDestroy()
@@ -97,6 +105,32 @@ namespace _Project.Scripts.Application.Clue
             return defaultValue;
         }
         
+        // Yarn function to get the number of selected contradictions for a memory
+        public int GetSelectedContradictionsCount(string memoryId)
+        {
+            if (_playerProfile == null)
+            {
+                Debug.LogWarning("NotesYarnBridge: PlayerProfile not found. Cannot get selected contradictions count.");
+                return 0;
+            }
+            
+            int count = _playerProfile.GetSelectedContradictionsCount(memoryId);
+            Debug.Log($"NotesYarnBridge: Memory '{memoryId}' has {count} selected contradictions.");
+            return count;
+        }
         
+        // Yarn function to check if a specific contradiction is selected
+        public bool IsContradictionSelected(string memoryId, string observationId)
+        {
+            if (_playerProfile == null)
+            {
+                Debug.LogWarning("NotesYarnBridge: PlayerProfile not found. Cannot check if contradiction is selected.");
+                return false;
+            }
+            
+            bool isSelected = _playerProfile.IsContradictionSelected(memoryId, observationId);
+            Debug.Log($"NotesYarnBridge: Contradiction '{observationId}' in memory '{memoryId}' is {(isSelected ? "selected" : "not selected")}.");
+            return isSelected;
+        }
     }
 }
