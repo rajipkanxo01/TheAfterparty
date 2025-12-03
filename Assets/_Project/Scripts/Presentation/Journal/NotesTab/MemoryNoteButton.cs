@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using _Project.Scripts.Application.Clue;
 using _Project.Scripts.Application.Core;
 using _Project.Scripts.Application.Events;
@@ -137,7 +138,11 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
     
                 GameObject entry = Instantiate(observationPrefab, observationContainer);
                 var text = entry.GetComponentInChildren<TextMeshProUGUI>();
-                var icon = entry.GetComponentInChildren<Image>();
+                var iconObj = entry.GetComponentsInChildren<Transform>(true).FirstOrDefault(t => t.CompareTag("Icon"));
+                var icon = iconObj?.GetComponent<Image>();
+
+                var noteEntry = entry.GetComponent<JournalNoteEntry>();
+                noteEntry.Init(observation.ObservationId, observation.MemoryId);
 
                 if (text == null || icon == null)
                 {

@@ -1,4 +1,5 @@
 ﻿using _Project.Scripts.Application.Events;
+using PixeLadder.SimpleTooltip;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
