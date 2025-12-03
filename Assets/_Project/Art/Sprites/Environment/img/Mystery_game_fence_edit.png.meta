@@ -99,6 +99,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -115,7 +128,11 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: 14, y: -9}
+        - {x: 14, y: 5}
+        - {x: -16, y: -11}
+        - {x: -16, y: -24}
       tessellationDetail: 0
       bones: []
       spriteID: f12a7a4fd03ebd744998d388002bc078
@@ -137,7 +154,12 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: 16, y: -24}
+        - {x: 16, y: -11}
+        - {x: -6, y: -21}
+        - {x: -6, y: -29}
+        - {x: 0, y: -32}
       tessellationDetail: 0
       bones: []
       spriteID: e81b7be050ba07e42a57bf6dcde73d22
@@ -159,7 +181,11 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: 16, y: -8}
+        - {x: 16, y: 5}
+        - {x: -16, y: -11}
+        - {x: -16, y: -24}
       tessellationDetail: 0
       bones: []
       spriteID: 125909be6a3db2a4aa0149f5f0c039ec
