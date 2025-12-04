@@ -2,8 +2,8 @@
 ---
 <<set $first_memory_started = true>>
  
-<<say Cat "Human - follow me. There are witnesses that you must interrogate for me.">>
-<<say Detective "Right, err, Of course. About that...">>
+<<say Detective "Mogens? Don't get too angry...">>
+<<say Detective "I might have run into a... slight issue that we have to deal with before we can enter the park.">>
 <<say Cat "Mrrp?">>
 <<say Detective "... I don't have my badge.">>
 <<say Cat "Then you should go get it.">>
@@ -13,6 +13,8 @@
 <<say Cat "Seeing as the investigation cannot continue without identification, it appears that I have no choice but to fix your mistake.">>
 <<say Detective "I am sorry. And thank you.">>
 <<say Cat "Now, think of when you last saw the badge. Recall it as clearly in your mind as you can.">>
+<<say Cat "I can enter the memories of any human mind... even one like yours.">>
+<<say Detective "No need to rub it in.">>
 
 <<memory unlock badgeLost>>
 <<set $detective_state="Detective_StillMissingClues">>
@@ -22,11 +24,10 @@
 
 title: Detective_AfterAllFragmentsCompleted
 ---
-<<say cat "Whew! That was a lot of human drama for one night.">>
-<<say cat "My whiskers are tingling and that’s usually a sign something doesn’t add up.">>
+<<say cat "This look like it shoould be easy - find the jacket, find the badge.">>
+<<say cat "But something doesn’t add up.">>
 <<say cat "Memories are like yarn balls—fun to bat around, impossible to untangle.">>
 <<say cat "Let’s go to the real world. Maybe there’s a nice, clear clue lying around.">>
-<<say cat "Preferably one that doesn’t scream or chase mice that don’t exist.">>
 ===
 
 title: Detective_GenericTalk

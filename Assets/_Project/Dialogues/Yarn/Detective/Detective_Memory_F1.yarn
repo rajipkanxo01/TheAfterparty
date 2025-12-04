@@ -1,17 +1,20 @@
 ﻿title: Memory_F1_ElliotTalkingAboutWeather
 ---
-<<say detective "Phew… it’s way too hot in this thing.">>
-<<say detective "I’ll just take this off for a moment.">>
+<<say detective "Huh. Isn't this supposed to be a party? Where is everyone?">>
+<<say detective "I should have brought Mogens.">>
+<<say detective "Anyway, it's so hot out here... Am I the only one who thinks it's hot out here?">>
+<<say detective "Lemme get this thing off.">>
 ===
 
 title: Memory_F1_ElliotRemovingJacket
 ---
-<<say detective "This bench should do nicely.">>
+<<say detective "There! This bench should do nicely.">>
 ===
 
 
 title: Memory_F1_GirlTalkWithDetective
 ---
-<<say girl "Excuse me… are you dressed like the Chief from Cardamom Town?">>
+<<say girl "Dad look! A police costume!">>
+<<say girl "You are dressed up as the Police Chief from Cardamom Town, right?">>
 <<say detective "Ah—yes, I suppose I am.">>
 ===
