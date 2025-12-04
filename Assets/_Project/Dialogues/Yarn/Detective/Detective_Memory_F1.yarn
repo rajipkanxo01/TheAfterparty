@@ -8,12 +8,13 @@
 
 title: Memory_F1_ElliotRemovingJacket
 ---
-<<say detective "This bench should do nicely.">>
+<<say detective "There! This bench should do nicely.">>
 ===
 
 
 title: Memory_F1_GirlTalkWithDetective
 ---
-<<say girl "Excuse me… are you dressed like the Chief from Cardamom Town?">>
+<<say girl "Dad look! A police costume!">>
+<<say girl "You are dressed up as the Police Chief from Cardamom Town, right?">>
 <<say detective "Ah—yes, I suppose I am.">>
 ===

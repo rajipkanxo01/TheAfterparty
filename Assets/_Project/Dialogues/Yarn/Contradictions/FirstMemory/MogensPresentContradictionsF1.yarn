@@ -21,8 +21,9 @@ title: Detective_PresentContradictions
 
 // MOUSE CONTRADICTION
 <<if $notes_badgeLost_girlSeeMouse>>
-    <<say cat "Second: the girl wasn’t excited to see the mouse. She was terrified.">>
-    <<say detective "But in my memory she… smiled. That’s not right.">>
+    <<say cat "Second: the girl wasn’t the onlly one to get scared by a tiny rodent.">>
+    <<say cat "I have it on good authority that you screamed like a little girl ad dropped the badge on the round.">>
+    <<say detective "Ah. And here I thought that I had been able to overcome my mouse-phobia...">>
 <<endif>>
 
 <<say cat "Your memory twisted parts of what happened. Alcohol can do that… or guilt.">>
@@ -30,31 +31,17 @@ title: Detective_PresentContradictions
 
 // BADGE TRUTH APPEARS ONLY IF BOTH CONTRADICTIONS ARE FOUND
 <<if $notes_badgeLost_elliotJacket and $notes_badgeLost_girlSeeMouse>>
-    <<say detective "…Hold on. If the jacket wasn’t mine… and the girl wasn’t excited about the mouse… then what else did I get wrong?">>
-    <<say detective "Then the badge— I didn’t leave it on the bench at all.">>
+    <<say detective "…Hold on. We still don't know what happned to the badge.">>
+    <<say cat "Mm. The mouse indicated that the costumed man was distracted by the badge...">>
 
-    <<say cat "That’s what I’ve been trying to tell you. Try thinking harder. Maybe check the place you didn’t bother checking.">>
+    <<say detective "...Do you think he picked it up?">>
+    <<say cat "That  seems likely.">>
 
-    <<say detective "The place I… didn’t check?">>
-    <<say cat "Yes. Your pockets, genius.">>
-
-    <<say detective "My pockets? No, I would've—">>
-    <<say cat "Just check." >>
-
-    <<say detective "…Fine.">>
-    <<say detective "…" >>
-    <<say detective "…Oh.">>
-
-    <<say cat "Found it, didn’t you?">>
-
-    <<say detective "It… was in my pants pocket. All along.">>
-    <<say cat "Amazing. Truly astounding detective work. You’ve solved the great mystery of ‘where my own pockets are.’">>
-
-    <<say detective "Alright, alright… I get it. I messed up.">>
-    <<say cat "Messed up? Eliot, you lost a badge inside *your own clothing*. That’s not messing up, that’s performance art.">>
-
-    <<say detective "Can we just… move on?">>
-    <<say cat "Gladly. Now that you’ve recovered your dignity— well, half of it— let’s focus on what actually happened that night.">>
+    <<say detective "But then- How am I supposed to find my badge? I can't enter the park without it!">>
+    <<say cat "Seems like you will have to wait here while I do all the work then. As usual." >>
+    <<say detective "Err- Sorry. I guess that I will have to wait here for now then.">>
+    <<say detective "Could you try to keep me updated though?">>
+    <<say cat "If I have to.">>
 
     // Unlock corrected memory fragment
     <<memory unlock badgeTruth>>

@@ -10,17 +10,23 @@
 title: MogensContradiction_Mouse_Main
 ---
 <<say cat "Hey. You there. I need to ask you something.">>
-<<say mouse "W-Who, me? I… I didn’t see anything… promise!">>
-<<say cat "Relax. I’m not here to eat you. Just tell me what happened.">>
+<<say mouse "Eeep! How did you get in here">>
+<<say cat "Your hole is too big - If you don't want an enterprising gat to get in, you should change that.">>
+<<say mouse "Eeep! Spare me! Spare me!">>
+<<say cat "Relax. I’m not here to eat you. Just to ask soe questtions.">>
+<<say cat "For now.">>
 <<say mouse "Are you sure…? You look like the eating type…">>
 <<say cat "If I wanted to eat you, I wouldn’t chat first. Talk.">>
 <<say mouse "O-Okay… okay… fine…">>
-<<say cat "In Elliot’s memory, the girl seemed excited when she saw you. Why?">>
-<<say mouse "Excited? Her? No way!">>
-<<say mouse "She screamed! Nearly fainted!">>
-<<say cat "So she was afraid of you. Not excited.">>
-<<say mouse "Terrified! She ran off. Kind of rude, honestly…">>
-<<say cat "Interesting, seems like Elliot's memory is a bit off. I should tell him what actually happened.">>
+<<say cat "Last night, you ran past a gathering of humans, the little screamed when she saw you, correct?">>
+<<say mouse "Y-yes. One of the big ones did too, though. Er, not the one that looked like a cat, the other one.">>
+<<say cat "Ah, That makes sense. I have always known human to be strangly scared of you small creatures.">>
+<<say mouse "He dropped something too - hard to say what it was">>
+<<say mouse "It was shiny though">>
+<<say cat "Interesting. Did you see what happened to it?">>
+<<say mouse "I'm not sure - I went by pretty fast - There was a giant cat ofter all!">>
+<<say mouse "But I did notice that the cat seemed distracted by the thing, though.">>
+<<say cat "Interesting...">>
 
 <<note contradiction badgeLost girlSeeMouse>>
 <<set $mouse_talked = true>>
@@ -28,7 +34,7 @@ title: MogensContradiction_Mouse_Main
 
 title: MogensContradiction_Mouse_Repeat
 ---
-<<say cat "We already talked to him. No need to scare the little guy again.">>
+<<say cat "We already talked to him. No need to scare the little guy again. For now.">>
 ===
 
 
