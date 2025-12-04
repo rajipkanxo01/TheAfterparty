@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using _Project.Scripts.Application.Events;
+using _Project.Scripts.Application.Player;
 using UnityEngine;
 
 namespace _Project.Scripts.Presentation.Journal.NotesTab
@@ -48,6 +49,12 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
                 btn.UpdateLockState();
             }
         }
+        
+        public void OnNoteClicked(string memoryId, string observationId, JournalNoteEntry entry)
+        {
+            Debug.Log("NotesPageController: Note clicked: " + observationId);
+        }
+
 
         public void MoveSelection(int direction)
         {
