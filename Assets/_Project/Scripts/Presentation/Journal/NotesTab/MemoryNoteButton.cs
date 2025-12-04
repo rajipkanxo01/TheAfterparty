@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using _Project.Scripts.Application.Clue;
 using _Project.Scripts.Application.Core;
 using _Project.Scripts.Application.Events;
@@ -30,8 +31,7 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
 
         [Header("UI")]
         [SerializeField] private TextMeshProUGUI titleText;
-        [SerializeField] private TextMeshProUGUI foundContradictionsText;
-        [SerializeField] private TextMeshProUGUI totalNeededContradictionsText;
+
         
         [Header("Icons")]
         [SerializeField] private ObservationIcon contradictedIcon;
@@ -42,6 +42,7 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
         private PlayerProfile _playerProfile;
         private NotesYarnBridge _notesYarnBridge;
         private bool _isUnlocked;
+        private ContradictionCounter _contradictionCounter;
         
         public bool IsUnlocked => _isUnlocked;
 
@@ -81,6 +82,8 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
                     Debug.Log("MemoryNoteButton: NotesYarnBridge found via FindAnyObjectByType.");
                 }
             }
+            
+            _contradictionCounter = GetComponentInChildren<ContradictionCounter>();
 
             UpdateLockState();
         }
@@ -125,7 +128,8 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
             if (memoryNotes == null)
             {
                 Debug.LogWarning($"MemoryNoteButton: No memory found for '{memoryID}'");
-                ClearUI();
+                // ClearUI();
+                _contradictionCounter.ClearUI();
                 return;
             }
 
@@ -137,7 +141,11 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
     
                 GameObject entry = Instantiate(observationPrefab, observationContainer);
                 var text = entry.GetComponentInChildren<TextMeshProUGUI>();
-                var icon = entry.GetComponentInChildren<Image>();
+                var iconObj = entry.GetComponentsInChildren<Transform>(true).FirstOrDefault(t => t.CompareTag("Icon"));
+                var icon = iconObj?.GetComponent<Image>();
+
+                var noteEntry = entry.GetComponent<JournalNoteEntry>();
+                noteEntry.Init(observation.ObservationId, observation.MemoryId);
 
                 if (text == null || icon == null)
                 {
@@ -170,43 +178,8 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
                 }
             }
             
-            UpdateContradictionCounts();
+            _contradictionCounter.UpdateContradictionCounts();
         }
         
-        private void ClearUI()
-        {
-            titleText.text = "";
-            if (foundContradictionsText != null)
-            {
-                foundContradictionsText.text = "";
-            }
-            if (totalNeededContradictionsText != null)
-            {
-                totalNeededContradictionsText.text = "";
-            }
-        }
-
-        private void UpdateContradictionCounts()
-        {
-            if (_notesYarnBridge == null)
-            {
-                return;
-            }
-
-            // Read contradiction counts from Yarn variables
-            float foundCount = _notesYarnBridge.GetVariableValue($"${memoryID}_contradictions_found", 0f);
-            float neededCount = _notesYarnBridge.GetVariableValue($"${memoryID}_contradictions_needed", 0f);
-
-            // Update UI text elements if they exist
-            if (foundContradictionsText != null)
-            {
-                foundContradictionsText.text = foundCount.ToString("0") + "/";
-            }
-
-            if (totalNeededContradictionsText != null)
-            {
-                totalNeededContradictionsText.text = neededCount.ToString("0");
-            }
-        }
     }
 }
