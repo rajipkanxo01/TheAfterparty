@@ -7,29 +7,58 @@
 
 title: Detective_PresentContradictions
 ---
-<<say detective "You're back. Did you… find something?">>
-<<say cat "Two things, actually. Both from your memory.">>
-<<say detective "…Go on.">>
+<<set $selected_count = get_selected_contradictions("badgeLost")>>
 
-
-// JACKET CONTRADICTION
-<<if $notes_badgeLost_elliotJacket>>
-    <<say cat "First: the jacket on the bench wasn’t yours. Wrong style, wrong size—nothing matched.">>
-    <<say detective "So… I didn’t put my jacket there at all.">>
+<<if $selected_count == 0>>
+    <<say detective "You're back. Did you… find something?">>
+    <<say cat "I found contradictions in your memory.">>
+    <<say detective "What do you mean?">>
+    <<say cat "Let me mark them on your journal. Take another look and see if anything stands out to you.">>
+    <<say detective "Oh… I see. I'll take another look.">>
+<<elseif $selected_count == 1>>
+    <<say detective "You're back. Did you… find something?">>
+    <<say cat "Actually, yes. One thing from your memory that doesn't add up.">>
+    <<say detective "…Go on.">>
+    
+    // Show whichever contradiction was selected
+    <<if is_contradiction_selected("badgeLost", "elliotJacket")>>
+        <<say cat "The jacket on the bench wasn't yours. Wrong style, wrong size—nothing matched.">>
+        <<say detective "So… I didn't put my jacket there at all.">>
+    <<endif>>
+    
+    <<if is_contradiction_selected("badgeLost", "girlSeeMouse")>>
+        <<say cat "The girl wasn't excited to see the mouse. She was terrified.">>
+        <<say detective "But in my memory she… smiled. That's not right.">>
+    <<endif>>
+    
+    <<say detective "That's… concerning. But I think there is something still I might be misremebering?">>
+    <<say cat "Well, if you say so I will look for something more.">>
+    <<say detective "I will wait here for you.">>
+<<else>>
+    <<say detective "You're back. Did you… find something?">>
+    <<say cat "Two things, actually. Both from your memory.">>
+    <<say detective "…Go on.">>
 <<endif>>
 
 
-// MOUSE CONTRADICTION
-<<if $notes_badgeLost_girlSeeMouse>>
-    <<say cat "Second: the girl wasn’t excited to see the mouse. She was terrified.">>
-    <<say detective "But in my memory she… smiled. That’s not right.">>
-<<endif>>
+<<if $selected_count >= 2>>
+    // JACKET CONTRADICTION
+    <<if $notes_badgeLost_elliotJacket>>
+        <<say cat "First: the jacket on the bench wasn't yours. Wrong style, wrong size—nothing matched.">>
+        <<say detective "So… I didn't put my jacket there at all.">>
+    <<endif>>
 
-<<say cat "Your memory twisted parts of what happened. Alcohol can do that… or guilt.">>
-<<say detective "I'm starting to see the gaps… the errors.">>
+    // MOUSE CONTRADICTION
+    <<if $notes_badgeLost_girlSeeMouse>>
+        <<say cat "Second: the girl wasn't excited to see the mouse. She was terrified.">>
+        <<say detective "But in my memory she… smiled. That's not right.">>
+    <<endif>>
 
-// BADGE TRUTH APPEARS ONLY IF BOTH CONTRADICTIONS ARE FOUND
-<<if $notes_badgeLost_elliotJacket and $notes_badgeLost_girlSeeMouse>>
+    <<say cat "Your memory twisted parts of what happened. Alcohol can do that… or guilt.">>
+    <<say detective "I'm starting to see the gaps… the errors.">>
+
+    // BADGE TRUTH APPEARS ONLY IF BOTH CONTRADICTIONS ARE SELECTED AND FOUND
+    <<if $notes_badgeLost_elliotJacket and $notes_badgeLost_girlSeeMouse>>
     <<say detective "…Hold on. If the jacket wasn’t mine… and the girl wasn’t excited about the mouse… then what else did I get wrong?">>
     <<say detective "Then the badge— I didn’t leave it on the bench at all.">>
 
@@ -56,11 +85,12 @@ title: Detective_PresentContradictions
     <<say detective "Can we just… move on?">>
     <<say cat "Gladly. Now that you’ve recovered your dignity— well, half of it— let’s focus on what actually happened that night.">>
 
-    // Unlock corrected memory fragment
-    <<memory unlock badgeTruth>>
-<<endif>>
+        // Unlock corrected memory fragment
+        <<memory unlock badgeTruth>>
+    <<endif>>
 
-<<set $detective_state = "truth_memory_unlocked">>
+    <<set $detective_state = "truth_memory_unlocked">>
+<<endif>>
 ===
 
 title: Detective_TruthMemoryUnlocked

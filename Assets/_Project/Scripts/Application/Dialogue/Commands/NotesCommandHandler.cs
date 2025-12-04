@@ -15,9 +15,6 @@ namespace _Project.Scripts.Application.Dialogue.Commands
                 return;
             }
             
-            /*string mode = parameters[0];
-            string observationId = parameters[1];*/
-            
             string state = parameters[0];
             string memoryId = parameters[1];
             string observationId = parameters[2];
