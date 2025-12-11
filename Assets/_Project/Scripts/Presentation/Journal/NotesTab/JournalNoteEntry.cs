@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using _Project.Scripts.Application.Core;
 using _Project.Scripts.Application.Events;
 using _Project.Scripts.Application.Player;
@@ -26,6 +26,20 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
         private void OnEnable()
         {
             UIEvents.OnAllContradictionsFound += HandleAllContradictionsFound;
+            UIEvents.OnJournalNotesChanged += HandleNotesChanged;
+        }
+        
+        private void HandleNotesChanged()
+        {
+            if (_playerProfile == null || string.IsNullOrEmpty(_observationId) || string.IsNullOrEmpty(_memoryId))
+                return;
+                
+            var note = _playerProfile.GetNote(_memoryId, _observationId);
+            if (note != null)
+            {
+                ConfigureVisualState(note);
+                SetupOrUpdateTooltip(note);
+            }
         }
 
         private void HandleAllContradictionsFound(string memoryId)
@@ -293,6 +307,7 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
         private void OnDisable()
         {
             UIEvents.OnAllContradictionsFound -= HandleAllContradictionsFound;
+            UIEvents.OnJournalNotesChanged -= HandleNotesChanged;
             TooltipManager.Instance?.HideTooltip();
         }
     }

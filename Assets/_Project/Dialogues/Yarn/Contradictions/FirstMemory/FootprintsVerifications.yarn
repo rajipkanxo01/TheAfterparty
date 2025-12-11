@@ -1,0 +1,31 @@
+﻿title: FootprintVerification_Root
+---
+<<if $notes_badgeLost_footprintVerification>>
+    <<jump FootprintVerification_Repeat>>
+<<else>>
+    <<jump FootprintVerification_Main>>
+<<endif>>
+===
+
+
+title: FootprintVerification_Main
+---
+<<say cat "Small footprints… heading away from the booth.">>
+<<say cat "So the girl really did run off right after asking to see his badge.">>
+<<say cat "That lines up with what Elliot mentioned.">>
+<<say cat "Good. This observation checks out.">>
+
+<< set $notes_badgeLost_footprintVerification = true>>
+<<note verify badgeLost girlPointDetective>>
+===
+
+
+title: FootprintVerification_Locked
+---
+<<say cat "These footprints might be important. Maybe we should check them out after visiting Elliot's memory.">>
+===
+
+title: FootprintVerification_Repeat
+---
+<<say cat "We already confirmed these footprints belong to the girl.">>
+===

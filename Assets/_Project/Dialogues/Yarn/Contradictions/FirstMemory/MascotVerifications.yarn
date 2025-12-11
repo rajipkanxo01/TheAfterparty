@@ -1,0 +1,32 @@
+﻿title: MascotApologyVerification_Root
+---
+<<if $notes_badgeLost_mascotApologyVerification>>
+    <<jump MascotApologyVerification_Repeat>>
+<<else>>
+    <<jump MascotApologyVerification_Main>>
+<<endif>>
+===
+
+
+title: MascotApologyVerification_Main
+---
+<<say cat "These… whiskers? Stiff yarn, cut clean.">>
+<<say cat "They must’ve fallen from that mascot’s costume.">>
+<<say cat "And he did come over to apologize for the girl bothering Elliot…">>
+<<say cat "Looks like his story checks out.">>
+
+<<set $notes_badgeLost_mascotApologyVerification = true>>
+<<note verify badgeLost mascotApologize>>
+===
+
+
+title: MascotApologyVerification_Locked
+---
+<<say cat "These whiskers might mean something… but I should go through Elliot’s memory first.">>
+===
+
+
+title: MascotApologyVerification_Repeat
+---
+<<say cat "We already confirmed these whiskers came from the mascot who apologized.">>
+===
