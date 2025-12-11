@@ -18,9 +18,14 @@ namespace _Project.Scripts.Application.Dialogue.Commands
             string state = parameters[0];
             string memoryId = parameters[1];
             string observationId = parameters[2];
-            
-            ObservationState obsState = state.ToLower() == "contradiction" ? ObservationState.Contradicted : ObservationState.Verified;
-            
+
+            ObservationState obsState = state.ToLower() switch
+            {
+                "verify" => ObservationState.Verified,
+                "contradiction" => ObservationState.Contradicted,
+                _ => ObservationState.Unknown
+            };
+
             NotesEvent.RaiseNotesFound(obsState, memoryId, observationId);
         }
     }
