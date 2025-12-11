@@ -27,8 +27,9 @@ title: Detective_PresentContradictions
     <<endif>>
     
     <<if is_contradiction_selected("badgeLost", "girlSeeMouse")>>
-        <<say cat "The girl wasn't excited to see the mouse. She was terrified.">>
-        <<say detective "But in my memory she… smiled. That's not right.">>
+        <<say cat "The girl wasn’t the only one to get scared by a tiny rodent.">>
+        <<say cat "I have it on good authority that you screamed like a little girl ad dropped the badge on the round.">>
+        <<say detective "Ah. And here I thought that I had been able to overcome my mouse-phobia...">>
     <<endif>>
     
     <<say detective "That's… concerning. But I think there is something still I might be misremebering?">>
@@ -49,7 +50,7 @@ title: Detective_PresentContradictions
 
     // MOUSE CONTRADICTION
     <<if $notes_badgeLost_girlSeeMouse>>
-      <<say cat "Second: the girl wasn’t the onlly one to get scared by a tiny rodent.">>
+      <<say cat "Second: the girl wasn’t the only one to get scared by a tiny rodent.">>
       <<say cat "I have it on good authority that you screamed like a little girl ad dropped the badge on the round.">>
       <<say detective "Ah. And here I thought that I had been able to overcome my mouse-phobia...">>
     <<endif>>
@@ -60,17 +61,17 @@ title: Detective_PresentContradictions
     // BADGE TRUTH APPEARS ONLY IF BOTH CONTRADICTIONS ARE SELECTED AND FOUND
     <<if $notes_badgeLost_elliotJacket and $notes_badgeLost_girlSeeMouse>>
     
-    <<say detective "…Hold on. We still don't know what happned to the badge.">>
-    <<say cat "Mm. The mouse indicated that the costumed man was distracted by the badge...">>
-
-    <<say detective "...Do you think he picked it up?">>
-    <<say cat "That  seems likely.">>
-
-    <<say detective "But then- How am I supposed to find my badge? I can't enter the park without it!">>
-    <<say cat "Seems like you will have to wait here while I do all the work then. As usual." >>
-    <<say detective "Err- Sorry. I guess that I will have to wait here for now then.">>
-    <<say detective "Could you try to keep me updated though?">>
-    <<say cat "If I have to.">>
+        <<say detective "…Hold on. We still don't know what happned to the badge.">>
+        <<say cat "Mm. The mouse indicated that the costumed man was distracted by the badge...">>
+    
+        <<say detective "...Do you think he picked it up?">>
+        <<say cat "That  seems likely.">>
+    
+        <<say detective "But then- How am I supposed to find my badge? I can't enter the park without it!">>
+        <<say cat "Seems like you will have to wait here while I do all the work then. As usual." >>
+        <<say detective "Err- Sorry. I guess that I will have to wait here for now then.">>
+        <<say detective "Could you try to keep me updated though?">>
+        <<say cat "If I have to.">>
 
         // Unlock corrected memory fragment
         <<memory unlock badgeTruth>>

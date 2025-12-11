@@ -35,6 +35,9 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
                 _allContradictionsFound = true;
 
                 var note = _playerProfile.GetNote(_memoryId, _observationId);
+                
+                Debug.Log("JournalNoteEntry: All contradictions found for memory " + memoryId + ". Updating entry for observation " + _observationId);
+                
                 ConfigureVisualState(note);
                 SetupOrUpdateTooltip(note);
             }
@@ -140,6 +143,7 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
 
             if (_tooltipTrigger == null)
             {
+                Debug.Log("JournalNoteEntry: Adding tooltip trigger.");
                 _tooltipTrigger = TooltipTrigger.AddTooltip(gameObject, tooltipContent, tooltipTitle);
             }
             else
@@ -288,6 +292,7 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
 
         private void OnDisable()
         {
+            UIEvents.OnAllContradictionsFound -= HandleAllContradictionsFound;
             TooltipManager.Instance?.HideTooltip();
         }
     }
