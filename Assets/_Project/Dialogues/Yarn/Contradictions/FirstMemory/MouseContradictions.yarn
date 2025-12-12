@@ -11,7 +11,7 @@ title: MogensContradiction_Mouse_Main
 ---
 <<say cat "Hey. You there. I need to ask you something.">>
 <<say mouse "Eeep! How did you get in here">>
-<<say cat "Your hole is too big - If you don't want an enterprising gat to get in, you should change that.">>
+<<say cat "Your hole is too big - If you don't want an enterprising cat to get in, you should change that.">>
 <<say mouse "Eeep! Spare me! Spare me!">>
 <<say cat "Relax. I’m not here to eat you. Just to ask soe questtions.">>
 <<say cat "For now.">>

@@ -33,7 +33,15 @@ namespace _Project.Scripts.Application.Clue
             _playerProfile.SetObservationState(memoryId, observationId, state);
             _dialogueController.StartDialogue(nodeName, DialogueType.PlayerMonologue);
             
-            ToastNotification.Show("New Contradiction Recorded! Check your Notes.");
+            // Show appropriate toast message based on state
+            string toastMessage = state == ObservationState.Verified 
+                ? "Observation Verified! Check your Notes." 
+                : "New Contradiction Recorded! Check your Notes.";
+            
+            ToastNotification.Show(toastMessage);
+            
+            // Trigger UI update in journal
+            Events.UIEvents.RaiseJournalNotesChanged();
             
             // DialogueEvents.RaiseDialogueStart(nodeName, DialogueType.PlayerMonologue);
         }
