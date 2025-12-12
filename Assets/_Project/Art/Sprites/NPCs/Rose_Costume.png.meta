@@ -1,10 +1,19 @@
 fileFormatVersion: 2
-guid: 2bd27dd7d08c28848ad4fff483a283cd
+guid: 36ad9925ae486494496d86da57fab0a9
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1828955703578607589
-    second: Mystery_tree_green_0
+      213: 3603056148197300933
+    second: Rose_Costume_0
+  - first:
+      213: -466227413327946375
+    second: Rose_Costume_1
+  - first:
+      213: -6850291515694763768
+    second: Rose_Costume_2
+  - first:
+      213: 5403616801605026296
+    second: Rose_Costume_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +60,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -75,7 +84,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -113,29 +122,89 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Mystery_tree_green_0
+      name: Rose_Costume_0
       rect:
         serializedVersion: 2
-        x: 12
-        y: 0
-        width: 104
-        height: 217
-      alignment: 9
-      pivot: {x: 0.5, y: 0.15}
+        x: 6
+        y: 65
+        width: 26
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape:
-      - - {x: 24, y: -102.5}
-        - {x: 34, y: -92}
-        - {x: 26, y: -72}
-        - {x: -20, y: -72}
-        - {x: -35, y: -88}
-        - {x: -27, y: -101.5}
-      tessellationDetail: 0
+      physicsShape: []
+      tessellationDetail: -1
       bones: []
-      spriteID: 5ef3abda581c16910800000000000000
-      internalID: 1828955703578607589
+      spriteID: 5ca561b1a70a00230800000000000000
+      internalID: 3603056148197300933
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rose_Costume_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 65
+        width: 26
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 97dd90443a0a789f0800000000000000
+      internalID: -466227413327946375
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rose_Costume_2
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 12
+        width: 26
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 801342f2920eee0a0800000000000000
+      internalID: -6850291515694763768
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rose_Costume_3
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 12
+        width: 26
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8f1000af9d08dfa40800000000000000
+      internalID: 5403616801605026296
       vertices: []
       indices: 
       edges: []
@@ -144,7 +213,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 451099b27bf69a140b62eff0cb8cee7a
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -154,7 +223,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Mystery_tree_green_0: 1828955703578607589
+      Rose_Costume_0: 3603056148197300933
+      Rose_Costume_1: -466227413327946375
+      Rose_Costume_2: -6850291515694763768
+      Rose_Costume_3: 5403616801605026296
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
