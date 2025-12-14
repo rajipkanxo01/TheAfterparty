@@ -1,0 +1,59 @@
+﻿title: Tutorial_Opening
+---
+<<say detective "Well - Here I am again. To think that something like this would happen so soon after the party.">>
+===
+
+title: Tutorial_Callcat
+---
+<<say detective "Are you there?">>
+<<say cat "Mrrp">>
+===
+
+title: Tutorial_Briefing
+---
+<<say detective "The owner called in a death an hour or so ago - there are already officers on the scene, and the body has already been identified.">>
+<<say detective "A balloonseller named Ivy Green. Can't say that I knew her.">>
+<<say cat "Mrrp">>
+<<say detective "They are just waiting for me.">>
+<<say detective "…">>
+<<say cat "Why don't you get on with it then?">>
+<<say detective "Well, you see, I may have… misplaced my badge.">>
+<<say cat "…">>
+<<say cat "And you only thought to mention this now?">>
+<<say detective "I forgot my jacket, you see, and I'm sure I lost it around here!">>
+<<say detective "Couldn't you just 'take a look' for me?">>
+<<say cat "The nerve of you - To think that you expect me to use my abilities for something so trivial!">>
+<<say cat "I suppose I will help you, If I must.">>
+===
+
+title: Tutorial_catSearches
+---
+<<say cat "Mrrp… There. I see it.">>
+<<say detective "Where?">>
+<<say cat "Near the fountain, tucked behind the bench. You must have dropped it when you stopped to feed those pigeons.">>
+===
+
+title: Tutorial_PigeonBanter
+---
+<<say detective "I wasn't feeding the pigeons! I was… observing them. For the case.">>
+<<say cat "Of course you were.">>
+===
+
+title: Tutorial_FoundBadge
+---
+<<say detective "Ah! There it is!">>
+===
+
+title: Tutorial_Thankscat
+---
+<<say detective "Thank you, cat. I don't know what I'd do without you.">>
+<<say cat "Die of embarrassment at a crime scene, most likely.">>
+===
+
+title: Tutorial_ReadyForCase
+---
+<<say detective "Right. Well then…">>
+
+<<say detective "Let's go see what happened to Miss Green.">>
+===
+

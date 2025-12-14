@@ -56,6 +56,9 @@ namespace _Project.Scripts.Presentation.Memory.Services
                 return;
             }
             
+            // Make NPC visible before moving (for cutscenes in real world)
+            EnsureNpcVisible(npcController.gameObject);
+            
             await npcController.MoveAlongPathAsync(path, speed);
         }
 
@@ -64,6 +67,7 @@ namespace _Project.Scripts.Presentation.Memory.Services
             foreach (Transform child in npcsParent)
             {
                 var npcController = child.GetComponent<NpcController>();
+
                 if (npcController != null && npcController.NpcId.Equals(npcId, StringComparison.OrdinalIgnoreCase))
                 {
                     return npcController;
@@ -71,6 +75,21 @@ namespace _Project.Scripts.Presentation.Memory.Services
             }
 
             return null;
+        }
+        
+        private void EnsureNpcVisible(GameObject npcObject)
+        {
+            var spriteRenderers = npcObject.GetComponentsInChildren<SpriteRenderer>();
+            foreach (var sr in spriteRenderers)
+            {
+                if (sr != null)
+                {
+                    var color = sr.color;
+                    color.a = 1f;
+                    sr.color = color;
+                    Debug.Log($"MemoryActorService: Set {sr.gameObject.name} sprite visible");
+                }
+            }
         }
     }
 }
