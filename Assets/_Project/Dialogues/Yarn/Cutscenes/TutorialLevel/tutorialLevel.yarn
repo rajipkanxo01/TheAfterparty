@@ -11,8 +11,8 @@ title: Tutorial_Callcat
 
 title: Tutorial_Briefing
 ---
-<<say detective "The owner called in a death an hour or so ago - there are already officers on the scene, and the body has already been identified.">>
-<<say detective "A balloonseller named Ivy Green. Can't say that I knew her.">>
+<<say detective "The owner called in a death an hour or so ago - the body has been identified, there are already officers on the scene.">>
+<<say detective "A balloon seller named Ivy Green. Can't say that I knew her.">>
 <<say cat "Mrrp">>
 <<say detective "They are just waiting for me.">>
 <<say detective "…">>
@@ -46,7 +46,7 @@ title: Tutorial_FoundBadge
 
 title: Tutorial_Thankscat
 ---
-<<say detective "Thank you, cat. I don't know what I'd do without you.">>
+<<say detective "Thank you, Mogens. I don't know what I'd do without you.">>
 <<say cat "Die of embarrassment at a crime scene, most likely.">>
 ===
 
