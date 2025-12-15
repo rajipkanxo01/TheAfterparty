@@ -1,0 +1,21 @@
+﻿title: Entrance_Conversation
+---
+<<say richard "So when is that detective of yours coming?">>
+<<say police "Er, he should be here any minute, Mr. Campbell.">>
+<<say richard "And when he finally shows up? How long will this take?">>
+<<say richard "She's just… Lying there. Until you're done.">>
+<<say police "Er, the detective will be here soon, I'm sure.">>
+<<say police "As soon as he has examined the crime scene, we can put her to rest properly.">>
+<<say police "In the meantime, we have the building surrounded by police tape, so at least she will be left in peace in the meantime.">>
+<<say police "And if it's any consolation, I don't think this will take long. I'm no detective, but I don't think the crime scene indicates any foul play.">>
+<<say richard "So you also think that she did it? That she chose to…">>
+<<say police "Yes. I'm sorry.">>
+<<say richard "…">>
+<<say richard "…Well then get him here sooner, and if not him, then someone else.">>
+<<say richard "The park is opening in a week; I need this matter settled by then.">>
+<<say police "…Ah. I see.">>
+<<say cat "Well. he's certainly in a hurry.">>
+<<say cat "At least the poor police officer managed to give me a clue as to where I need to go next…">>
+<<say cat "I need to look for the building surrounded by police tape.">>
+===
+

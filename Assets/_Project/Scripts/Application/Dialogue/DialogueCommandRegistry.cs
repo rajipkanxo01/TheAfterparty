@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Yarn.Unity;
@@ -24,6 +24,7 @@ namespace _Project.Scripts.Application.Dialogue
             RegisterCommand(new SetHighlightAreaCommandHandler());
             RegisterCommand(new RaiseEventCommandHandler());
             RegisterCommand(new NotesCommandHandler());
+            RegisterCommand(new LoadSceneCommandHandler());
         }
 
         private void RegisterCommand(IDialogueCommandHandler handler)
@@ -62,6 +63,11 @@ namespace _Project.Scripts.Application.Dialogue
                 case "note":
                     _runner.AddCommandHandler<string, string, string>(handler.CommandName,
                         async (state, memoryId, observationId) => { await handler.ExecuteAsync(state, memoryId, observationId); });
+                    break;
+                
+                case "load_scene":
+                    _runner.AddCommandHandler<string>(handler.CommandName,
+                        async (sceneName) => { await handler.ExecuteAsync(sceneName); });
                     break;
 
                 default:

@@ -9,8 +9,6 @@ namespace _Project.Scripts.Presentation
         public void StartGame()
         {
             var currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-            Debug.Log(SceneManager.GetActiveScene().buildIndex);
-            Debug.Log(SceneManager.GetActiveScene().name);
             SceneManager.LoadScene(currentSceneIndex+1);
         }
 
