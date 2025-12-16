@@ -130,7 +130,9 @@ TextureImporter:
         - {x: 25, y: 4}
         - {x: 14, y: 9}
         - {x: -20, y: -8}
-        - {x: -21, y: -20}
+        - {x: -21, y: -21}
+        - {x: -20, y: -25}
+        - {x: -13, y: -28}
         - {x: -8, y: -27}
       tessellationDetail: 0
       bones: []
