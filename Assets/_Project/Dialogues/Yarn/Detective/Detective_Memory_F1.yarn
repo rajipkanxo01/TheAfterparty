@@ -15,6 +15,6 @@ title: Memory_F1_ElliotRemovingJacket
 title: Memory_F1_GirlTalkWithDetective
 ---
 <<say girl "Dad look! A police costume!">>
-<<say girl "You are dressed up as the Police Chief from Cardamom Town, right?">>
+<<say girl "You're dressed up as the Police Chief from Cardamom Town, right?">>
 <<say detective "Ah—yes, I suppose I am.">>
 ===

@@ -22,6 +22,9 @@ namespace _Project.Scripts.Presentation.Memory.Services
         private void Start()
         {
             _dialogueController = ServiceLocater.GetService<DialogueController>();
+            
+            ServiceLocater.PrintAllServices();
+            
             _gameStateService = ServiceLocater.GetService<GameStateService>();
             
             if (_dialogueController == null)
@@ -54,7 +57,6 @@ namespace _Project.Scripts.Presentation.Memory.Services
 
 
             _dialogueFinished = new TaskCompletionSource<bool>();
-            
             
             Debug.Log("MemoryDialogueService: Playing node: " + nodeName);
             _dialogueController.StartDialogue(nodeName);

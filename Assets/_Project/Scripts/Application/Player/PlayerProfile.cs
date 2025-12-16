@@ -35,6 +35,7 @@ namespace _Project.Scripts.Application.Player
         private readonly HashSet<string> _completedFragments = new();
         private readonly HashSet<string> _repairedFragments = new();
         private readonly HashSet<string> _flags = new();
+        private readonly HashSet<string> _playedCutscenes = new();
         private readonly Dictionary<string, List<Notes>> _notesByMemory = new();
         private readonly Dictionary<string, bool> _allContradictionsFoundByMemory = new();
         private readonly Dictionary<string, HashSet<string>> _selectedContradictionsByMemory = new();
@@ -229,5 +230,18 @@ namespace _Project.Scripts.Application.Player
                 Debug.Log($"PlayerProfile: Cleared all selected contradictions for '{memoryId}'.");
             }
         }
+
+        // --------------------------------------
+        // Cutscene Tracking
+        // --------------------------------------
+        public bool HasPlayedCutscene(string cutsceneId) => _playedCutscenes.Contains(cutsceneId);
+
+        public void MarkCutscenePlayed(string cutsceneId)
+        {
+            if (_playedCutscenes.Add(cutsceneId))
+                Debug.Log($"PlayerProfile: Marked cutscene '{cutsceneId}' as played.");
+        }
+
+        public IReadOnlyCollection<string> PlayedCutscenes => _playedCutscenes;
     }
 }

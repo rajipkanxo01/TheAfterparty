@@ -62,7 +62,7 @@ namespace _Project.Scripts.Presentation.Journal
         private void OnEnable()
         {
             currentIndex = Mathf.Clamp(currentIndex, 0, tabPages.Count - 1);
-            tabPages[currentIndex].tab.isOn = true; 
+            tabPages[currentIndex].tab.isOn = true;
         }
 
 
