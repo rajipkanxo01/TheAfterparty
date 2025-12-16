@@ -1,0 +1,16 @@
+﻿title: CrimeScene_BodyUnderSheet
+---
+<<if $crimeScene_bodyExamined == false>>
+    <<say cat "A human body, covered by a sheet.">>
+    <<say cat "Strange, these creatures, needing privacy even when there is not truly anyone left to be looked upon.">>
+    <<say cat "Slightly bruised, but not enough to cause her serious harm - Yet her expression seems to be frozen in- Is it terror?">>
+    <<set $crimeScene_bodyExamined = true>>
+    <<set $crimeScene_cluesFound += 1>>
+    <<if $crimeScene_cluesFound >= 4>>
+        <<set $crimeScene_allCluesFound = true>>
+    <<endif>>
+<<else>>
+    <<say cat "The body of Ivy, covered by a sheet.">>
+    <<say cat "Her expression is frozen in what appears to be terror.">>
+<<endif>>
+===

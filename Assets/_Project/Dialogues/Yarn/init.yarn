@@ -8,5 +8,19 @@
 <<declare $notes_badgeLost_elliotJacket = false as bool>>
 <<declare $notes_badgeLost_girlSeeMouse = false as bool>>
 
+// Chapter 1 - Arrival variables
+<<declare $entrance_visited = false as bool>>
+
+// Chapter 2 - Crime Scene variables
+<<declare $crimeScene_bodyExamined = false as bool>>
+<<declare $crimeScene_pillsExamined = false as bool>>
+<<declare $crimeScene_chairExamined = false as bool>>
+<<declare $crimeScene_vaseExamined = false as bool>>
+<<declare $crimeScene_cluesFound = 0 as number>>
+<<declare $crimeScene_allCluesFound = false as bool>>
+<<declare $crimeScene_cutsceneTriggered = false as bool>>
+<<declare $crimeScene_ghostMet = false as bool>>
+<<declare $crimeScene_reportedToDetective = false as bool>>
+
 <<stop>>
 ===

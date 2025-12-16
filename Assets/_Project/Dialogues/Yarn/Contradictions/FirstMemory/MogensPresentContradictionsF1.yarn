@@ -69,7 +69,7 @@ title: Detective_PresentContradictions
     
         <<say detective "But then- How am I supposed to find my badge? I can't enter the park without it!">>
         <<say cat "Seems like you will have to wait here while I do all the work then. As usual." >>
-        <<say detective "Err- Sorry.”
+        <<say detective "Err- Sorry.">>
         <<say detective "Could you try to keep me updated though?">>
         <<say cat "If I have to.">>
 
@@ -84,7 +84,7 @@ title: Detective_PresentContradictions
 
         <<say detective "Er, well, your job is to figure out if anything… untoward… has happened.">>
         <<say detective "Only then can we begin to investigate further.">>
-        <<say detective Come back here when you’ve had a look at the crime scene - If nothing else, I can at least call the chief and tell him of your findings.">>
+        <<say detective "Come back here when you’ve had a look at the crime scene - If nothing else, I can at least call the chief and tell him of your findings.">>
         <<say detective "(I have to be useful somehow)">>
         <<say detective "Got it?">>
 
@@ -94,6 +94,9 @@ title: Detective_PresentContradictions
 
         // Unlock corrected memory fragment
         <<memory unlock badgeTruth>>
+        
+        // Load next chapter scene
+        <<load_scene Chapter1-Arrival>>
     <<endif>>
 
     <<set $detective_state = "truth_memory_unlocked">>

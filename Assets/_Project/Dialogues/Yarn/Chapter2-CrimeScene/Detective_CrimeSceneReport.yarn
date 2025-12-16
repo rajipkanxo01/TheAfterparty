@@ -1,0 +1,35 @@
+﻿title: Detective_CrimeSceneReport
+---
+<<if $crimeScene_ghostMet == true and $crimeScene_reportedToDetective == false>>
+    <<say detective "So? Have you found anything?">>
+    <<say cat "Much. I have examined the crime scene, and observed some of the humans present in the park.">>
+    <<say detective "Crime scene? Does that mean you think this is a murder?">>
+    <<say cat "Indeed. The humans seem to think that Ivy took her own life, but I find that unlikely to the extreme.">>
+    <<say detective "What makes you think that?">>
+    <<say cat "I had a little help in my investigation - I encountered the ghost of the deceased.">>
+    <<say detective "Again? She didn't try to hurt you, did she?">>
+    <<say cat "No - for a ghost, she seemed to be able to contain her emotion rather well.">>
+    <<say cat "She did not remember much, but she could clearly recall what she felt in the moment of her death: Rage.">>
+    <<say cat "That is not the usual experience of one who has died by her own hand.">>
+    <<if $crimeScene_allCluesFound == true>>
+        <<say cat "Besides, the physical evidence does not fit with the humans' hypothesis either, not completely.">>
+        <<say cat "Looking at the (comparatively) uninjured body, it is likely that she was killed by something she ingested, and the bottle of pills nearby does indicate that she overdosed intentionally-">>
+        <<say cat "But the disarray of the furniture in the room indicates that she was sitting at the table when something overcame her, and she fell to the floor.">>
+        <<say cat "this is not something one would do if one knew the pain was coming.">>
+        <<say cat "There was a broken vase further away from the body - perhaps she grabbed it from the table as she fell and threw it after the culprit?">>
+        <<say cat "That's only speculation, however.">>
+    <<endif>>
+    <<say detective "So this is officially a murder investigation then.">>
+    <<say detective "I'll make a call to the chief - I'm sure there's a phone booth somewhere around here.">>
+    <<say detective "Meanwhile we'll-">>
+    <<say cat "Mrrp!">>
+    <<say detective "I mean, you- will have to take as many witness testimonies as you can. How do you plan to do that, by the way? I don't know any other humans who can speak \car.">>
+    <<say cat "You are uniquely gifted in that way, despite your other shortcomings.">>
+    <<say cat "I suppose I will have to walk in their memories then. That is more reliable anyway.">>
+    <<say detective "Tell me when you discover something new. I will… wait here and be useless in the meantime, suppose…">>
+    <<set $crimeScene_reportedToDetective = true>>
+    <<load_scene Chapter3-MeetingMichaell>>
+<<else>>
+    <<say detective "Go investigate and come back when you have something.">>
+<<endif>>
+===

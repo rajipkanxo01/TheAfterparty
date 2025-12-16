@@ -1,0 +1,14 @@
+﻿title: CrimeScene_ToppledChair
+---
+<<if $crimeScene_chairExamined == false>>
+    <<say cat "A human sitting-perch. It is toppled to the floor.">>
+    <<say cat "She must have been sitting on it, and then knocked it to the floor when she fell…">>
+    <<set $crimeScene_chairExamined = true>>
+    <<set $crimeScene_cluesFound += 1>>
+    <<if $crimeScene_cluesFound >= 4>>
+        <<set $crimeScene_allCluesFound = true>>
+    <<endif>>
+<<else>>
+    <<say cat "The toppled chair. It fell when she did.">>
+<<endif>>
+===

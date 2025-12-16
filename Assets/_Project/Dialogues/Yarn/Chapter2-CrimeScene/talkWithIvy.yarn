@@ -1,0 +1,28 @@
+﻿title: CrimeScene_IvyCutscene
+---
+<<if $crimeScene_cutsceneTriggered == false>>
+    <<say cat "Something here is wrong…">>
+    // Ivy's ghost appears
+    <<say ivy "Of course - I must be mad, seeing a talking cat.">>
+    // Mogens turns around to face Ivy
+    <<say cat "You're one to talk, ghost.">>
+    <<say ivy "Ghost? Is that what I am?">>
+    <<say cat "Indeed - sorry to break it to you.">>
+    <<say ivy "No need - I think I already knew, somehow. But I also didn't.">>
+    <<say cat "Ghosts tend to be stuck in the moment of their death - You can't move on from your death, not completely, yet your soul is marred by it.">>
+    <<say cat "I am more surprised at how calm you are. Ghosts are created by strong emotions - or strong regrets.">>
+    <<say ivy "Oh I wouldn't say that I am calm.…">>
+    <<say ivy "Someone, someone I trusted, did something to me. Betrayed me.">>
+    <<say cat "Then you did not, as the other humans suspect, take your own life?">>
+    <<say ivy "Whatever happened to me, it was not my own doing, I know that.">>
+    <<say cat "Do you remember who this traitor was?">>
+    <<say ivy "No. All I remember is rage.">>
+    // The ghost fades away
+    <<set $crimeScene_cutsceneTriggered = true>>
+    <<set $crimeScene_ghostMet = true>>
+    <<load_scene Chapter1-Arrival>>
+<<else>>
+    <<say cat "The ghost has already shown herself to me.">>
+    <<say cat "I should report this to the detective.">>
+<<endif>>
+===

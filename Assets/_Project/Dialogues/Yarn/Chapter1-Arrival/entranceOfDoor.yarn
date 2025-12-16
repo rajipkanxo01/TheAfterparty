@@ -1,0 +1,9 @@
+﻿title: Entrance_Dialogue
+---
+<<if $entrance_visited == true>>
+    <<say cat "I have already been through this door. There is nothing new to see here.">>
+<<else>>
+    <<set $entrance_visited = true>>
+    <<load_scene Chapter2-CrimeScene>>
+<<endif>>
+===

@@ -1,0 +1,14 @@
+﻿title: CrimeScene_PillBottle
+---
+<<if $crimeScene_pillsExamined == false>>
+    <<say cat "A bottle of pills, only half full. Something that she would have possessed, given her illness.">>
+    <<say cat "The humans seem to suspect that she took her own life… perhaps through an overdose?">>
+    <<set $crimeScene_pillsExamined = true>>
+    <<set $crimeScene_cluesFound += 1>>
+    <<if $crimeScene_cluesFound >= 4>>
+        <<set $crimeScene_allCluesFound = true>>
+    <<endif>>
+<<else>>
+    <<say cat "The pill bottle. The humans suspect an overdose.">>
+<<endif>>
+===

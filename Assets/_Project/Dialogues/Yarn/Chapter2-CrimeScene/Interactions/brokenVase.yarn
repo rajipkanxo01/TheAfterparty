@@ -1,0 +1,14 @@
+﻿title: CrimeScene_BrokenVase
+---
+<<if $crimeScene_vaseExamined == false>>
+    <<say cat "This is strange - it seems too far from the rest of the clues, but why?">>
+    <<say cat "Was it... thrown?">>
+    <<set $crimeScene_vaseExamined = true>>
+    <<set $crimeScene_cluesFound += 1>>
+    <<if $crimeScene_cluesFound >= 4>>
+        <<set $crimeScene_allCluesFound = true>>
+    <<endif>>
+<<else>>
+    <<say cat "The broken vase. Too far from the body to have simply fallen.">>
+<<endif>>
+===

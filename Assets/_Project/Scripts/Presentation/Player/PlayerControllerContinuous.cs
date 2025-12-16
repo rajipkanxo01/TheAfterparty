@@ -91,7 +91,7 @@ namespace _Project.Scripts.Presentation.Player
 
             // TODO: remove this when we have actual sprites for the cat
             if (isCrawling) spriteRenderer.transform.localScale = new Vector2(1f, 0.5f);
-            else spriteRenderer.transform.localScale = new Vector2(1f, 1f);
+            else spriteRenderer.transform.localScale = new Vector2(1.4f, 1.4f);
                 
         }
     }
