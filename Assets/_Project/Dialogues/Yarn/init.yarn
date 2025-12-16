@@ -8,6 +8,9 @@
 <<declare $notes_badgeLost_elliotJacket = false as bool>>
 <<declare $notes_badgeLost_girlSeeMouse = false as bool>>
 
+// Chapter 1 - Arrival variables
+<<declare $entrance_visited = false as bool>>
+
 // Chapter 2 - Crime Scene variables
 <<declare $crimeScene_bodyExamined = false as bool>>
 <<declare $crimeScene_pillsExamined = false as bool>>

@@ -28,6 +28,7 @@
     <<say cat "I suppose I will have to walk in their memories then. That is more reliable anyway.">>
     <<say detective "Tell me when you discover something new. I will… wait here and be useless in the meantime, suppose…">>
     <<set $crimeScene_reportedToDetective = true>>
+    <<load_scene Chapter3-MeetingMichaell>>
 <<else>>
     <<say detective "Go investigate and come back when you have something.">>
 <<endif>>

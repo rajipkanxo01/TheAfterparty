@@ -1,4 +1,6 @@
-﻿using _Project.Scripts.Application.Cutscene.Events;
+﻿using System.Collections;
+using System.Collections.Generic;
+using _Project.Scripts.Application.Cutscene.Events;
 using _Project.Scripts.Data.Cutscene;
 using UnityEngine;
 
@@ -46,7 +48,7 @@ namespace _Project.Scripts.Presentation.Cutscene
             }
         }
 
-        private System.Collections.IEnumerator TriggerOnStartDelayed()
+        private IEnumerator TriggerOnStartDelayed()
         {
             // Wait for end of frame to ensure all Start() methods have been called
             yield return new WaitForEndOfFrame();
