@@ -126,14 +126,14 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape:
-      - - {x: 59, y: -44.5}
+      - - {x: 63, y: -44.5}
         - {x: 59, y: -30.5}
         - {x: 28, y: -14.5}
         - {x: -30, y: -15.5}
         - {x: -61, y: -32.5}
-        - {x: -61, y: -44.5}
-        - {x: -21, y: -59.5}
-        - {x: 28, y: -59.5}
+        - {x: -62, y: -48.5}
+        - {x: -34, y: -60.5}
+        - {x: 36, y: -60.5}
       tessellationDetail: 0
       bones: []
       spriteID: bdb818d5fc8fb4070800000000000000
