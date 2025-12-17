@@ -1,0 +1,33 @@
+﻿title: Chapter3_RoseAndMichaelStart
+---
+<<say rose "Sorry, Michael, I'm just… I need a moment.">>
+<<say michael "It's fine, take as long as you need. I know this must be difficult for you.">>
+<<say rose "Difficult!? She was the only family I had left!">>
+<<say rose "I'm sorry- I didn't mean to yell.">>
+===
+
+
+title: Chapter3_RoseAndMichaelAfterMichaelMove
+---
+<<say michael "Oh, Rose…">>
+<<say michael "You know this is not what she would want from you, right?">>
+<<say michael "Don't get me wrong, grieve as much as you need, but she wouldn't want you to get… stuck like this.">>
+<<say michael "You know that, right?">>
+<<say rose "It's kind of you to say, Michael, but I'm not sure I deserve it.">>
+<<say rose "Did you know that we got into a fight last night?">>
+<<say rose "It was… It doesn't matter what it was about, I don't remember now anyway.">>
+===
+
+title: Chapter3_RoseAndMichaelRoseTurnAway
+---
+<<say rose "But I am quite sure I called her a 'burden' at one point.">>
+<<say michael "Surely you don't think that-">>
+<<say rose "What else am I to think?">>
+<<say rose "Now, please, I need to go, I… I need to be ready to talk to the detective.">>
+===
+
+
+title: Chapter3_RoseAndMichaelEnd
+---
+<<say michael "Wait!">>
+===
