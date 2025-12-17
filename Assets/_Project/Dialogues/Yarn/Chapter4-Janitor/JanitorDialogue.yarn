@@ -1,0 +1,18 @@
+﻿title: Chapter4_JanitorFirst
+---
+<<if $janitor_visited == false>>
+    <<say janitor "Hm! I don't know what is worse - that I have to wait for some detective to show up so I can do my job…">>
+    <<say janitor "Or that I would be able to clean it up right now if I hadn't been conscientious enough to put the broom back after the debacle last night.">>
+    <<say janitor "Of all the places, she could have chosen, why pick the building with the storage closet?">>
+    <<say janitor "...No, that was uncharitable. Poor girl.">>
+    <<say janitor "She was so distraught when I saw her- if only there was something I could have done…">>
+    <<say janitor "But there's no use wondering about that.">>
+    <<say janitor "If only I could clean up this mess, there would be something for me to do!">>
+    <<say cat "It seems like this human encountered Ivy last night - Perhaps I should take a look at what he remembers?">>
+    <<set $janitor_visited = true>>
+    <<memory unlock janitorMemory>>
+<<else>>
+    <<say janitor "If only I could clean up this mess, there would be something for me to do!">>
+    <<say cat "This human seems quite distressed about not being able to work.">>
+<<endif>>
+===

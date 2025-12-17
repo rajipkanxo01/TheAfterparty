@@ -22,5 +22,13 @@
 <<declare $crimeScene_ghostMet = false as bool>>
 <<declare $crimeScene_reportedToDetective = false as bool>>
 
+// Chapter 3 - Michael & Rose variables
+<<declare $chapter3_roseAndMichaelMet = false as bool>>
+
+// Chapter 4 - Janitor variables
+<<declare $janitor_visited = false as bool>>
+<<declare $janitor_memoryUnlocked = false as bool>>
+<<declare $janitor_memoryCompleted = false as bool>>
+
 <<stop>>
 ===
