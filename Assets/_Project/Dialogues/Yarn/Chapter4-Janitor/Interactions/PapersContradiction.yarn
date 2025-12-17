@@ -1,0 +1,36 @@
+﻿title: PapersContradiction_Root
+---
+<<if $notes_janitorMemory_papersContradiction>>
+    <<jump PapersContradiction_Repeat>>
+<<else>>
+    <<jump PapersContradiction_Main>>
+<<endif>>
+===
+
+title: PapersContradiction_Main
+---
+<<say cat "Papers near staff building. Someone was trying to throw this away. How untidy.">>
+<<say cat "Let me see... bank statements, transaction records...">>
+<<say cat "Mrrp! Monthly payments to someone named 'Violet Green'!">>
+<<say cat "Green... that's the same surname as Ivy and Rose!">>
+<<say cat "These payments have been going on for... over 20 years?">>
+<<say cat "This contradicts what the janitor remembered! Rose wasn't confronting Richard about a romantic relationship...">>
+<<say cat "She was... or rather, Ivy was confronting him about something else entirely!">>
+<<say cat "Violet Green must be their mother. Which means Richard has been supporting the twins' family for decades.">>
+<<say cat "But why would he do that unless... unless he's their father?">>
+<<say cat "The payments are regular, consistent. Twenty-three years of support.">>
+<<say cat "That's not an affair. That's child support.">>
+<<say cat "Richard Campbell is Ivy and Rose's father!">>
+<<set $notes_janitorMemory_papersContradiction = true>>
+<<note contradiction janitorMemory confrontingRichard>>
+===
+
+title: PapersContradiction_Repeat
+---
+<<say cat "The payment records to Violet Green. We already established Richard is the twins' father.">>
+===
+
+title: PapersContradiction_Locked
+---
+<<say cat "Financial papers near dustbin outside of building. Should check the janitor's memory first.">>
+===

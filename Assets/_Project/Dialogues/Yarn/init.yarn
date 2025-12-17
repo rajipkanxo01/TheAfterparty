@@ -4,9 +4,17 @@
 <<declare $badgeLost_contradictions_found = 0 as number>>
 <<declare $badgeLost_contradictions_needed = 2 as number>>
 
+<<declare $janitorMemory_contradictions_found = 0 as number>>
+<<declare $janitorMemory_contradictions_needed = 2 as number>>
+
 // Individual contradiction flags
 <<declare $notes_badgeLost_elliotJacket = false as bool>>
 <<declare $notes_badgeLost_girlSeeMouse = false as bool>>
+
+<<declare $notes_janitorMemory_ivyDistress = false as bool>>
+<<declare $notes_janitorMemory_confrontingRichard = false as bool>>
+<<declare $notes_janitorMemory_janitorSpilledDrink = false as bool>>
+<<declare $notes_janitorMemory_overHeardConversation = false as bool>>
 
 // Chapter 1 - Arrival variables
 <<declare $entrance_visited = false as bool>>

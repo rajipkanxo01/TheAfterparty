@@ -1,0 +1,32 @@
+﻿title: FootprintsVerification_Root
+---
+<<if $notes_janitorMemory_footprintsPartialVerification>>
+    <<jump FootprintsVerification_Repeat>>
+<<else>>
+    <<jump FootprintsVerification_Main>>
+<<endif>>
+===
+
+title: FootprintsVerification_Main
+---
+<<say cat "Mrrp! Footprints in the soft earth of the park.">>
+<<say cat "These marks show someone pacing back and forth... repeatedly.">>
+<<say cat "The pattern is nervous, agitated. Someone was waiting here, anxious.">>
+<<say cat "This partially verifies the janitor's memory - Richard was indeed at the park.">>
+<<say cat "But... there's only one set of footprints clearly visible.">>
+<<say cat "The depth and spacing suggest a grown human male, pacing.">>
+<<say cat "Richard's shoes, most likely. But where are the other prints?">>
+<<say cat "Was Rose really here? Or was it someone else?">>
+<<set $notes_janitorMemory_footprintsPartialVerification = true>>
+<<note verify janitorMemory overHeardConversation>>
+===
+
+title: FootprintsVerification_Repeat
+---
+<<say cat "We already examined these footprints. They confirm Richard was here, but nothing more.">>
+===
+
+title: FootprintsVerification_Locked
+---
+<<say cat "Footprints in the park. Might be important after I check the janitor's memory.">>
+===

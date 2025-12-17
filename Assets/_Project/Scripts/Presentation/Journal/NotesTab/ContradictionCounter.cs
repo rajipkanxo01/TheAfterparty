@@ -57,6 +57,12 @@ namespace _Project.Scripts.Presentation.Journal.NotesTab
 
         public void UpdateContradictionCounts()
         {
+            if (_notesYarnBridge == null)
+            {
+                Debug.LogWarning("ContradictionCounter: NotesYarnBridge is null, cannot update contradiction counts.");
+                return;
+            }
+            
             // Read contradiction counts from Yarn variables
             float foundCount = _notesYarnBridge.GetVariableValue($"${memoryID}_contradictions_found", 0f);
             float neededCount = _notesYarnBridge.GetVariableValue($"${memoryID}_contradictions_needed", 0f);
