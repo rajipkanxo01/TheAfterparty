@@ -7,7 +7,7 @@
     <<say cat "Indeed. The humans seem to think that Ivy took her own life, but I find that unlikely to the extreme.">>
     <<say detective "What makes you think that?">>
     <<say cat "I had a little help in my investigation - I encountered the ghost of the deceased.">>
-    <<say detective "Again? She didn't try to hurt you, did she?">>
+    <<say detective "She didn't try to hurt you, did she?">>
     <<say cat "No - for a ghost, she seemed to be able to contain her emotion rather well.">>
     <<say cat "She did not remember much, but she could clearly recall what she felt in the moment of her death: Rage.">>
     <<say cat "That is not the usual experience of one who has died by her own hand.">>
@@ -23,7 +23,7 @@
     <<say detective "I'll make a call to the chief - I'm sure there's a phone booth somewhere around here.">>
     <<say detective "Meanwhile we'll-">>
     <<say cat "Mrrp!">>
-    <<say detective "I mean, you- will have to take as many witness testimonies as you can. How do you plan to do that, by the way? I don't know any other humans who can speak \car.">>
+    <<say detective "I mean, you- will have to take as many witness testimonies as you can. How do you plan to do that, by the way? I don't know any other humans who speak cat.">>
     <<say cat "You are uniquely gifted in that way, despite your other shortcomings.">>
     <<say cat "I suppose I will have to walk in their memories then. That is more reliable anyway.">>
     <<say detective "Tell me when you discover something new. I will… wait here and be useless in the meantime, suppose…">>

@@ -9,7 +9,7 @@
 
 title: MogensContradiction_Mouse_Main
 ---
-<<say cat "Hey. You there. I need to ask you something.">>
+<<say cat "Hm. You're smaller than I though you would be.">>
 <<say mouse "Eeep! How did you get in here">>
 <<say cat "Your hole is too big - If you don't want an enterprising cat to get in, you should change that.">>
 <<say mouse "Eeep! Spare me! Spare me!">>
@@ -18,14 +18,14 @@ title: MogensContradiction_Mouse_Main
 <<say mouse "Are you sure…? You look like the eating type…">>
 <<say cat "If I wanted to eat you, I wouldn’t chat first. Talk.">>
 <<say mouse "O-Okay… okay… fine…">>
-<<say cat "Last night, you ran past a gathering of humans, the little screamed when she saw you, correct?">>
+<<say cat "Last night, you ran past a gathering of humans, the little one screamed when she saw you, correct?">>
 <<say mouse "Y-yes. One of the big ones did too, though. Er, not the one that looked like a cat, the other one.">>
-<<say cat "Ah, that makes sense. I have always known humans to be strangely scared of you small creatures.">>
+<<say cat "Ah, that makes sense. I have always known Elliot to be strangely scared of you small creatures.">>
 <<say mouse "He dropped something too - hard to say what it was">>
 <<say mouse "It was shiny though">>
 <<say cat "Interesting. Did you see what happened to it?">>
 <<say mouse "I'm not sure - I went by pretty fast - There was a giant cat after all!">>
-<<say mouse "But I did notice that the cat seemed distracted by the thing, though.">>
+<<say mouse "But I did notice that the cat seemed distracted by the shiny thing, though.">>
 <<say cat "Interesting...">>
 
 <<note contradiction badgeLost girlSeeMouse>>
@@ -40,7 +40,7 @@ title: MogensContradiction_Mouse_Repeat
 
 title: Mouse_Locked
 ---
-<<say cat "Hmm… I should check the memory before bothering this little guy.">>
+<<say cat "Hmm… A hole in the fence? I wonder what could hide in there…">>
 ===
 
 
