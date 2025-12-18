@@ -1,19 +1,10 @@
 fileFormatVersion: 2
-guid: 91239ece2eae2834bb0d3dc2be83c880
+guid: 67daeb1230379a54ba9eee48d6941c5f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5614637178320563061
-    second: Rose_0
-  - first:
-      213: 5910984749590454971
-    second: Rose_1
-  - first:
-      213: -2326384682445370838
-    second: Rose_2
-  - first:
-      213: -2486830211712430900
-    second: Rose_3
+      213: 3635063115495811848
+    second: Ivy_Handkerchief 1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -118,29 +109,16 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WindowsStoreApps
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Rose_0
+      name: Ivy_Handkerchief 1_0
       rect:
         serializedVersion: 2
-        x: 6
-        y: 65
-        width: 26
+        x: 8
+        y: 6
+        width: 28
         height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -150,74 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 57baf7c14c23bed40800000000000000
-      internalID: 5614637178320563061
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Rose_1
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 65
-        width: 26
-        height: 50
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: bb22710ef49080250800000000000000
-      internalID: 5910984749590454971
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Rose_2
-      rect:
-        serializedVersion: 2
-        x: 5
-        y: 12
-        width: 26
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a2a0feff47507bfd0800000000000000
-      internalID: -2326384682445370838
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Rose_3
-      rect:
-        serializedVersion: 2
-        x: 33
-        y: 12
-        width: 26
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: ccccb2629110d7dd0800000000000000
-      internalID: -2486830211712430900
+      spriteID: 80ba047e4a6527230800000000000000
+      internalID: 3635063115495811848
       vertices: []
       indices: 
       edges: []
@@ -236,10 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Rose_0: 5614637178320563061
-      Rose_1: 5910984749590454971
-      Rose_2: -2326384682445370838
-      Rose_3: -2486830211712430900
+      Ivy_Handkerchief 1_0: 3635063115495811848
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
