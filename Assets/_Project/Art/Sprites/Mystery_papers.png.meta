@@ -1,19 +1,10 @@
 fileFormatVersion: 2
-guid: 5c7f8203ac92f0040a5456f0f5a52090
+guid: 8c9720aaff23b7346bad4f0be48f920d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7648259957773543384
-    second: Ivy_Costume_0
-  - first:
-      213: 850024495676754034
-    second: Ivy_Costume_1
-  - first:
-      213: -4723887168479793367
-    second: Ivy_Costume_2
-  - first:
-      213: 1349684123595885369
-    second: Ivy_Costume_3
+      213: -6255205418921740347
+    second: Mystery_papers_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -55,13 +46,13 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 17}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -84,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -118,106 +109,27 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WindowsStoreApps
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Ivy_Costume_0
+      name: Mystery_papers_0
       rect:
         serializedVersion: 2
-        x: 4
-        y: 65
-        width: 28
-        height: 50
+        x: 8
+        y: 1
+        width: 16
+        height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8285013371cebd590800000000000000
-      internalID: -7648259957773543384
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ivy_Costume_1
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 65
-        width: 28
-        height: 50
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 278813376c4ebcb00800000000000000
-      internalID: 850024495676754034
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ivy_Costume_2
-      rect:
-        serializedVersion: 2
-        x: 4
-        y: 12
-        width: 28
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 92f6cb306a1617eb0800000000000000
-      internalID: -4723887168479793367
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ivy_Costume_3
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 12
-        width: 28
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 93bcae93f8a0bb210800000000000000
-      internalID: 1349684123595885369
+      spriteID: 5c7321020db0139a0800000000000000
+      internalID: -6255205418921740347
       vertices: []
       indices: 
       edges: []
@@ -226,8 +138,8 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
-    internalID: 0
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 1537655665
     vertices: []
     indices: 
     edges: []
@@ -236,10 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Ivy_Costume_0: -7648259957773543384
-      Ivy_Costume_1: 850024495676754034
-      Ivy_Costume_2: -4723887168479793367
-      Ivy_Costume_3: 1349684123595885369
+      Mystery_papers_0: -6255205418921740347
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
