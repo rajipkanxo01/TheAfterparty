@@ -79,7 +79,7 @@ namespace _Project.Scripts.Application.Clue
                 return defaultValue;
             }
 
-            
+
             Debug.Log("NotesYarnBridge: Retrieving variable '" + variableName + "'");
             if (variableStorage.TryGetValue(variableName, out float value))
             {

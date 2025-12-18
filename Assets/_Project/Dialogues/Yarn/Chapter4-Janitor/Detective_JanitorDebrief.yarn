@@ -1,0 +1,97 @@
+﻿title: Detective_JanitorMemory_StillMissingClues
+---
+<<say detective "What about the janitor's memory? Anything useful?">>
+<<say cat "I'm still investigating. There's more to uncover.">>
+===
+
+title: Detective_JanitorMemory_PresentContradictions
+---
+<<set $selected_count = get_selected_contradictions("janitorMemory")>>
+<<if $selected_count == 0>>
+    <<say detective "What did you find out?">>
+    <<say cat "I have visited a memory belonging to a cleaning-human.">>
+    <<say cat "As expected, the human memory has proven... imperfect.">>
+    <<say detective "What do you mean?">>
+    <<say cat "Let me mark the contradictions in your journal. Take another look and see if anything stands out to you.">>
+    <<say detective "Alright, I'll take a look.">>
+<<elseif $selected_count == 1>>
+    <<say detective "You're back. Did you find anything?">>
+    <<say cat "Actually, yes. One major contradiction in the janitor's memory.">>
+    <<say detective "Go on.">>
+    // Show whichever contradiction was selected
+    <<if is_contradiction_selected("janitorMemory", "ivyDistress")>>
+        <<say cat "The janitor claims he encountered Ivy and gave her a handkerchief.">>
+        <<say cat "But the handkerchief has makeup residue. Ivy doesn't wear makeup - Rose does.">>
+        <<say detective "So he actually met Rose? But he was so sure it was Ivy...">>
+        <<say cat "He has trouble telling the twins apart. Rose saw her opportunity and claimed to be Ivy.">>
+    <<endif>>
+    <<if is_contradiction_selected("janitorMemory", "confrontingRichard")>>
+        <<say cat "The janitor remembers overhearing Rose confront Richard about their 'illicit relationship.'">>
+        <<say cat "But I found papers showing Richard has been making payments to Violet Green - the twins' mother - for over 20 years.">>
+        <<say detective "Twenty years? That's not a romantic affair...">>
+        <<say cat "Precisely. That's child support. Richard Campbell is their father.">>
+        <<say detective "So the conversation was about parentage, not romance!">>
+    <<endif>>
+    <<say detective "That's significant. But I feel like there's more to this?">>
+    <<say cat "Your instincts are correct, human. I should investigate further.">>
+    <<say detective "I'll wait here.">>
+<<else>>
+    <<say detective "You're back. What did you find?">>
+    <<say cat "Two contradictions, actually. Both from the janitor's memory.">>
+    <<say detective "Tell me everything.">>
+<<endif>>
+<<if $selected_count >= 2>>
+    // HANDKERCHIEF CONTRADICTION
+    <<if $notes_janitorMemory_ivyDistress>>
+        <<say cat "First, the encounter with Ivy.">>
+        <<say cat "The evidence indicates that the human did indeed encounter someone and hand them a square of fabric to dry their eyes.">>
+        <<say cat "But! On the handkerchief, I found traces of the substance that humans know as 'makeup'. Something that Ivy does not wear.">>
+        <<say detective "But then who?">>
+        <<say cat "Simple. Even in his own memory, the cleaning-human hesitated when he encountered the woman, only approaching her once she told him her name.">>
+        <<say cat "He has trouble telling the twins apart.">>
+        <<say cat "From this I deduce that the woman the human truly encountered was, in fact, Rose - who does, I might add, wear this 'makeup'.">>
+        <<say cat "When the cleaning-human showed hesitation, she saw her chance to hide her identity behind her sister's, and took it.">>
+        <<say detective "But why?">>
+        <<say cat "That, I do not know.">>
+    <<endif>>
+    // PAPERS CONTRADICTION
+    <<if $notes_janitorMemory_confrontingRichard>>
+        <<say detective "Then what about the conversation between Rose and Richard? How is that possible?">>
+        <<say cat "Richard was speaking to Ivy, not Rose.">>
+        <<say cat "The cleaning-human, already having established that he encountered Ivy previously, simply filled in the blanks when he ran into the other sister.">>
+        <<say detective "Wouldn't that mean Ivy and Mr. Campbell was in a relationship? I'm not sure that fits…">>
+        <<say cat "Of course it doesn't - Ivy was not asking him to take responsibility as her lover…">>
+        <<say cat "She was asking him to do so as her father.">>
+        <<say detective "What!? How do you get that?">>
+        <<say cat "Simple - The papers in Richard's office indicate regular monetary transfers to a woman by the name of 'Violet Green', going back at least 20 years.">>
+        <<say detective "'Violet Green'... where have I heard that name before…?">>
+        <<say cat "Perhaps as the name belonging to the mother of two girls by the name of 'Ivy' and 'Rose Green'?">>
+        <<say detective "Yes! That's it! I read it in the briefing for the case.">>
+        <<say cat "Now think, human, why would a man like Richard be making payments to the mother of two of his employees?">>
+        <<say detective "Well, when you put it like that…">>
+    <<endif>>
+    <<say cat "Your memory twisted parts of what happened... or rather, the janitor's memory did.">>
+    <<say detective "I'm starting to see the full picture now.">>
+    // FULL DEBRIEF APPEARS ONLY IF BOTH CONTRADICTIONS ARE FOUND
+    <<if $notes_janitorMemory_handkerchiefContradiction and $notes_janitorMemory_papersContradiction>>
+        <<say cat "Ivy confronted Richard about her parentage, and was seemingly rebuffed - that gives him a motive…">>
+        <<say detective "But I have a hard time believing that a man who would resort to murder to keep his secrets would pay child support for more than 20 years.">>
+        <<say detective "Not unless he was under some kind of duress.">>
+        <<say detective "And that still leaves the problem of Rose. Why would she pretend to be her sister?">>
+        <<say cat "Questions upon questions, and not an answer in sight.">>
+        <<say cat "But, patience, Elliot, patience. Even the fastest quarry can be caught if you observe calmly and react quickly.">>
+        <<say cat "The investigation must continue.">>
+        <<set $janitor_contradictions_solved = true>>
+        <<set $janitor_debrief_complete = true>>
+    <<endif>>
+    <<set $detective_state = "janitor_memory_progress">>
+<<endif>>
+===
+
+title: Detective_JanitorMemory_Complete
+---
+<<say detective "So the janitor confused the twins twice in one night?">>
+<<say cat "Indeed. Human memory is remarkably unreliable.">>
+<<say detective "But we have the truth now. That's what matters.">>
+<<say cat "For now. There are still many questions to answer.">>
+===

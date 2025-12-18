@@ -1,0 +1,29 @@
+﻿title: BroomVerification_Root
+---
+<<if $notes_janitorMemory_broomVerified>>
+    <<jump BroomVerification_Repeat>>
+<<else>>
+    <<jump BroomVerification_Main>>
+<<endif>>
+===
+
+title: BroomVerification_Main
+---
+<<say cat "Mrrp! A broom, placed placed in a hurry.">>
+<<say cat "The handle still has a faint scent of cleaning solution... and nervous sweat.">>
+<<say cat "Someone was in a hurry to return this. The janitor-human, perhaps?">>
+<<say cat "This verifies his memory - he did retrieve the broom to clean something.">>
+<<say cat "But the bristles are dry. Whatever he meant to clean... he never got to it.">>
+<<set $notes_janitorMemory_broomVerified = true>>
+<<note verify janitorMemory janitorGetBroom>>
+===
+
+title: BroomVerification_Repeat
+---
+<<say cat "We already confirmed the broom was retrieved. No need to check again.">>
+===
+
+title: BroomVerification_Locked
+---
+<<say cat "A broom in the supply closet. Might be relevant after I visit the janitor's memory.">>
+===

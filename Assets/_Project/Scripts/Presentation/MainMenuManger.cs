@@ -20,5 +20,10 @@ namespace _Project.Scripts.Presentation
                 pm.SetPause(true);
             }
         }
+
+        public void ExitGame()
+        {
+            UnityEngine.Application.Quit();
+        }
     }
 }

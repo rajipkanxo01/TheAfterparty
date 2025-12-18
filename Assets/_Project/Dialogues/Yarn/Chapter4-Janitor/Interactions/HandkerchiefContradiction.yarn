@@ -1,0 +1,31 @@
+﻿title: HandkerchiefContradiction_Root
+---
+<<if $notes_janitorMemory_handkerchiefContradiction>>
+    <<jump HandkerchiefContradiction_Repeat>>
+<<else>>
+    <<jump HandkerchiefContradiction_Main>>
+<<endif>>
+===
+
+title: HandkerchiefContradiction_Main
+---
+<<say cat "A handkerchief, lying on the bench. How curious.">>
+<<say cat "Let me take a closer sniff...">>
+<<say cat "Mmm... tears and sorrow. And... makeup?">>
+<<say cat "The janitor-human said he gave this to Ivy... but Ivy doesn't wear makeup.">>
+<<say cat "Rose does, though. Rose wears makeup.">>
+<<say cat "This is a contradiction! The janitor didn't encounter Ivy at all - it was Rose!">>
+<<say cat "But why would Rose pretend to be her sister? Curious and curiouser...">>
+<<set $notes_janitorMemory_handkerchiefContradiction = true>>
+<<note contradiction janitorMemory ivyDistress>>
+===
+
+title: HandkerchiefContradiction_Repeat
+---
+<<say cat "The handkerchief with makeup residue. We already established this proves the janitor met Rose, not Ivy.">>
+===
+
+title: HandkerchiefContradiction_Locked
+---
+<<say cat "A handkerchief on the bench. I should check the janitor's memory first.">>
+===

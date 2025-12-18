@@ -1,0 +1,23 @@
+﻿title: JanitorF2_Start
+---
+<<say janitor "There we go - now, to work!">>
+===
+
+title: JanitorF2_SpotsIvy
+---
+<<say janitor "Oh! Hello, er…">>
+<<say ivyReal "…ivy.">>
+<<say janitor "ivy! Hello!">>
+<<say janitor "…Are you alright? Your voice is shaking…">>
+<<say ivyReal "No! No… It's fine, It's fine!">>
+<<say janitor "Oh dear! Here, come now, take this. Dry your eyes.">>
+<<say ivyReal "…Thank you.">>
+<<say janitor "Now, can you tell me what happened? I know we don't talk very much, but…">>
+<<say janitor "Should I go get Rose?">>
+<<say ivyReal "No! No, it's fine- I'm just a little overwhelmed, is all.">>
+<<say ivyReal "I just need to be alone for a little while.">>
+<<say janitor "Alright. Do you need to sit down for a while? I can help you to the bench if you need it?">>
+<<say ivyReal "I think I'll manage.">>
+<<say janitor "Well, if you're sure">>
+===
+

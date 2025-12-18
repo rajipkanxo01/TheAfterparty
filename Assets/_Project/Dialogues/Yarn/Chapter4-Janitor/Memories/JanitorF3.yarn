@@ -1,0 +1,52 @@
+﻿title: JanitorF3_Start
+---
+<<say janitor "Nothing for it! Back to work.">>
+===
+
+title: JanitorF3_SpotsRichardAndRose
+---
+<<say richard "There you are! I've been looking all night for you! How are you doing? Enjoying the party?">>
+<<say rose "Hello Richard. We need to talk.">>
+<<say janitor "Uh-oh.">>
+===
+
+title: JanitorF3_HidesBehindFence
+---
+<<say janitor "This is bound to be good.">>
+<<say richard "Don't be so dour now! Whatever it is, it can wait.">>
+<<say rose "I'm not so sure.">>
+<<say rose "Richard, how much longer are you going to do this?">>
+<<say richard "…What do you mean?">>
+===
+
+title: JanitorF3_RoseConfrontsRichard
+---
+<<say rose "Don't play dumb now.">>
+<<say rose "It's time for you to take responsibility for what we are to each other.">>
+<<say richard "I, I'm not sure, I-">>
+<<say rose "Look, I don't want to force you into anything, but you are less subtle than you think.">>
+<<say rose "Think about it; A stable sum of money every month, charged from your account and paid to another woman…">>
+<<say rose "…at this point you need to decide who, exactly, you want your wife to hear this from.">>
+<<say rose "You can't keep us a secret anymore.">>
+===
+
+title: JanitorF3_RichardCallsOut
+---
+<<say richard "Wait!">>
+<<say richard "I can't do this tonight, but… Tomorrow? Could we talk tomorrow?">>
+<<say rose "Tomorrow, then.">>
+===
+
+title: JanitorF3_Ending
+---
+<<say richard "…How am I supposed to explain this to her?">>
+<<say janitor "Oh boy.">>
+<<say janitor "I suppose I'll have to do my cleaning another time">>
+===
+
+title: Mogens_Monologue_JanitorF3
+---
+<<say cat "Mrrp! More human drama.">>
+<<say cat "But again! Something is wrong with this memory - It sets my teeth on edge.">>
+<<say cat " I should investigate further… one of the humans mentioned an exchange of their strange paper tokens… Perhaps I can find a paper trail in real world?">>
+===

@@ -1,0 +1,20 @@
+﻿title: JanitorF1_Start
+---
+<<say janitor "Oho, what have we here? A spilled drink? And no-one in sight to clean it up?">>
+<<say janitor "And to think that I thought that grown adults would be willing to clean up after themselves. My mistake.">>
+<<say janitor "Well! To the supply closet I go!">>
+===
+
+title: JanitorF1_AfterMovingHalfway
+---
+<<say janitor "Wait! I am not on duty right now! Cleaning up after other people is not my responsibility!">>
+<<say janitor "..But If I don’t clean it up now, then I will probably have to do it in the morning anyway.">>
+<<say janitor "And then everything will be more sticky…">>
+<<say janitor "Well, Why do tomorrow what you can do today, I suppose…">>
+===
+
+
+title: JanitorF1_AfterMovingToBuilding
+---
+<<say janitor "Now, where did I put the key…">>
+===

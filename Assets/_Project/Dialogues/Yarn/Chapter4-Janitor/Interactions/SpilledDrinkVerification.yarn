@@ -1,0 +1,27 @@
+﻿title: SpilledDrinkVerification_Root
+---
+<<if $notes_janitorMemory_spilledDrinkVerified>>
+    <<jump SpilledDrinkVerification_Repeat>>
+<<else>>
+    <<jump SpilledDrinkVerification_Main>>
+<<endif>>
+===
+title: SpilledDrinkVerification_Main
+---
+<<say cat "The spilled drink from the janitor's memory. Still here, sticky and unpleasant.">>
+<<say cat "The puddle has dried into a dark stain on the floor.">>
+<<say cat "This confirms the final part of his memory - the janitor never did clean this up.">>
+<<say cat "Whatever interrupted him must have been quite distracting...">>
+<<say cat "The stain is old now. Attracting small insects.">>
+<<say cat "The janitor would be horrified to see his work left undone.">>
+<<set $notes_janitorMemory_spilledDrinkVerified = true>>
+<<note verify janitorMemory janitorSpilledDrink>>
+===
+title: SpilledDrinkVerification_Repeat
+---
+<<say cat "The spilled drink is still here. We already confirmed this.">>
+===
+title: SpilledDrinkVerification_Locked
+---
+<<say cat "A spilled drink on the floor. Might be relevant after the janitor's memory.">>
+===

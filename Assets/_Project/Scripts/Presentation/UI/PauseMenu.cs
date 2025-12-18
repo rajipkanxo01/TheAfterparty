@@ -8,6 +8,7 @@ namespace _Project.Scripts.Presentation.UI
         [SerializeField] private GameObject pausePanel;
         private GameStateService _gameStateService;
         private GameState prevState = GameState.Normal;
+        [SerializeField] private GameObject warningPanel;
 
         private void Start()
         {
@@ -25,12 +26,28 @@ namespace _Project.Scripts.Presentation.UI
             if (pause) _gameStateService.SetState(GameState.Paused);
             else _gameStateService.SetState(prevState);
             pausePanel.SetActive(pause);
+            HideExitWarning();
         }
 
         public void TogglePause()
         {
             bool pause = !pausePanel.activeSelf;
             SetPause(pause);
+        }
+
+        public void ShowExitWarning()
+        {
+            warningPanel.SetActive(true);
+        }
+
+        public void HideExitWarning()
+        {
+            warningPanel.SetActive(false);
+        }
+
+        public void ExitGame()
+        {
+            UnityEngine.Application.Quit();
         }
     }
 }

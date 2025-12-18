@@ -1,0 +1,4 @@
+﻿title: HouseEntrance_Locked
+---
+<<say cat "Mrrp! Locked.">>
+===
