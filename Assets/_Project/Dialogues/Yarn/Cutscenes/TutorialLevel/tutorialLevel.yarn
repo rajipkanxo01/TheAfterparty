@@ -11,6 +11,8 @@ title: Tutorial_Callcat
 
 title: Tutorial_Briefing
 ---
+<<set $first_memory_started = true>>
+
 <<say detective "The owner called in a death an hour or so ago - the body has been identified, there are already officers on the scene.">>
 <<say detective "A balloon seller named Ivy Green. Can't say that I knew her.">>
 <<say cat "Mrrp">>
@@ -24,36 +26,10 @@ title: Tutorial_Briefing
 <<say detective "Couldn't you just 'take a look' for me?">>
 <<say cat "The nerve of you - To think that you expect me to use my abilities for something so trivial!">>
 <<say cat "I suppose I will help you, If I must.">>
-===
 
-title: Tutorial_catSearches
----
-<<say cat "Mrrp… There. I see it.">>
-<<say detective "Where?">>
-<<say cat "Near the fountain, tucked behind the bench. You must have dropped it when you stopped to feed those pigeons.">>
-===
+<<memory unlock badgeLost>>
+<<set $detective_state="Detective_StillMissingClues">>
 
-title: Tutorial_PigeonBanter
----
-<<say detective "I wasn't feeding the pigeons! I was… observing them. For the case.">>
-<<say cat "Of course you were.">>
-===
-
-title: Tutorial_FoundBadge
----
-<<say detective "Ah! There it is!">>
-===
-
-title: Tutorial_Thankscat
----
-<<say detective "Thank you, Mogens. I don't know what I'd do without you.">>
-<<say cat "Die of embarrassment at a crime scene, most likely.">>
-===
-
-title: Tutorial_ReadyForCase
----
-<<say detective "Right. Well then…">>
-
-<<say detective "Let's go see what happened to Miss Green.">>
+<<say cat "Now, I can use my abilities to enter memories that I have access to through journal.">>
 ===
 

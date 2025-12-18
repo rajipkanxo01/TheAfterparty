@@ -1,6 +1,5 @@
 ﻿title: Detective_Main_BadgeMissing
 ---
-<<set $first_memory_started = true>>
  
 <<say Detective "Mogens? Don't get too angry...">>
 <<say Detective "I might have run into a... slight issue that we have to deal with before we can enter the park.">>
@@ -15,9 +14,6 @@
 <<say Cat "Now, think of when you last saw the badge. Recall it as clearly in your mind as you can.">>
 <<say Cat "I can enter the memories of any human mind... even one like yours.">>
 <<say Detective "No need to rub it in.">>
-
-<<memory unlock badgeLost>>
-<<set $detective_state="Detective_StillMissingClues">>
 ===
 
 
