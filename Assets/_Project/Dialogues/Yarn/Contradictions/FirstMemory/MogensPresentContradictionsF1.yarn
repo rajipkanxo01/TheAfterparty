@@ -55,7 +55,7 @@ title: Detective_PresentContradictions
       <<say detective "Ah. And here I thought that I had been able to overcome my mouse-phobia...">>
     <<endif>>
     
-    <<say cat "Your memory twisted parts of what happened. Alcohol can do that… or guilt.">>
+    <<say cat "Your memory twisted parts of what happened. Alcohol can do that… or shame.">>
     <<say detective "I'm starting to see the gaps… the errors.">>
 
     // BADGE TRUTH APPEARS ONLY IF BOTH CONTRADICTIONS ARE SELECTED AND FOUND
@@ -90,7 +90,7 @@ title: Detective_PresentContradictions
 
         <<say cat "Of course. I expect fish for dinner when I am done.">>
 
-        <<say detective "E: Er, yes, of course. Good luck. ">>
+        <<say detective "Er, yes, of course. Good luck. ">>
 
         // Unlock corrected memory fragment
         <<memory unlock badgeTruth>>
