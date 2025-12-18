@@ -1,19 +1,25 @@
 fileFormatVersion: 2
-guid: 1c516608d51e32c4c9f5807883fad55e
+guid: eec69edd068eba14880c3e6a3d172889
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1231304424217305878
-    second: Elliot_no_jacket_0
+      213: 408629411910794554
+    second: steps_0
   - first:
-      213: -9029273210673012192
-    second: Elliot_no_jacket_1
+      213: 7458076471913962411
+    second: steps_1
   - first:
-      213: 7416258816589794266
-    second: Elliot_no_jacket_2
+      213: 6292785031962364836
+    second: steps_2
   - first:
-      213: 1125471539112270125
-    second: Elliot_no_jacket_3
+      213: 1276472919299015106
+    second: steps_3
+  - first:
+      213: -4816414002543136268
+    second: steps_4
+  - first:
+      213: 2076698142232954081
+    second: steps_5
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -135,13 +141,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Elliot_no_jacket_0
+      name: steps_0
       rect:
         serializedVersion: 2
-        x: 2
-        y: 67
-        width: 27
-        height: 57
+        x: 63
+        y: 75
+        width: 36
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,20 +156,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 613e6df99d8761110800000000000000
-      internalID: 1231304424217305878
+      spriteID: a3d38bdf84ebba500800000000000000
+      internalID: 408629411910794554
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Elliot_no_jacket_1
+      name: steps_1
       rect:
         serializedVersion: 2
-        x: 35
-        y: 67
-        width: 27
-        height: 57
+        x: 107
+        y: 109
+        width: 38
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -172,20 +178,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 02262e1aad391b280800000000000000
-      internalID: -9029273210673012192
+      spriteID: bab51206909608760800000000000000
+      internalID: 7458076471913962411
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Elliot_no_jacket_2
+      name: steps_2
       rect:
         serializedVersion: 2
-        x: 1
-        y: 5
-        width: 28
-        height: 57
+        x: 120
+        y: 82
+        width: 40
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -194,20 +200,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: adb8135c918dbe660800000000000000
-      internalID: 7416258816589794266
+      spriteID: 4ab030e55a6745750800000000000000
+      internalID: 6292785031962364836
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Elliot_no_jacket_3
+      name: steps_3
       rect:
         serializedVersion: 2
-        x: 35
-        y: 5
-        width: 28
-        height: 57
+        x: 25
+        y: 33
+        width: 38
+        height: 36
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -216,8 +222,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d29599dd66a7e9f00800000000000000
-      internalID: 1125471539112270125
+      spriteID: 2c149386b51f6b110800000000000000
+      internalID: 1276472919299015106
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steps_4
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 49
+        width: 40
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f1f23fabf8a82db0800000000000000
+      internalID: -4816414002543136268
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: steps_5
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 6
+        width: 41
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e4428125f9e1dc10800000000000000
+      internalID: 2076698142232954081
       vertices: []
       indices: 
       edges: []
@@ -236,10 +286,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Elliot_no_jacket_0: 1231304424217305878
-      Elliot_no_jacket_1: -9029273210673012192
-      Elliot_no_jacket_2: 7416258816589794266
-      Elliot_no_jacket_3: 1125471539112270125
+      steps_0: 408629411910794554
+      steps_1: 7458076471913962411
+      steps_2: 6292785031962364836
+      steps_3: 1276472919299015106
+      steps_4: -4816414002543136268
+      steps_5: 2076698142232954081
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
