@@ -17,10 +17,7 @@ title: JanitorF3_HidesBehindFence
 <<say rose "I'm not so sure.">>
 <<say rose "Richard, how much longer are you going to do this?">>
 <<say richard "…What do you mean?">>
-===
 
-title: JanitorF3_RoseConfrontsRichard
----
 <<say rose "Don't play dumb now.">>
 <<say rose "It's time for you to take responsibility for what we are to each other.">>
 <<say richard "I, I'm not sure, I-">>
@@ -35,17 +32,11 @@ title: JanitorF3_RichardCallsOut
 <<say richard "Wait!">>
 <<say richard "I can't do this tonight, but… Tomorrow? Could we talk tomorrow?">>
 <<say rose "Tomorrow, then.">>
-===
 
-title: JanitorF3_Ending
----
 <<say richard "…How am I supposed to explain this to her?">>
 <<say janitor "Oh boy.">>
 <<say janitor "I suppose I'll have to do my cleaning another time">>
-===
 
-title: Mogens_Monologue_JanitorF3
----
 <<say cat "Mrrp! More human drama.">>
 <<say cat "But again! Something is wrong with this memory - It sets my teeth on edge.">>
 <<say cat " I should investigate further… one of the humans mentioned an exchange of their strange paper tokens… Perhaps I can find a paper trail in real world?">>

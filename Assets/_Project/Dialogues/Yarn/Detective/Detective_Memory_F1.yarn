@@ -4,11 +4,13 @@
 <<say detective "I should have brought Mogens.">>
 <<say detective "Anyway, it's so hot out here... Am I the only one who thinks it's hot out here?">>
 <<say detective "Lemme get this thing off.">>
+<<replace_sprite DetectiveNPC>>
 ===
 
 title: Memory_F1_ElliotRemovingJacket
 ---
 <<say detective "There! This bench should do nicely.">>
+<<replace_sprite Bench>>
 ===
 
 
