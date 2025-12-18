@@ -30,4 +30,5 @@ title: Chapter3_RoseAndMichaelRoseTurnAway
 title: Chapter3_RoseAndMichaelEnd
 ---
 <<say michael "Wait!">>
+<<load_scene Chapter4-Janitor>>
 ===

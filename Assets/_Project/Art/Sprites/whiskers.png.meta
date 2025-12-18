@@ -1,19 +1,10 @@
 fileFormatVersion: 2
-guid: 1c516608d51e32c4c9f5807883fad55e
+guid: 851b72f6e6223214a9b3fc90bc25a960
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1231304424217305878
-    second: Elliot_no_jacket_0
-  - first:
-      213: -9029273210673012192
-    second: Elliot_no_jacket_1
-  - first:
-      213: 7416258816589794266
-    second: Elliot_no_jacket_2
-  - first:
-      213: 1125471539112270125
-    second: Elliot_no_jacket_3
+      213: -4694687813012217006
+    second: whiskers_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -135,57 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Elliot_no_jacket_0
+      name: whiskers_0
       rect:
         serializedVersion: 2
-        x: 2
-        y: 67
-        width: 27
-        height: 57
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 613e6df99d8761110800000000000000
-      internalID: 1231304424217305878
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Elliot_no_jacket_1
-      rect:
-        serializedVersion: 2
-        x: 35
-        y: 67
-        width: 27
-        height: 57
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 02262e1aad391b280800000000000000
-      internalID: -9029273210673012192
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Elliot_no_jacket_2
-      rect:
-        serializedVersion: 2
-        x: 1
+        x: 9
         y: 5
-        width: 28
-        height: 57
+        width: 13
+        height: 8
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -194,30 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: adb8135c918dbe660800000000000000
-      internalID: 7416258816589794266
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Elliot_no_jacket_3
-      rect:
-        serializedVersion: 2
-        x: 35
-        y: 5
-        width: 28
-        height: 57
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d29599dd66a7e9f00800000000000000
-      internalID: 1125471539112270125
+      spriteID: 2532d0ebe4e19deb0800000000000000
+      internalID: -4694687813012217006
       vertices: []
       indices: 
       edges: []
@@ -236,10 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Elliot_no_jacket_0: 1231304424217305878
-      Elliot_no_jacket_1: -9029273210673012192
-      Elliot_no_jacket_2: 7416258816589794266
-      Elliot_no_jacket_3: 1125471539112270125
+      whiskers_0: -4694687813012217006
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

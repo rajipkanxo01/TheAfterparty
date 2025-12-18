@@ -1,19 +1,10 @@
 fileFormatVersion: 2
-guid: 1c516608d51e32c4c9f5807883fad55e
+guid: 09e48efd9198c5f478f20764cadae854
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1231304424217305878
-    second: Elliot_no_jacket_0
-  - first:
-      213: -9029273210673012192
-    second: Elliot_no_jacket_1
-  - first:
-      213: 7416258816589794266
-    second: Elliot_no_jacket_2
-  - first:
-      213: 1125471539112270125
-    second: Elliot_no_jacket_3
+      213: 4617336284321256745
+    second: Ivy_Handkerchief_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -60,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -135,57 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Elliot_no_jacket_0
+      name: Ivy_Handkerchief_0
       rect:
         serializedVersion: 2
-        x: 2
-        y: 67
-        width: 27
-        height: 57
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 613e6df99d8761110800000000000000
-      internalID: 1231304424217305878
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Elliot_no_jacket_1
-      rect:
-        serializedVersion: 2
-        x: 35
-        y: 67
-        width: 27
-        height: 57
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 02262e1aad391b280800000000000000
-      internalID: -9029273210673012192
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Elliot_no_jacket_2
-      rect:
-        serializedVersion: 2
-        x: 1
-        y: 5
+        x: 8
+        y: 6
         width: 28
-        height: 57
+        height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -194,30 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: adb8135c918dbe660800000000000000
-      internalID: 7416258816589794266
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Elliot_no_jacket_3
-      rect:
-        serializedVersion: 2
-        x: 35
-        y: 5
-        width: 28
-        height: 57
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d29599dd66a7e9f00800000000000000
-      internalID: 1125471539112270125
+      spriteID: 9259d7b03e2141040800000000000000
+      internalID: 4617336284321256745
       vertices: []
       indices: 
       edges: []
@@ -236,10 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Elliot_no_jacket_0: 1231304424217305878
-      Elliot_no_jacket_1: -9029273210673012192
-      Elliot_no_jacket_2: 7416258816589794266
-      Elliot_no_jacket_3: 1125471539112270125
+      Ivy_Handkerchief_0: 4617336284321256745
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

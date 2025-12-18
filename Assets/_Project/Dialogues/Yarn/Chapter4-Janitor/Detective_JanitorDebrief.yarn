@@ -83,6 +83,7 @@ title: Detective_JanitorMemory_PresentContradictions
         <<say cat "The investigation must continue.">>
         <<set $janitor_contradictions_solved = true>>
         <<set $janitor_debrief_complete = true>>
+        <<load_scene ToBeContinued>>
     <<endif>>
     <<set $detective_state = "janitor_memory_progress">>
 <<endif>>

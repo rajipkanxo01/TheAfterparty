@@ -25,6 +25,7 @@ namespace _Project.Scripts.Application.Dialogue
             RegisterCommand(new RaiseEventCommandHandler());
             RegisterCommand(new NotesCommandHandler());
             RegisterCommand(new LoadSceneCommandHandler());
+            RegisterCommand(new ReplaceSpriteCommandHandler());
         }
 
         private void RegisterCommand(IDialogueCommandHandler handler)
@@ -68,6 +69,11 @@ namespace _Project.Scripts.Application.Dialogue
                 case "load_scene":
                     _runner.AddCommandHandler<string>(handler.CommandName,
                         async (sceneName) => { await handler.ExecuteAsync(sceneName); });
+                    break;
+                
+                case "replace_sprite":
+                    _runner.AddCommandHandler<string>(handler.CommandName,
+                        async (targetName) => { await handler.ExecuteAsync(targetName); });
                     break;
 
                 default:

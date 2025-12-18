@@ -1,5 +1,6 @@
 ﻿title: JanitorF2_Start
 ---
+<<replace_sprite JanitorNPC>>
 <<say janitor "There we go - now, to work!">>
 ===
 
@@ -11,6 +12,7 @@ title: JanitorF2_SpotsIvy
 <<say janitor "…Are you alright? Your voice is shaking…">>
 <<say ivyReal "No! No… It's fine, It's fine!">>
 <<say janitor "Oh dear! Here, come now, take this. Dry your eyes.">>
+<<replace_sprite IvyNpc>>
 <<say ivyReal "…Thank you.">>
 <<say janitor "Now, can you tell me what happened? I know we don't talk very much, but…">>
 <<say janitor "Should I go get Rose?">>
