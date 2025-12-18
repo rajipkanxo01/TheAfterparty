@@ -13,10 +13,7 @@ title: FootprintsVerification_Main
 <<say cat "These marks show someone pacing back and forth... repeatedly.">>
 <<say cat "The pattern is nervous, agitated. Someone was waiting here, anxious.">>
 <<say cat "This partially verifies the janitor's memory - Richard was indeed at the park.">>
-<<say cat "But... there's only one set of footprints clearly visible.">>
-<<say cat "The depth and spacing suggest a grown human male, pacing.">>
-<<say cat "Richard's shoes, most likely. But where are the other prints?">>
-<<say cat "Was Rose really here? Or was it someone else?">>
+<<say cat "I don't see another pair of footsteps this clear, but there needn't be, if a person steps lightly enough.">>
 <<set $notes_janitorMemory_footprintsPartialVerification = true>>
 <<note verify janitorMemory overHeardConversation>>
 ===
