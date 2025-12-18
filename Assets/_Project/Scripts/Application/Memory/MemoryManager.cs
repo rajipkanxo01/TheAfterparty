@@ -97,11 +97,19 @@ namespace _Project.Scripts.Application.Memory
                 return;
             }
             
-            var sceneName = _memoryDatabase.GetById(memoryId).sceneName;
-            if (sceneName == null)
+            var memoryData = _memoryDatabase.GetById(memoryId);
+            if (memoryData == null)
             {
                 Debug.LogWarning($"MemoryManager: Memory with ID '{memoryId}' not found in database.");
                 return;
+            }
+            
+            var sceneName = memoryData.sceneName;
+            
+            // load appropriate scene based on current context
+            if (memoryId.Equals("realWorld", StringComparison.InvariantCultureIgnoreCase))
+            {
+                sceneName = GetRealWorldSceneForCurrentMemory();
             }
 
             _isLoadingScene = true;
@@ -115,6 +123,35 @@ namespace _Project.Scripts.Application.Memory
             MemoryEvents.RaiseMemoryTransitionStart();
             
             _coroutineRunner.StartCoroutine(PreloadScene(_targetScene));
+        }
+        
+        private string GetRealWorldSceneForCurrentMemory()
+        {
+            // Determine which "real world" scene to load based on the current memory's NPC
+            if (string.IsNullOrEmpty(_currentMemoryId))
+            {
+                Debug.LogWarning("MemoryManager: No current memory, defaulting to SecondLayout.");
+                return MainSceneName;
+            }
+            
+            var currentMemory = _memoryDatabase.GetById(_currentMemoryId);
+            if (currentMemory == null)
+            {
+                Debug.LogWarning($"MemoryManager: Current memory '{_currentMemoryId}' not found, defaulting to SecondLayout.");
+                return MainSceneName;
+            }
+            
+            // Map NPC to their corresponding real world scene
+            switch (currentMemory.belongsToNpcId?.ToLower())
+            {
+                case "detective":
+                    return "SecondLayout";
+                case "janitor":
+                    return "Chapter4-Janitor";
+                default:
+                    Debug.Log($"MemoryManager: No specific scene mapped for NPC '{currentMemory.belongsToNpcId}', using default.");
+                    return MainSceneName;
+            }
         }
 
         
