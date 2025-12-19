@@ -13,16 +13,14 @@ title: HandkerchiefContradiction_Main
 <<say cat "Let me take a closer sniff...">>
 <<say cat "Mmm... tears and sorrow. And... makeup?">>
 <<say cat "The janitor-human said he gave this to Ivy... but Ivy doesn't wear makeup.">>
-<<say cat "Rose does, though. Rose wears makeup.">>
-<<say cat "This is a contradiction! The janitor didn't encounter Ivy at all - it was Rose!">>
-<<say cat "But why would Rose pretend to be her sister? Curious and curiouser...">>
+<<say cat "Her appearance might have been ghostly, but I could see that much.">>
 <<set $notes_janitorMemory_handkerchiefContradiction = true>>
 <<note contradiction janitorMemory ivyDistress>>
 ===
 
 title: HandkerchiefContradiction_Repeat
 ---
-<<say cat "The handkerchief with makeup residue. We already established this proves the janitor met Rose, not Ivy.">>
+<<say cat "The handkerchief with makeup residue. We already established this proves that the woman the janitor met was not Ivy.">>
 ===
 
 title: HandkerchiefContradiction_Locked
