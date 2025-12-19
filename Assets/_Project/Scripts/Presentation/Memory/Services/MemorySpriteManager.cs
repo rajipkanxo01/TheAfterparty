@@ -19,6 +19,9 @@ namespace _Project.Scripts.Presentation.Memory.Services
             [Tooltip("The sprite to replace with")]
             public Sprite replacementSprite;
             
+            [Tooltip("Optional: the animator controller to replace with")]
+            public RuntimeAnimatorController replacementAnimatorController;
+            
             [Tooltip("Optional: specify a child renderer by name")]
             public string childRendererName;
         }
@@ -29,6 +32,7 @@ namespace _Project.Scripts.Presentation.Memory.Services
         
         private Dictionary<string, SpriteReplacement> _replacementMap;
         private Dictionary<string, Sprite> _originalSprites = new();
+        private Dictionary<string, RuntimeAnimatorController> _originalAnimatorControllers = new();
         
         private void Awake()
         {
@@ -105,8 +109,33 @@ namespace _Project.Scripts.Presentation.Memory.Services
             }
             
             // Replace the sprite
-            spriteRenderer.sprite = replacement.replacementSprite;
-            Debug.Log($"MemorySpriteManager: Replaced sprite for '{targetName}' -> '{replacement.replacementSprite.name}'");
+            if (replacement.replacementSprite != null)
+            {
+                spriteRenderer.sprite = replacement.replacementSprite;
+                Debug.Log($"MemorySpriteManager: Replaced sprite for '{targetName}' -> '{replacement.replacementSprite.name}'");
+            }
+            
+            // Replace animator controller if specified
+            if (replacement.replacementAnimatorController != null)
+            {
+                Animator animator = targetObject.GetComponentInChildren<Animator>();
+                if (animator != null)
+                {
+                    // Store original animator controller if not already stored
+                    if (!_originalAnimatorControllers.ContainsKey(key))
+                    {
+                        _originalAnimatorControllers[key] = animator.runtimeAnimatorController;
+                        Debug.Log($"MemorySpriteManager: Stored original animator controller for '{key}'");
+                    }
+                    
+                    animator.runtimeAnimatorController = replacement.replacementAnimatorController;
+                    Debug.Log($"MemorySpriteManager: Replaced animator controller for '{targetName}' -> '{replacement.replacementAnimatorController.name}'");
+                }
+                else
+                {
+                    Debug.LogWarning($"MemorySpriteManager: No Animator component found on '{targetName}' to replace controller");
+                }
+            }
         }
         
         /// <summary>
@@ -156,15 +185,24 @@ namespace _Project.Scripts.Presentation.Memory.Services
                 spriteRenderer.sprite = originalSprite;
                 Debug.Log($"MemorySpriteManager: Restored original sprite for '{targetName}'");
             }
+            
+            // Restore animator controller if it was replaced
+            if (_originalAnimatorControllers.TryGetValue(key, out var originalController))
+            {
+                Animator animator = targetObject.GetComponent<Animator>();
+                if (animator != null)
+                {
+                    animator.runtimeAnimatorController = originalController;
+                    Debug.Log($"MemorySpriteManager: Restored original animator controller for '{targetName}'");
+                }
+            }
         }
         
-        /// <summary>
-        /// Clear all stored original sprites (useful when exiting memory)
-        /// </summary>
         public void ClearOriginalSprites()
         {
             _originalSprites.Clear();
-            Debug.Log("MemorySpriteManager: Cleared all original sprites");
+            _originalAnimatorControllers.Clear();
+            Debug.Log("MemorySpriteManager: Cleared all original sprites and animator controllers");
         }
         
         private string GetSpriteKey(string targetName, string childName)
