@@ -20,7 +20,6 @@
     // The ghost fades away
     <<set $crimeScene_cutsceneTriggered = true>>
     <<set $crimeScene_ghostMet = true>>
-    <<load_scene Chapter1-Arrival>>
 <<else>>
     <<say cat "The ghost has already shown herself to me.">>
     <<say cat "I should report this to the detective.">>
